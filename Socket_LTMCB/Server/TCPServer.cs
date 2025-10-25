@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using ServerApp.Services;
+using Socket_LTMCB.Services;
 
-namespace ServerApp
+namespace Socket_LTMCB.Server
 {
     public class TcpServer
     {
@@ -128,13 +128,13 @@ namespace ServerApp
 
         public ClientHandler(TcpClient client, TcpServer server, DatabaseService dbService, TokenManager tokenManager)
         {
-            this.tcpClient = client;
+            tcpClient = client;
             this.server = server;
             this.dbService = dbService;
             this.tokenManager = tokenManager;
-            this.stream = client.GetStream();
-            this.validationService = validationService;  
-            this.securityService = securityService;  
+            stream = client.GetStream();
+            validationService = validationService;  
+            securityService = securityService;  
         }
 
         public async Task Handle()

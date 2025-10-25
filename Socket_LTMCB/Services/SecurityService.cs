@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace ServerApp.Services
+namespace Socket_LTMCB.Services
 {
     public class SecurityService
     {

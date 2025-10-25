@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ServerApp.Services
+namespace Socket_LTMCB.Services
 {
     public class DatabaseService
     {

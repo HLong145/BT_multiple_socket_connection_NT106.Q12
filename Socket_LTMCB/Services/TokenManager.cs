@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ServerApp.Services
+namespace Socket_LTMCB.Services
 {
     public class TokenManager
     {
