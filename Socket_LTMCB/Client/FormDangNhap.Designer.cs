@@ -19,6 +19,8 @@
         private Btn_Pixel btn_Register;
         private Btn_Pixel btn_Forgot;
         private System.Windows.Forms.CheckBox chk_ShowPassword;
+        private System.Windows.Forms.CheckBox chk_Captcha;
+        private System.Windows.Forms.CheckBox chk_Remember;
         private System.Windows.Forms.Timer timer_FloatingItems;
 
         /// <summary>
@@ -48,6 +50,8 @@
             lbl_Password = new Label();
             tb_Password = new Tb_Pixel();
             chk_ShowPassword = new CheckBox();
+            chk_Captcha = new CheckBox();
+            chk_Remember = new CheckBox();
             btn_Login = new Btn_Pixel();
             btn_Register = new Btn_Pixel();
             btn_Forgot = new Btn_Pixel();
@@ -58,12 +62,14 @@
             // pnl_Main
             // 
             pnl_Main.BackColor = Color.FromArgb(210, 105, 30);
+            pnl_Main.Controls.Add(chk_Remember);
             pnl_Main.Controls.Add(pnl_Title);
             pnl_Main.Controls.Add(lbl_Username);
             pnl_Main.Controls.Add(tb_Username);
             pnl_Main.Controls.Add(lbl_Password);
             pnl_Main.Controls.Add(tb_Password);
             pnl_Main.Controls.Add(chk_ShowPassword);
+            pnl_Main.Controls.Add(chk_Captcha);
             pnl_Main.Controls.Add(btn_Login);
             pnl_Main.Controls.Add(btn_Register);
             pnl_Main.Controls.Add(btn_Forgot);
@@ -164,6 +170,30 @@
             chk_ShowPassword.Text = "👁️";
             chk_ShowPassword.UseVisualStyleBackColor = false;
             chk_ShowPassword.CheckedChanged += ShowPasswordCheckBox_CheckedChanged;
+            // 
+            // chk_Captcha
+            // 
+            chk_Captcha.BackColor = Color.Transparent;
+            chk_Captcha.Font = new Font("Courier New", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chk_Captcha.ForeColor = Color.Gold;
+            chk_Captcha.Location = new Point(20, 300);
+            chk_Captcha.Name = "chk_Captcha";
+            chk_Captcha.Size = new Size(250, 25);
+            chk_Captcha.TabIndex = 6;
+            chk_Captcha.Text = "I'M NOT A ROBOT 🤖";
+            chk_Captcha.UseVisualStyleBackColor = false;
+            // 
+            // chk_Remember
+            // 
+            chk_Remember.BackColor = Color.Transparent;
+            chk_Remember.Font = new Font("Courier New", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chk_Remember.ForeColor = Color.White;
+            chk_Remember.Location = new Point(246, 300);
+            chk_Remember.Name = "chk_Remember";
+            chk_Remember.Size = new Size(167, 25);
+            chk_Remember.TabIndex = 7;
+            chk_Remember.Text = "REMEMBER ME";
+            chk_Remember.UseVisualStyleBackColor = false;
             // 
             // btn_Login
             // 

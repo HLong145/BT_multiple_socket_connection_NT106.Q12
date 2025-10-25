@@ -40,7 +40,7 @@ namespace Socket_LTMCB
             btn_register = new Btn_Pixel();
             panelContact = new Panel();
             lblContactError = new Label();
-            tb_email = new Tb_Pixel();
+            tb_contact = new Tb_Pixel();
             lblContact = new Label();
             panelRobotCheck = new Panel();
             lblRobotError = new Label();
@@ -80,7 +80,7 @@ namespace Socket_LTMCB
             panelOuter.Location = new Point(0, 0);
             panelOuter.Name = "panelOuter";
             panelOuter.Padding = new Padding(12);
-            panelOuter.Size = new Size(700, 805);
+            panelOuter.Size = new Size(700, 808);
             panelOuter.TabIndex = 0;
             // 
             // panelMain
@@ -92,7 +92,7 @@ namespace Socket_LTMCB
             panelMain.Location = new Point(12, 12);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(32);
-            panelMain.Size = new Size(676, 781);
+            panelMain.Size = new Size(676, 784);
             panelMain.TabIndex = 0;
             // 
             // pnl_Main
@@ -119,7 +119,7 @@ namespace Socket_LTMCB
             pnl_Title.Controls.Add(lbl_Subtitle);
             pnl_Title.Location = new Point(61, 22);
             pnl_Title.Name = "pnl_Title";
-            pnl_Title.Size = new Size(510, 113);
+            pnl_Title.Size = new Size(510, 100);
             pnl_Title.TabIndex = 9;
             // 
             // lbl_Title
@@ -154,7 +154,7 @@ namespace Socket_LTMCB
             btn_alreadyHaveAccount.FlatStyle = FlatStyle.Flat;
             btn_alreadyHaveAccount.Font = new Font("Courier New", 12F, FontStyle.Bold);
             btn_alreadyHaveAccount.ForeColor = Color.White;
-            btn_alreadyHaveAccount.Location = new Point(17, 676);
+            btn_alreadyHaveAccount.Location = new Point(17, 656);
             btn_alreadyHaveAccount.Name = "btn_alreadyHaveAccount";
             btn_alreadyHaveAccount.Size = new Size(592, 62);
             btn_alreadyHaveAccount.TabIndex = 7;
@@ -170,7 +170,7 @@ namespace Socket_LTMCB
             btn_register.FlatStyle = FlatStyle.Flat;
             btn_register.Font = new Font("Courier New", 18F, FontStyle.Bold);
             btn_register.ForeColor = Color.FromArgb(41, 37, 36);
-            btn_register.Location = new Point(17, 610);
+            btn_register.Location = new Point(17, 590);
             btn_register.Name = "btn_register";
             btn_register.Size = new Size(592, 60);
             btn_register.TabIndex = 6;
@@ -181,9 +181,9 @@ namespace Socket_LTMCB
             // panelContact
             // 
             panelContact.Controls.Add(lblContactError);
-            panelContact.Controls.Add(tb_email);
+            panelContact.Controls.Add(tb_contact);
             panelContact.Controls.Add(lblContact);
-            panelContact.Location = new Point(17, 241);
+            panelContact.Location = new Point(17, 228);
             panelContact.Name = "panelContact";
             panelContact.Size = new Size(592, 80);
             panelContact.TabIndex = 2;
@@ -199,17 +199,17 @@ namespace Socket_LTMCB
             lblContactError.Size = new Size(592, 22);
             lblContactError.TabIndex = 0;
             // 
-            // tb_email
+            // tb_contact
             // 
-            tb_email.BackColor = Color.FromArgb(42, 31, 26);
-            tb_email.BorderStyle = BorderStyle.None;
-            tb_email.Font = new Font("Courier New", 10F, FontStyle.Bold);
-            tb_email.ForeColor = Color.FromArgb(214, 211, 209);
-            tb_email.Location = new Point(0, 25);
-            tb_email.Multiline = true;
-            tb_email.Name = "tb_email";
-            tb_email.Size = new Size(592, 35);
-            tb_email.TabIndex = 1;
+            tb_contact.BackColor = Color.FromArgb(42, 31, 26);
+            tb_contact.BorderStyle = BorderStyle.None;
+            tb_contact.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_contact.ForeColor = Color.FromArgb(214, 211, 209);
+            tb_contact.Location = new Point(0, 25);
+            tb_contact.Multiline = true;
+            tb_contact.Name = "tb_email";
+            tb_contact.Size = new Size(592, 35);
+            tb_contact.TabIndex = 1;
             // 
             // lblContact
             // 
@@ -226,7 +226,7 @@ namespace Socket_LTMCB
             panelRobotCheck.BackColor = Color.FromArgb(41, 37, 36);
             panelRobotCheck.Controls.Add(lblRobotError);
             panelRobotCheck.Controls.Add(chkNotRobot);
-            panelRobotCheck.Location = new Point(17, 541);
+            panelRobotCheck.Location = new Point(17, 528);
             panelRobotCheck.Name = "panelRobotCheck";
             panelRobotCheck.Size = new Size(592, 45);
             panelRobotCheck.TabIndex = 5;
@@ -266,7 +266,7 @@ namespace Socket_LTMCB
             panelPassword.Controls.Add(pictureBoxLock1);
             panelPassword.Controls.Add(tb_password);
             panelPassword.Controls.Add(lblPassword);
-            panelPassword.Location = new Point(17, 341);
+            panelPassword.Location = new Point(17, 328);
             panelPassword.Name = "panelPassword";
             panelPassword.Size = new Size(592, 80);
             panelPassword.TabIndex = 3;
@@ -320,7 +320,7 @@ namespace Socket_LTMCB
             panelConfirmPassword.Controls.Add(pictureBoxLock2);
             panelConfirmPassword.Controls.Add(tb_confirmPassword);
             panelConfirmPassword.Controls.Add(lblConfirmPassword);
-            panelConfirmPassword.Location = new Point(17, 441);
+            panelConfirmPassword.Location = new Point(17, 428);
             panelConfirmPassword.Name = "panelConfirmPassword";
             panelConfirmPassword.Size = new Size(592, 80);
             panelConfirmPassword.TabIndex = 4;
@@ -373,7 +373,7 @@ namespace Socket_LTMCB
             panelUsername.Controls.Add(tb_username);
             panelUsername.Controls.Add(lblUsername);
             panelUsername.Controls.Add(lblUsernameError);
-            panelUsername.Location = new Point(17, 141);
+            panelUsername.Location = new Point(17, 128);
             panelUsername.Name = "panelUsername";
             panelUsername.Size = new Size(592, 80);
             panelUsername.TabIndex = 1;
@@ -413,7 +413,7 @@ namespace Socket_LTMCB
             // 
             // FormDangKy
             // 
-            ClientSize = new Size(700, 805);
+            ClientSize = new Size(700, 808);
             Controls.Add(panelOuter);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormDangKy";
@@ -449,7 +449,7 @@ namespace Socket_LTMCB
         private Btn_Pixel btn_register;
         private Panel panelContact;
         private Label lblContactError;
-        private Tb_Pixel tb_email;
+        private Tb_Pixel tb_contact;
         private Label lblContact;
         private Panel panelRobotCheck;
         private Label lblRobotError;

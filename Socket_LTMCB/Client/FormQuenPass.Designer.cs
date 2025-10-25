@@ -155,6 +155,7 @@ namespace Socket_LTMCB
             btn_continue.Size = new Size(360, 50);
             btn_continue.TabIndex = 3;
             btn_continue.Text = "▶ CONTINUE ▶";
+            btn_continue.Click += btn_continue_Click;
             // 
             // btn_backToLogin
             // 
@@ -167,6 +168,7 @@ namespace Socket_LTMCB
             btn_backToLogin.Size = new Size(360, 40);
             btn_backToLogin.TabIndex = 4;
             btn_backToLogin.Text = "← BACK TO LOGIN";
+            btn_backToLogin.Click += btn_backToLogin_Click;
             // 
             // FormQuenPass
             // 

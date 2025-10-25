@@ -40,10 +40,10 @@ namespace Socket_LTMCB
             tb_otp1 = new Tb_Pixel();
             lblOTP = new Label();
             lblOTPError = new Label();
+            lbl_timer = new Label();
             btn_verify = new Btn_Pixel();
             btn_resend = new Btn_Pixel();
             btn_backToLogin = new Btn_Pixel();
-            lbl_timer = new Label();
             pnl_Main.SuspendLayout();
             pnl_Title.SuspendLayout();
             panelOTP.SuspendLayout();
@@ -102,7 +102,7 @@ namespace Socket_LTMCB
             // lbl_Description
             // 
             lbl_Description.BackColor = Color.Transparent;
-            lbl_Description.Font = new Font("Courier New", 8F, FontStyle.Regular);
+            lbl_Description.Font = new Font("Courier New", 8F);
             lbl_Description.ForeColor = Color.White;
             lbl_Description.Location = new Point(20, 140);
             lbl_Description.Name = "lbl_Description";
@@ -244,6 +244,18 @@ namespace Socket_LTMCB
             lblOTPError.Size = new Size(360, 22);
             lblOTPError.TabIndex = 7;
             // 
+            // lbl_timer
+            // 
+            lbl_timer.BackColor = Color.Transparent;
+            lbl_timer.Font = new Font("Courier New", 8F, FontStyle.Bold);
+            lbl_timer.ForeColor = Color.White;
+            lbl_timer.Location = new Point(20, 345);
+            lbl_timer.Name = "lbl_timer";
+            lbl_timer.Size = new Size(360, 20);
+            lbl_timer.TabIndex = 7;
+            lbl_timer.Text = "Code expires in: 05:00";
+            lbl_timer.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // btn_verify
             // 
             btn_verify.BtnColor = Color.FromArgb(34, 139, 34);
@@ -255,6 +267,7 @@ namespace Socket_LTMCB
             btn_verify.Size = new Size(360, 50);
             btn_verify.TabIndex = 4;
             btn_verify.Text = "✓ VERIFY & CONTINUE ✓";
+            btn_verify.Click += btn_verify_Click;
             // 
             // btn_resend
             // 
@@ -267,6 +280,7 @@ namespace Socket_LTMCB
             btn_resend.Size = new Size(360, 40);
             btn_resend.TabIndex = 5;
             btn_resend.Text = "↻ RESEND CODE";
+            btn_resend.Click += btn_resend_Click;
             // 
             // btn_backToLogin
             // 
@@ -279,18 +293,7 @@ namespace Socket_LTMCB
             btn_backToLogin.Size = new Size(360, 40);
             btn_backToLogin.TabIndex = 6;
             btn_backToLogin.Text = "← BACK TO LOGIN";
-            // 
-            // lbl_timer
-            // 
-            lbl_timer.BackColor = Color.Transparent;
-            lbl_timer.Font = new Font("Courier New", 8F, FontStyle.Bold);
-            lbl_timer.ForeColor = Color.White;
-            lbl_timer.Location = new Point(20, 345);
-            lbl_timer.Name = "lbl_timer";
-            lbl_timer.Size = new Size(360, 20);
-            lbl_timer.TabIndex = 7;
-            lbl_timer.Text = "Code expires in: 05:00";
-            lbl_timer.TextAlign = ContentAlignment.MiddleCenter;
+            btn_backToLogin.Click += btn_backToLogin_Click;
             // 
             // FormXacThucOTP
             // 

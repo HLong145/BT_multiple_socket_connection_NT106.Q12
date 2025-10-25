@@ -101,7 +101,7 @@ namespace Socket_LTMCB
             // lbl_Description
             // 
             lbl_Description.BackColor = Color.Transparent;
-            lbl_Description.Font = new Font("Courier New", 8F, FontStyle.Regular);
+            lbl_Description.Font = new Font("Courier New", 8F);
             lbl_Description.ForeColor = Color.White;
             lbl_Description.Location = new Point(20, 140);
             lbl_Description.Name = "lbl_Description";
@@ -231,6 +231,7 @@ namespace Socket_LTMCB
             btn_complete.Size = new Size(360, 50);
             btn_complete.TabIndex = 4;
             btn_complete.Text = "★ COMPLETE RESET ★";
+            btn_complete.Click += btn_complete_Click;
             // 
             // btn_backToLogin
             // 
@@ -243,6 +244,7 @@ namespace Socket_LTMCB
             btn_backToLogin.Size = new Size(360, 40);
             btn_backToLogin.TabIndex = 5;
             btn_backToLogin.Text = "← BACK TO LOGIN";
+            btn_backToLogin.Click += btn_backToLogin_Click;
             // 
             // FormResetPass
             // 
