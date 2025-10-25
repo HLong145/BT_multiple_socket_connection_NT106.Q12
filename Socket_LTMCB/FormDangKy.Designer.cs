@@ -435,6 +435,7 @@ namespace Socket_LTMCB
             btn_register.TabIndex = 6;
             btn_register.Text = "★ REGISTER ★";
             btn_register.UseVisualStyleBackColor = false;
+            btn_register.Click += btn_register_Click;
             // 
             // btn_alreadyHaveAccount
             // 

@@ -41,7 +41,6 @@ namespace Socket_LTMCB
             chkNotRobot.Text = "  ☐ I'M NOT A ROBOT  🤖";
 
             // --- Events ---
-            btn_register.Click += Btn_Register_Click;
             btn_alreadyHaveAccount.Click += btn_alreadyHaveAccount_Click;
             chkNotRobot.CheckedChanged += (s, e) =>
             {
@@ -99,7 +98,7 @@ namespace Socket_LTMCB
             };
         }
 
-        private void Btn_Register_Click(object sender, EventArgs e)
+        private void btn_register_Click(object sender, EventArgs e)
         {
             lblUsernameError.Text = "";
             lblContactError.Text = "";
