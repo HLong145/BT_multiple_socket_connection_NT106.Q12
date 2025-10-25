@@ -120,7 +120,7 @@ namespace Socket_LTMCB
             lbl_SentTo.Name = "lbl_SentTo";
             lbl_SentTo.Size = new Size(360, 20);
             lbl_SentTo.TabIndex = 2;
-            lbl_SentTo.Text = "Sent to: ***@***.***";
+            lbl_SentTo.Text = "Sent to: ***@***.*** or 0*********";
             lbl_SentTo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panelOTP

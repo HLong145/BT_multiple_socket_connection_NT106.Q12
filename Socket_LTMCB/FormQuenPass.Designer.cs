@@ -91,7 +91,7 @@ namespace Socket_LTMCB
             // lbl_Description
             // 
             lbl_Description.BackColor = Color.Transparent;
-            lbl_Description.Font = new Font("Courier New", 8F, FontStyle.Regular);
+            lbl_Description.Font = new Font("Courier New", 8F);
             lbl_Description.ForeColor = Color.White;
             lbl_Description.Location = new Point(20, 140);
             lbl_Description.Name = "lbl_Description";
@@ -140,7 +140,7 @@ namespace Socket_LTMCB
             lblContact.ForeColor = Color.White;
             lblContact.Location = new Point(0, 0);
             lblContact.Name = "lblContact";
-            lblContact.Size = new Size(250, 20);
+            lblContact.Size = new Size(216, 22);
             lblContact.TabIndex = 2;
             lblContact.Text = "✉/📞 EMAIL OR PHONE:";
             // 
