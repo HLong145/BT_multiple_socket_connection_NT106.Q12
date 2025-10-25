@@ -72,13 +72,10 @@ namespace Socket_LTMCB
             MessageBox.Show("Forgot password clicked!");
         }
 
-        // ✅ BỎ LOGIC CANCEL - Cho phép form đóng bình thường
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Dừng animation khi form đóng
             floatingItemsTimer?.Stop();
             floatingItemsTimer?.Dispose();
-
             base.OnFormClosing(e);
         }
     }

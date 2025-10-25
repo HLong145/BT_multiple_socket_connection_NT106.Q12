@@ -99,9 +99,9 @@
             lbl_Subtitle.BackColor = Color.Transparent;
             lbl_Subtitle.Font = new Font("Courier New", 7F, FontStyle.Bold);
             lbl_Subtitle.ForeColor = Color.White;
-            lbl_Subtitle.Location = new Point(0, 60);
+            lbl_Subtitle.Location = new Point(16, 49);
             lbl_Subtitle.Name = "lbl_Subtitle";
-            lbl_Subtitle.Size = new Size(360, 20);
+            lbl_Subtitle.Size = new Size(325, 20);
             lbl_Subtitle.TabIndex = 1;
             lbl_Subtitle.Text = "ENTER YOUR CREDENTIALS";
             lbl_Subtitle.TextAlign = ContentAlignment.MiddleCenter;

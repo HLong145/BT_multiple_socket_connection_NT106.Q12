@@ -10,45 +10,6 @@ namespace Socket_LTMCB
         private System.ComponentModel.IContainer components = null;
 
         private System.Windows.Forms.Panel panelOuter;
-        private System.Windows.Forms.Panel panelMain;
-        private System.Windows.Forms.Panel panelHeader;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Label lblSubtitle;
-        private System.Windows.Forms.PictureBox pictureBoxSwords;
-
-        private System.Windows.Forms.Panel panelUsername;
-        private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.TextBox tb_username;
-        private System.Windows.Forms.Label lblUsernameError;
-
-        private System.Windows.Forms.Panel panelContact;
-        private System.Windows.Forms.Label lblContact;
-        private System.Windows.Forms.TextBox tb_email;
-        private System.Windows.Forms.Label lblContactError;
-
-        private System.Windows.Forms.Panel panelPassword;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.TextBox tb_password;
-        private System.Windows.Forms.PictureBox pictureBoxLock1;
-        private System.Windows.Forms.Label lblPasswordError;
-
-        private System.Windows.Forms.Panel panelConfirmPassword;
-        private System.Windows.Forms.Label lblConfirmPassword;
-        private System.Windows.Forms.TextBox tb_confirmPassword;
-        private System.Windows.Forms.PictureBox pictureBoxLock2;
-        private System.Windows.Forms.Label lblConfirmPasswordError;
-
-        private System.Windows.Forms.Panel panelRobotCheck;
-        private System.Windows.Forms.CheckBox chkNotRobot;
-        private System.Windows.Forms.Label lblRobotError;
-
-        // ĐÃ SỬA: Thay System.Windows.Forms.Button thành Btn_Pixel
-        private Btn_Pixel btn_register;
-        private Btn_Pixel btn_alreadyHaveAccount;
-
-        private System.Windows.Forms.Panel panelFooter;
-        private System.Windows.Forms.Label lblFooterTitle;
-        private System.Windows.Forms.Label lblFooterSubtitle;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -73,18 +34,19 @@ namespace Socket_LTMCB
         {
             panelOuter = new Panel();
             panelMain = new Panel();
-            panelHeader = new Panel();
-            pictureBoxSwords = new PictureBox();
-            lblSubtitle = new Label();
-            lblTitle = new Label();
-            panelUsername = new Panel();
-            lblUsernameError = new Label();
-            tb_username = new TextBox();
-            lblUsername = new Label();
+            pnl_Main = new Pnl_Pixel();
+            pnl_Title = new Pnl_Pixel();
+            lbl_Title = new Label();
+            lbl_Subtitle = new Label();
+            btn_alreadyHaveAccount = new Btn_Pixel();
+            btn_register = new Btn_Pixel();
             panelContact = new Panel();
             lblContactError = new Label();
             tb_email = new TextBox();
             lblContact = new Label();
+            panelRobotCheck = new Panel();
+            lblRobotError = new Label();
+            chkNotRobot = new CheckBox();
             panelPassword = new Panel();
             lblPasswordError = new Label();
             pictureBoxLock1 = new PictureBox();
@@ -95,26 +57,21 @@ namespace Socket_LTMCB
             pictureBoxLock2 = new PictureBox();
             tb_confirmPassword = new TextBox();
             lblConfirmPassword = new Label();
-            panelRobotCheck = new Panel();
-            lblRobotError = new Label();
-            chkNotRobot = new CheckBox();
-            btn_register = new Btn_Pixel();
-            btn_alreadyHaveAccount = new Btn_Pixel();
-            panelFooter = new Panel();
-            lblFooterSubtitle = new Label();
-            lblFooterTitle = new Label();
+            panelUsername = new Panel();
+            tb_username = new TextBox();
+            lblUsername = new Label();
+            lblUsernameError = new Label();
             panelOuter.SuspendLayout();
             panelMain.SuspendLayout();
-            panelHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxSwords).BeginInit();
-            panelUsername.SuspendLayout();
+            pnl_Main.SuspendLayout();
+            pnl_Title.SuspendLayout();
             panelContact.SuspendLayout();
+            panelRobotCheck.SuspendLayout();
             panelPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock1).BeginInit();
             panelConfirmPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).BeginInit();
-            panelRobotCheck.SuspendLayout();
-            panelFooter.SuspendLayout();
+            panelUsername.SuspendLayout();
             SuspendLayout();
             // 
             // panelOuter
@@ -125,127 +82,115 @@ namespace Socket_LTMCB
             panelOuter.Location = new Point(0, 0);
             panelOuter.Name = "panelOuter";
             panelOuter.Padding = new Padding(12);
-            panelOuter.Size = new Size(677, 880);
+            panelOuter.Size = new Size(680, 880);
             panelOuter.TabIndex = 0;
             // 
             // panelMain
             // 
-            panelMain.BackColor = Color.FromArgb(146, 64, 14);
-            panelMain.Controls.Add(panelHeader);
-            panelMain.Controls.Add(panelUsername);
-            panelMain.Controls.Add(panelContact);
-            panelMain.Controls.Add(panelPassword);
-            panelMain.Controls.Add(panelConfirmPassword);
-            panelMain.Controls.Add(panelRobotCheck);
-            panelMain.Controls.Add(btn_register);
-            panelMain.Controls.Add(btn_alreadyHaveAccount);
-            panelMain.Controls.Add(panelFooter);
+            panelMain.BackColor = Color.Chocolate;
+            panelMain.Controls.Add(pnl_Main);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(12, 12);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(32);
-            panelMain.Size = new Size(653, 856);
+            panelMain.Size = new Size(656, 856);
             panelMain.TabIndex = 0;
             // 
-            // panelHeader
+            // pnl_Main
             // 
-            panelHeader.BackColor = Color.FromArgb(41, 37, 36);
-            panelHeader.Controls.Add(pictureBoxSwords);
-            panelHeader.Controls.Add(lblSubtitle);
-            panelHeader.Controls.Add(lblTitle);
-            panelHeader.Dock = DockStyle.Top;
-            panelHeader.Location = new Point(32, 32);
-            panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(589, 90);
-            panelHeader.TabIndex = 0;
+            pnl_Main.BackColor = Color.FromArgb(210, 105, 30);
+            pnl_Main.Controls.Add(pnl_Title);
+            pnl_Main.Controls.Add(btn_alreadyHaveAccount);
+            pnl_Main.Controls.Add(btn_register);
+            pnl_Main.Controls.Add(panelContact);
+            pnl_Main.Controls.Add(panelRobotCheck);
+            pnl_Main.Controls.Add(panelPassword);
+            pnl_Main.Controls.Add(panelConfirmPassword);
+            pnl_Main.Controls.Add(panelUsername);
+            pnl_Main.Location = new Point(18, 3);
+            pnl_Main.Name = "pnl_Main";
+            pnl_Main.Size = new Size(633, 853);
+            pnl_Main.TabIndex = 10;
             // 
-            // pictureBoxSwords
+            // pnl_Title
             // 
-            pictureBoxSwords.Image = Properties.Resources.c6d82a81_54de_43be_a1c7_439b407ae76c;
-            pictureBoxSwords.Location = new Point(397, 3);
-            pictureBoxSwords.Name = "pictureBoxSwords";
-            pictureBoxSwords.Size = new Size(50, 30);
-            pictureBoxSwords.TabIndex = 2;
-            pictureBoxSwords.TabStop = false;
+            pnl_Title.BackColor = Color.FromArgb(210, 105, 30);
+            pnl_Title.Controls.Add(lbl_Title);
+            pnl_Title.Controls.Add(lbl_Subtitle);
+            pnl_Title.Location = new Point(61, 22);
+            pnl_Title.Name = "pnl_Title";
+            pnl_Title.Size = new Size(510, 113);
+            pnl_Title.TabIndex = 9;
             // 
-            // lblSubtitle
+            // lbl_Title
             // 
-            lblSubtitle.Dock = DockStyle.Bottom;
-            lblSubtitle.Font = new Font("Courier New", 8F);
-            lblSubtitle.ForeColor = Color.White;
-            lblSubtitle.Location = new Point(0, 61);
-            lblSubtitle.Name = "lblSubtitle";
-            lblSubtitle.Size = new Size(589, 29);
-            lblSubtitle.TabIndex = 3;
-            lblSubtitle.Text = "CREATE YOUR ACCOUNT";
-            lblSubtitle.TextAlign = ContentAlignment.MiddleCenter;
+            lbl_Title.BackColor = Color.Transparent;
+            lbl_Title.Font = new Font("Courier New", 14F, FontStyle.Bold);
+            lbl_Title.ForeColor = Color.Gold;
+            lbl_Title.Location = new Point(99, 19);
+            lbl_Title.Name = "lbl_Title";
+            lbl_Title.Size = new Size(341, 30);
+            lbl_Title.TabIndex = 0;
+            lbl_Title.Text = "⚔️ NEW PLAYER ⚔️";
+            lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // lblTitle
+            // lbl_Subtitle
             // 
-            lblTitle.Dock = DockStyle.Top;
-            lblTitle.Font = new Font("Courier New", 16F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.FromArgb(250, 204, 21);
-            lblTitle.Location = new Point(0, 0);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(589, 47);
-            lblTitle.TabIndex = 4;
-            lblTitle.Text = "NEW PLAYER";
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+            lbl_Subtitle.BackColor = Color.Transparent;
+            lbl_Subtitle.Font = new Font("Courier New", 7F, FontStyle.Bold);
+            lbl_Subtitle.ForeColor = Color.White;
+            lbl_Subtitle.Location = new Point(99, 62);
+            lbl_Subtitle.Name = "lbl_Subtitle";
+            lbl_Subtitle.Size = new Size(325, 20);
+            lbl_Subtitle.TabIndex = 1;
+            lbl_Subtitle.Text = "CREATE YOUR ACCOUNT";
+            lbl_Subtitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // panelUsername
+            // btn_alreadyHaveAccount
             // 
-            panelUsername.Controls.Add(lblUsernameError);
-            panelUsername.Controls.Add(tb_username);
-            panelUsername.Controls.Add(lblUsername);
-            panelUsername.Location = new Point(32, 140);
-            panelUsername.Name = "panelUsername";
-            panelUsername.Size = new Size(592, 80);
-            panelUsername.TabIndex = 1;
+            btn_alreadyHaveAccount.BackColor = Color.FromArgb(217, 119, 6);
+            btn_alreadyHaveAccount.BtnColor = Color.FromArgb(217, 119, 6);
+            btn_alreadyHaveAccount.FlatAppearance.BorderSize = 0;
+            btn_alreadyHaveAccount.FlatStyle = FlatStyle.Flat;
+            btn_alreadyHaveAccount.Font = new Font("Courier New", 12F, FontStyle.Bold);
+            btn_alreadyHaveAccount.ForeColor = Color.White;
+            btn_alreadyHaveAccount.Location = new Point(17, 676);
+            btn_alreadyHaveAccount.Name = "btn_alreadyHaveAccount";
+            btn_alreadyHaveAccount.Size = new Size(592, 62);
+            btn_alreadyHaveAccount.TabIndex = 7;
+            btn_alreadyHaveAccount.Text = "← HAVE ACCOUNT? LOGIN";
+            btn_alreadyHaveAccount.UseVisualStyleBackColor = false;
+            btn_alreadyHaveAccount.Click += btn_alreadyHaveAccount_Click;
             // 
-            // lblUsernameError
+            // btn_register
             // 
-            lblUsernameError.Dock = DockStyle.Bottom;
-            lblUsernameError.Font = new Font("Arial", 8F, FontStyle.Bold);
-            lblUsernameError.ForeColor = Color.Red;
-            lblUsernameError.Location = new Point(0, 58);
-            lblUsernameError.Name = "lblUsernameError";
-            lblUsernameError.Size = new Size(592, 22);
-            lblUsernameError.TabIndex = 0;
-            // 
-            // tb_username
-            // 
-            tb_username.BackColor = Color.FromArgb(41, 37, 36);
-            tb_username.BorderStyle = BorderStyle.None;
-            tb_username.Font = new Font("Courier New", 14F);
-            tb_username.ForeColor = Color.FromArgb(214, 211, 209);
-            tb_username.Location = new Point(0, 25);
-            tb_username.Multiline = true;
-            tb_username.Name = "tb_username";
-            tb_username.Size = new Size(592, 35);
-            tb_username.TabIndex = 1;
-            // 
-            // lblUsername
-            // 
-            lblUsername.Font = new Font("Arial", 10F, FontStyle.Bold);
-            lblUsername.ForeColor = Color.White;
-            lblUsername.Location = new Point(0, 0);
-            lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(150, 20);
-            lblUsername.TabIndex = 2;
-            lblUsername.Text = "👤 USERNAME:";
+            btn_register.BackColor = Color.FromArgb(34, 197, 94);
+            btn_register.BtnColor = Color.FromArgb(34, 197, 94);
+            btn_register.FlatAppearance.BorderSize = 0;
+            btn_register.FlatStyle = FlatStyle.Flat;
+            btn_register.Font = new Font("Courier New", 18F, FontStyle.Bold);
+            btn_register.ForeColor = Color.FromArgb(41, 37, 36);
+            btn_register.Location = new Point(17, 610);
+            btn_register.Name = "btn_register";
+            btn_register.Size = new Size(592, 60);
+            btn_register.TabIndex = 6;
+            btn_register.Text = "★ REGISTER ★";
+            btn_register.UseVisualStyleBackColor = false;
+            btn_register.Click += btn_register_Click;
             // 
             // panelContact
             // 
             panelContact.Controls.Add(lblContactError);
             panelContact.Controls.Add(tb_email);
             panelContact.Controls.Add(lblContact);
-            panelContact.Location = new Point(32, 240);
+            panelContact.Location = new Point(17, 241);
             panelContact.Name = "panelContact";
             panelContact.Size = new Size(592, 80);
             panelContact.TabIndex = 2;
             // 
             // lblContactError
             // 
+            lblContactError.BackColor = Color.FromArgb(128, 64, 0);
             lblContactError.Dock = DockStyle.Bottom;
             lblContactError.Font = new Font("Arial", 8F, FontStyle.Bold);
             lblContactError.ForeColor = Color.Red;
@@ -276,19 +221,59 @@ namespace Socket_LTMCB
             lblContact.TabIndex = 2;
             lblContact.Text = "✉/📞 EMAIL/PHONE:";
             // 
+            // panelRobotCheck
+            // 
+            panelRobotCheck.BackColor = Color.FromArgb(41, 37, 36);
+            panelRobotCheck.Controls.Add(lblRobotError);
+            panelRobotCheck.Controls.Add(chkNotRobot);
+            panelRobotCheck.Location = new Point(17, 541);
+            panelRobotCheck.Name = "panelRobotCheck";
+            panelRobotCheck.Size = new Size(592, 45);
+            panelRobotCheck.TabIndex = 5;
+            // 
+            // lblRobotError
+            // 
+            lblRobotError.Dock = DockStyle.Bottom;
+            lblRobotError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblRobotError.ForeColor = Color.Red;
+            lblRobotError.Location = new Point(0, 33);
+            lblRobotError.Name = "lblRobotError";
+            lblRobotError.Size = new Size(592, 12);
+            lblRobotError.TabIndex = 0;
+            // 
+            // chkNotRobot
+            // 
+            chkNotRobot.Appearance = Appearance.Button;
+            chkNotRobot.BackColor = Color.Transparent;
+            chkNotRobot.Dock = DockStyle.Fill;
+            chkNotRobot.FlatAppearance.BorderSize = 0;
+            chkNotRobot.FlatAppearance.CheckedBackColor = Color.Green;
+            chkNotRobot.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+            chkNotRobot.FlatAppearance.MouseOverBackColor = Color.FromArgb(80, 80, 80);
+            chkNotRobot.FlatStyle = FlatStyle.Flat;
+            chkNotRobot.Font = new Font("Courier New", 14F, FontStyle.Bold);
+            chkNotRobot.ForeColor = Color.White;
+            chkNotRobot.Location = new Point(0, 0);
+            chkNotRobot.Name = "chkNotRobot";
+            chkNotRobot.Size = new Size(592, 45);
+            chkNotRobot.TabIndex = 1;
+            chkNotRobot.Text = "  ☐ I'M NOT A ROBOT  🤖";
+            chkNotRobot.UseVisualStyleBackColor = false;
+            // 
             // panelPassword
             // 
             panelPassword.Controls.Add(lblPasswordError);
             panelPassword.Controls.Add(pictureBoxLock1);
             panelPassword.Controls.Add(tb_password);
             panelPassword.Controls.Add(lblPassword);
-            panelPassword.Location = new Point(32, 340);
+            panelPassword.Location = new Point(17, 341);
             panelPassword.Name = "panelPassword";
             panelPassword.Size = new Size(592, 80);
             panelPassword.TabIndex = 3;
             // 
             // lblPasswordError
             // 
+            lblPasswordError.BackColor = Color.FromArgb(128, 64, 0);
             lblPasswordError.Dock = DockStyle.Bottom;
             lblPasswordError.Font = new Font("Arial", 8F, FontStyle.Bold);
             lblPasswordError.ForeColor = Color.Red;
@@ -335,13 +320,14 @@ namespace Socket_LTMCB
             panelConfirmPassword.Controls.Add(pictureBoxLock2);
             panelConfirmPassword.Controls.Add(tb_confirmPassword);
             panelConfirmPassword.Controls.Add(lblConfirmPassword);
-            panelConfirmPassword.Location = new Point(32, 440);
+            panelConfirmPassword.Location = new Point(17, 441);
             panelConfirmPassword.Name = "panelConfirmPassword";
             panelConfirmPassword.Size = new Size(592, 80);
             panelConfirmPassword.TabIndex = 4;
             // 
             // lblConfirmPasswordError
             // 
+            lblConfirmPasswordError.BackColor = Color.FromArgb(128, 64, 0);
             lblConfirmPasswordError.Dock = DockStyle.Bottom;
             lblConfirmPasswordError.Font = new Font("Arial", 8F, FontStyle.Bold);
             lblConfirmPasswordError.ForeColor = Color.Red;
@@ -382,115 +368,52 @@ namespace Socket_LTMCB
             lblConfirmPassword.TabIndex = 3;
             lblConfirmPassword.Text = "🔒 CONFIRM PASS:";
             // 
-            // panelRobotCheck
+            // panelUsername
             // 
-            panelRobotCheck.BackColor = Color.FromArgb(41, 37, 36);
-            panelRobotCheck.Controls.Add(lblRobotError);
-            panelRobotCheck.Controls.Add(chkNotRobot);
-            panelRobotCheck.Location = new Point(32, 540);
-            panelRobotCheck.Name = "panelRobotCheck";
-            panelRobotCheck.Size = new Size(592, 45);
-            panelRobotCheck.TabIndex = 5;
+            panelUsername.Controls.Add(tb_username);
+            panelUsername.Controls.Add(lblUsername);
+            panelUsername.Controls.Add(lblUsernameError);
+            panelUsername.Location = new Point(17, 141);
+            panelUsername.Name = "panelUsername";
+            panelUsername.Size = new Size(592, 80);
+            panelUsername.TabIndex = 1;
             // 
-            // lblRobotError
+            // tb_username
             // 
-            lblRobotError.Dock = DockStyle.Bottom;
-            lblRobotError.Font = new Font("Arial", 8F, FontStyle.Bold);
-            lblRobotError.ForeColor = Color.Red;
-            lblRobotError.Location = new Point(0, 33);
-            lblRobotError.Name = "lblRobotError";
-            lblRobotError.Size = new Size(592, 12);
-            lblRobotError.TabIndex = 0;
+            tb_username.BackColor = Color.FromArgb(41, 37, 36);
+            tb_username.BorderStyle = BorderStyle.None;
+            tb_username.Font = new Font("Courier New", 14F);
+            tb_username.ForeColor = Color.FromArgb(214, 211, 209);
+            tb_username.Location = new Point(0, 25);
+            tb_username.Multiline = true;
+            tb_username.Name = "tb_username";
+            tb_username.Size = new Size(592, 35);
+            tb_username.TabIndex = 1;
             // 
-            // chkNotRobot
+            // lblUsername
             // 
-            chkNotRobot.Appearance = Appearance.Button;
-            chkNotRobot.BackColor = Color.Transparent;
-            chkNotRobot.Dock = DockStyle.Fill;
-            chkNotRobot.FlatAppearance.BorderSize = 0;
-            chkNotRobot.FlatAppearance.CheckedBackColor = Color.Green;
-            chkNotRobot.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
-            chkNotRobot.FlatAppearance.MouseOverBackColor = Color.FromArgb(80, 80, 80);
-            chkNotRobot.FlatStyle = FlatStyle.Flat;
-            chkNotRobot.Font = new Font("Courier New", 14F, FontStyle.Bold);
-            chkNotRobot.ForeColor = Color.White;
-            chkNotRobot.Location = new Point(0, 0);
-            chkNotRobot.Name = "chkNotRobot";
-            chkNotRobot.Size = new Size(592, 45);
-            chkNotRobot.TabIndex = 1;
-            chkNotRobot.Text = "  ☐ I'M NOT A ROBOT  🤖";
-            chkNotRobot.UseVisualStyleBackColor = false;
+            lblUsername.Font = new Font("Arial", 10F, FontStyle.Bold);
+            lblUsername.ForeColor = Color.White;
+            lblUsername.Location = new Point(0, 0);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(150, 20);
+            lblUsername.TabIndex = 2;
+            lblUsername.Text = "👤 USERNAME:";
             // 
-            // btn_register
+            // lblUsernameError
             // 
-            btn_register.BackColor = Color.FromArgb(34, 197, 94);
-            btn_register.BtnColor = Color.FromArgb(34, 197, 94);
-            btn_register.FlatAppearance.BorderSize = 0;
-            btn_register.FlatStyle = FlatStyle.Flat;
-            btn_register.Font = new Font("Courier New", 18F, FontStyle.Bold);
-            btn_register.ForeColor = Color.FromArgb(41, 37, 36);
-            btn_register.Location = new Point(32, 609);
-            btn_register.Name = "btn_register";
-            btn_register.Size = new Size(592, 60);
-            btn_register.TabIndex = 6;
-            btn_register.Text = "★ REGISTER ★";
-            btn_register.UseVisualStyleBackColor = false;
-            btn_register.Click += btn_register_Click;
-            // 
-            // btn_alreadyHaveAccount
-            // 
-            btn_alreadyHaveAccount.BackColor = Color.FromArgb(217, 119, 6);
-            btn_alreadyHaveAccount.BtnColor = Color.FromArgb(217, 119, 6);
-            btn_alreadyHaveAccount.FlatAppearance.BorderSize = 0;
-            btn_alreadyHaveAccount.FlatStyle = FlatStyle.Flat;
-            btn_alreadyHaveAccount.Font = new Font("Courier New", 12F, FontStyle.Bold);
-            btn_alreadyHaveAccount.ForeColor = Color.White;
-            btn_alreadyHaveAccount.Location = new Point(32, 675);
-            btn_alreadyHaveAccount.Name = "btn_alreadyHaveAccount";
-            btn_alreadyHaveAccount.Size = new Size(592, 62);
-            btn_alreadyHaveAccount.TabIndex = 7;
-            btn_alreadyHaveAccount.Text = "← HAVE ACCOUNT? LOGIN";
-            btn_alreadyHaveAccount.UseVisualStyleBackColor = false;
-            btn_alreadyHaveAccount.Click += btn_alreadyHaveAccount_Click;
-            // 
-            // panelFooter
-            // 
-            panelFooter.BackColor = Color.FromArgb(41, 37, 36);
-            panelFooter.Controls.Add(lblFooterSubtitle);
-            panelFooter.Controls.Add(lblFooterTitle);
-            panelFooter.Dock = DockStyle.Bottom;
-            panelFooter.Location = new Point(32, 774);
-            panelFooter.Name = "panelFooter";
-            panelFooter.Size = new Size(589, 50);
-            panelFooter.TabIndex = 8;
-            // 
-            // lblFooterSubtitle
-            // 
-            lblFooterSubtitle.Dock = DockStyle.Bottom;
-            lblFooterSubtitle.Font = new Font("Courier New", 8F);
-            lblFooterSubtitle.ForeColor = Color.FromArgb(168, 162, 158);
-            lblFooterSubtitle.Location = new Point(0, 27);
-            lblFooterSubtitle.Name = "lblFooterSubtitle";
-            lblFooterSubtitle.Size = new Size(589, 23);
-            lblFooterSubtitle.TabIndex = 0;
-            lblFooterSubtitle.Text = "CREATE HERO & START";
-            lblFooterSubtitle.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // lblFooterTitle
-            // 
-            lblFooterTitle.Dock = DockStyle.Top;
-            lblFooterTitle.Font = new Font("Courier New", 16F, FontStyle.Bold);
-            lblFooterTitle.ForeColor = Color.FromArgb(250, 204, 21);
-            lblFooterTitle.Location = new Point(0, 0);
-            lblFooterTitle.Name = "lblFooterTitle";
-            lblFooterTitle.Size = new Size(589, 27);
-            lblFooterTitle.TabIndex = 1;
-            lblFooterTitle.Text = "JOIN THE QUEST!";
-            lblFooterTitle.TextAlign = ContentAlignment.MiddleCenter;
+            lblUsernameError.BackColor = Color.FromArgb(128, 64, 0);
+            lblUsernameError.Dock = DockStyle.Bottom;
+            lblUsernameError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblUsernameError.ForeColor = Color.Red;
+            lblUsernameError.Location = new Point(0, 58);
+            lblUsernameError.Name = "lblUsernameError";
+            lblUsernameError.Size = new Size(592, 22);
+            lblUsernameError.TabIndex = 0;
             // 
             // FormDangKy
             // 
-            ClientSize = new Size(677, 880);
+            ClientSize = new Size(680, 880);
             Controls.Add(panelOuter);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormDangKy";
@@ -498,23 +421,51 @@ namespace Socket_LTMCB
             Text = "ADVENTURE - NEW PLAYER REGISTRATION";
             panelOuter.ResumeLayout(false);
             panelMain.ResumeLayout(false);
-            panelHeader.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBoxSwords).EndInit();
-            panelUsername.ResumeLayout(false);
-            panelUsername.PerformLayout();
+            pnl_Main.ResumeLayout(false);
+            pnl_Title.ResumeLayout(false);
             panelContact.ResumeLayout(false);
             panelContact.PerformLayout();
+            panelRobotCheck.ResumeLayout(false);
             panelPassword.ResumeLayout(false);
             panelPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock1).EndInit();
             panelConfirmPassword.ResumeLayout(false);
             panelConfirmPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).EndInit();
-            panelRobotCheck.ResumeLayout(false);
-            panelFooter.ResumeLayout(false);
+            panelUsername.ResumeLayout(false);
+            panelUsername.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Panel panelMain;
+        private Pnl_Pixel pnl_Title;
+        private Pnl_Pixel pnl_Main;
+        private Label lbl_Title;
+        private Label lbl_Subtitle;
+        private Panel panelUsername;
+        private Label lblUsername;
+        private Panel panelContact;
+        private Label lblContactError;
+        private TextBox tb_email;
+        private Label lblContact;
+        private Panel panelPassword;
+        private Label lblPasswordError;
+        private PictureBox pictureBoxLock1;
+        private TextBox tb_password;
+        private Label lblPassword;
+        private Panel panelConfirmPassword;
+        private Label lblConfirmPasswordError;
+        private PictureBox pictureBoxLock2;
+        private TextBox tb_confirmPassword;
+        private Label lblConfirmPassword;
+        private Panel panelRobotCheck;
+        private Label lblRobotError;
+        private CheckBox chkNotRobot;
+        private Btn_Pixel btn_register;
+        private Btn_Pixel btn_alreadyHaveAccount;
+        private TextBox tb_username;
+        private Label lblUsernameError;
     }
 }

@@ -29,13 +29,9 @@ namespace Socket_LTMCB
             // --- Icon ---
             DrawLockIcon(pictureBoxLock1, "🔒");
             DrawLockIcon(pictureBoxLock2, "🔒");
-            DrawSwordsIcon(pictureBoxSwords, "⚔");
 
-            // Căn giữa icon thanh kiếm
-            this.pictureBoxSwords.Location = new Point(
-                (this.panelHeader.Width - this.pictureBoxSwords.Width) / 2,
-                this.lblTitle.Location.Y + this.lblTitle.Height - 10
-            );
+
+
 
             // Cập nhật text ban đầu của checkbox
             chkNotRobot.Text = "  ☐ I'M NOT A ROBOT  🤖";
@@ -220,5 +216,7 @@ namespace Socket_LTMCB
         {
             // Animation logic...
         }
+
+
     }
 }
