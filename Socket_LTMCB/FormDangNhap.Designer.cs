@@ -67,9 +67,9 @@
             pnl_Main.Controls.Add(btn_Login);
             pnl_Main.Controls.Add(btn_Register);
             pnl_Main.Controls.Add(btn_Forgot);
-            pnl_Main.Location = new Point(50, 50);
+            pnl_Main.Location = new Point(87, 29);
             pnl_Main.Name = "pnl_Main";
-            pnl_Main.Size = new Size(400, 600);
+            pnl_Main.Size = new Size(413, 573);
             pnl_Main.TabIndex = 0;
             // 
             // pnl_Title
@@ -206,7 +206,9 @@
             // 
             // FormDangNhap
             // 
-            ClientSize = new Size(500, 700);
+            BackColor = SystemColors.ControlDark;
+            BackgroundImage = Properties.Resources.background2;
+            ClientSize = new Size(581, 641);
             Controls.Add(pnl_Main);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;

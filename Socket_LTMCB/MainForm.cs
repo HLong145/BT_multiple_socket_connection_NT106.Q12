@@ -136,5 +136,10 @@ namespace Socket_LTMCB
             frm_DangNhap?.Close();
             frm_DangKy?.Close();
         }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

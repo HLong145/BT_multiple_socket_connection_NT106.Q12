@@ -21,10 +21,12 @@ namespace Socket_LTMCB
         private void InitializeComponent()
         {
             panelSidebar = new Panel();
-            btnLogout = new Button();
-            lblUserStatus = new Label();
-            lblUserName = new Label();
             pbAvatar = new PictureBox();
+            lblUserName = new Label();
+            lblUserStatus = new Label();
+            btn_createroom = new Btn_Pixel();
+            btn_joinroom = new Btn_Pixel();
+            btnLogout = new Btn_Pixel();
             panelMainContent = new Panel();
             tbQuestLog = new RichTextBox();
             lblWelcome = new Label();
@@ -35,55 +37,18 @@ namespace Socket_LTMCB
             // 
             // panelSidebar
             // 
-            panelSidebar.BackColor = Color.FromArgb(30, 20, 15);
-            panelSidebar.Controls.Add(btnLogout);
-            panelSidebar.Controls.Add(lblUserStatus);
-            panelSidebar.Controls.Add(lblUserName);
             panelSidebar.Controls.Add(pbAvatar);
+            panelSidebar.Controls.Add(lblUserName);
+            panelSidebar.Controls.Add(lblUserStatus);
+            panelSidebar.Controls.Add(btn_createroom);
+            panelSidebar.Controls.Add(btn_joinroom);
+            panelSidebar.Controls.Add(btnLogout);
             panelSidebar.Dock = DockStyle.Left;
             panelSidebar.Location = new Point(0, 0);
             panelSidebar.Margin = new Padding(4, 5, 4, 5);
             panelSidebar.Name = "panelSidebar";
-            panelSidebar.Size = new Size(333, 923);
+            panelSidebar.Size = new Size(333, 742);
             panelSidebar.TabIndex = 1;
-            // 
-            // btnLogout
-            // 
-            btnLogout.BackColor = Color.FromArgb(194, 24, 91);
-            btnLogout.FlatAppearance.BorderSize = 0;
-            btnLogout.FlatStyle = FlatStyle.Flat;
-            btnLogout.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLogout.ForeColor = Color.White;
-            btnLogout.Location = new Point(33, 800);
-            btnLogout.Margin = new Padding(4, 5, 4, 5);
-            btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(267, 69);
-            btnLogout.TabIndex = 0;
-            btnLogout.Text = "LOGOUT (Rút lui)";
-            btnLogout.UseVisualStyleBackColor = false;
-            // 
-            // lblUserStatus
-            // 
-            lblUserStatus.AutoSize = true;
-            lblUserStatus.ForeColor = Color.Silver;
-            lblUserStatus.Location = new Point(29, 323);
-            lblUserStatus.Margin = new Padding(4, 0, 4, 0);
-            lblUserStatus.Name = "lblUserStatus";
-            lblUserStatus.Size = new Size(236, 20);
-            lblUserStatus.TabIndex = 1;
-            lblUserStatus.Text = "Status: Connected to Server Realm";
-            // 
-            // lblUserName
-            // 
-            lblUserName.AutoSize = true;
-            lblUserName.Font = new Font("Arial", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblUserName.ForeColor = Color.FromArgb(217, 119, 6);
-            lblUserName.Location = new Point(29, 277);
-            lblUserName.Margin = new Padding(4, 0, 4, 0);
-            lblUserName.Name = "lblUserName";
-            lblUserName.Size = new Size(232, 29);
-            lblUserName.TabIndex = 2;
-            lblUserName.Text = "HERO NAME HERE";
             // 
             // pbAvatar
             // 
@@ -97,6 +62,66 @@ namespace Socket_LTMCB
             pbAvatar.TabStop = false;
             pbAvatar.Tag = "Placeholder for Hero Avatar";
             // 
+            // lblUserName
+            // 
+            lblUserName.AutoSize = true;
+            lblUserName.Font = new Font("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUserName.ForeColor = Color.FromArgb(217, 119, 6);
+            lblUserName.Location = new Point(29, 277);
+            lblUserName.Margin = new Padding(4, 0, 4, 0);
+            lblUserName.Name = "lblUserName";
+            lblUserName.Size = new Size(208, 27);
+            lblUserName.TabIndex = 2;
+            lblUserName.Text = "HERO NAME HERE";
+            // 
+            // lblUserStatus
+            // 
+            lblUserStatus.AutoSize = true;
+            lblUserStatus.ForeColor = Color.Silver;
+            lblUserStatus.Location = new Point(29, 323);
+            lblUserStatus.Margin = new Padding(4, 0, 4, 0);
+            lblUserStatus.Name = "lblUserStatus";
+            lblUserStatus.Size = new Size(236, 20);
+            lblUserStatus.TabIndex = 1;
+            lblUserStatus.Text = "Status: Connected to Server Realm";
+            // 
+            // btn_createroom
+            // 
+            btn_createroom.BtnColor = Color.FromArgb(34, 139, 34);
+            btn_createroom.FlatStyle = FlatStyle.Flat;
+            btn_createroom.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            btn_createroom.ForeColor = Color.White;
+            btn_createroom.Location = new Point(12, 410);
+            btn_createroom.Name = "btn_createroom";
+            btn_createroom.Size = new Size(297, 45);
+            btn_createroom.TabIndex = 7;
+            btn_createroom.Text = "▶ CREATR ROOM ◀";
+            // 
+            // btn_joinroom
+            // 
+            btn_joinroom.BtnColor = Color.FromArgb(34, 139, 34);
+            btn_joinroom.FlatStyle = FlatStyle.Flat;
+            btn_joinroom.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            btn_joinroom.ForeColor = Color.White;
+            btn_joinroom.Location = new Point(12, 487);
+            btn_joinroom.Name = "btn_joinroom";
+            btn_joinroom.Size = new Size(297, 45);
+            btn_joinroom.TabIndex = 8;
+            btn_joinroom.Text = "▶ JOIN ROOM ◀";
+            // 
+            // btnLogout
+            // 
+            btnLogout.BtnColor = Color.FromArgb(194, 24, 91);
+            btnLogout.FlatStyle = FlatStyle.Flat;
+            btnLogout.Font = new Font("Courier New", 12F, FontStyle.Bold);
+            btnLogout.ForeColor = Color.White;
+            btnLogout.Location = new Point(29, 620);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(267, 69);
+            btnLogout.TabIndex = 9;
+            btnLogout.Text = "LOGOUT";
+            btnLogout.Click += btnLogout_Click;
+            // 
             // panelMainContent
             // 
             panelMainContent.Controls.Add(tbQuestLog);
@@ -105,7 +130,7 @@ namespace Socket_LTMCB
             panelMainContent.Location = new Point(333, 0);
             panelMainContent.Margin = new Padding(4, 5, 4, 5);
             panelMainContent.Name = "panelMainContent";
-            panelMainContent.Size = new Size(996, 923);
+            panelMainContent.Size = new Size(905, 742);
             panelMainContent.TabIndex = 0;
             // 
             // tbQuestLog
@@ -114,23 +139,23 @@ namespace Socket_LTMCB
             tbQuestLog.BorderStyle = BorderStyle.None;
             tbQuestLog.Font = new Font("Arial", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbQuestLog.ForeColor = Color.WhiteSmoke;
-            tbQuestLog.Location = new Point(40, 231);
+            tbQuestLog.Location = new Point(33, 106);
             tbQuestLog.Margin = new Padding(4, 5, 4, 5);
             tbQuestLog.Name = "tbQuestLog";
             tbQuestLog.ReadOnly = true;
-            tbQuestLog.Size = new Size(787, 615);
+            tbQuestLog.Size = new Size(807, 583);
             tbQuestLog.TabIndex = 1;
             tbQuestLog.Text = "";
             // 
             // lblWelcome
             // 
             lblWelcome.AutoSize = true;
-            lblWelcome.Font = new Font("Arial", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblWelcome.Font = new Font("Courier New", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblWelcome.ForeColor = Color.White;
             lblWelcome.Location = new Point(33, 46);
             lblWelcome.Margin = new Padding(4, 0, 4, 0);
             lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(831, 55);
+            lblWelcome.Size = new Size(807, 53);
             lblWelcome.TabIndex = 2;
             lblWelcome.Text = "WELCOME TO FIGHTER X FIGHTER";
             // 
@@ -139,7 +164,7 @@ namespace Socket_LTMCB
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(25, 15, 8);
-            ClientSize = new Size(1329, 923);
+            ClientSize = new Size(1238, 742);
             Controls.Add(panelMainContent);
             Controls.Add(panelSidebar);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -160,12 +185,14 @@ namespace Socket_LTMCB
         #endregion
 
         private System.Windows.Forms.Panel panelSidebar;
-        private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Label lblUserName;
         private System.Windows.Forms.Label lblUserStatus;
         private System.Windows.Forms.PictureBox pbAvatar;
         private System.Windows.Forms.Panel panelMainContent;
         private System.Windows.Forms.Label lblWelcome;
         private System.Windows.Forms.RichTextBox tbQuestLog;
+        private Btn_Pixel btn_createroom;
+        private Btn_Pixel btn_joinroom;
+        private Btn_Pixel btnLogout;
     }
 }

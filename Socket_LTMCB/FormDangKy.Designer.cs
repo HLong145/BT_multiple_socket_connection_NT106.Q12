@@ -9,8 +9,6 @@ namespace Socket_LTMCB
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        private System.Windows.Forms.Panel panelOuter;
-
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -82,23 +80,25 @@ namespace Socket_LTMCB
             panelOuter.Location = new Point(0, 0);
             panelOuter.Name = "panelOuter";
             panelOuter.Padding = new Padding(12);
-            panelOuter.Size = new Size(680, 880);
+            panelOuter.Size = new Size(700, 805);
             panelOuter.TabIndex = 0;
             // 
             // panelMain
             // 
             panelMain.BackColor = Color.Chocolate;
+            panelMain.BackgroundImage = Properties.Resources.background3;
             panelMain.Controls.Add(pnl_Main);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(12, 12);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(32);
-            panelMain.Size = new Size(656, 856);
+            panelMain.Size = new Size(676, 781);
             panelMain.TabIndex = 0;
             // 
             // pnl_Main
             // 
             pnl_Main.BackColor = Color.FromArgb(210, 105, 30);
+            pnl_Main.BackgroundImage = Properties.Resources.background2;
             pnl_Main.Controls.Add(pnl_Title);
             pnl_Main.Controls.Add(btn_alreadyHaveAccount);
             pnl_Main.Controls.Add(btn_register);
@@ -107,9 +107,9 @@ namespace Socket_LTMCB
             pnl_Main.Controls.Add(panelPassword);
             pnl_Main.Controls.Add(panelConfirmPassword);
             pnl_Main.Controls.Add(panelUsername);
-            pnl_Main.Location = new Point(18, 3);
+            pnl_Main.Location = new Point(21, 15);
             pnl_Main.Name = "pnl_Main";
-            pnl_Main.Size = new Size(633, 853);
+            pnl_Main.Size = new Size(633, 755);
             pnl_Main.TabIndex = 10;
             // 
             // pnl_Title
@@ -413,7 +413,7 @@ namespace Socket_LTMCB
             // 
             // FormDangKy
             // 
-            ClientSize = new Size(680, 880);
+            ClientSize = new Size(700, 805);
             Controls.Add(panelOuter);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormDangKy";
@@ -439,17 +439,21 @@ namespace Socket_LTMCB
 
         #endregion
 
+        private Panel panelOuter;
         private Panel panelMain;
-        private Pnl_Pixel pnl_Title;
         private Pnl_Pixel pnl_Main;
+        private Pnl_Pixel pnl_Title;
         private Label lbl_Title;
         private Label lbl_Subtitle;
-        private Panel panelUsername;
-        private Label lblUsername;
+        private Btn_Pixel btn_alreadyHaveAccount;
+        private Btn_Pixel btn_register;
         private Panel panelContact;
         private Label lblContactError;
         private TextBox tb_email;
         private Label lblContact;
+        private Panel panelRobotCheck;
+        private Label lblRobotError;
+        private CheckBox chkNotRobot;
         private Panel panelPassword;
         private Label lblPasswordError;
         private PictureBox pictureBoxLock1;
@@ -460,12 +464,9 @@ namespace Socket_LTMCB
         private PictureBox pictureBoxLock2;
         private TextBox tb_confirmPassword;
         private Label lblConfirmPassword;
-        private Panel panelRobotCheck;
-        private Label lblRobotError;
-        private CheckBox chkNotRobot;
-        private Btn_Pixel btn_register;
-        private Btn_Pixel btn_alreadyHaveAccount;
+        private Panel panelUsername;
         private TextBox tb_username;
+        private Label lblUsername;
         private Label lblUsernameError;
     }
 }
