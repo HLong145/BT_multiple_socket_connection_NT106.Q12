@@ -109,10 +109,10 @@ namespace Socket_LTMCB
             return Regex.IsMatch(phone, @"^0\d{9}$");
         }
 
+        private readonly ValidationService validationService = new ValidationService();
         private bool IsValidPassword(string password)
         {
-            // At least 8 characters, with upper/lowercase, number, and special character
-            return Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$");
+            return validationService.IsValidPassword(password);
         }
 
         // =========================

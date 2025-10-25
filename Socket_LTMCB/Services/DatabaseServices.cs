@@ -8,7 +8,7 @@ namespace Socket_LTMCB.Services
     public class DatabaseService
     {
         private Dictionary<string, (string Hash, string Salt, string Email, string Phone)> users = new();
-        private Dictionary<string, string> otps = new();
+        private Dictionary<string, (string Otp, DateTime ExpireTime)> otps = new();
 
         public bool IsUserExists(string username, string email, string phone)
         {
@@ -54,16 +54,27 @@ namespace Socket_LTMCB.Services
         {
             if (!users.ContainsKey(username)) return null;
             var otp = new Random().Next(100000, 999999).ToString();
-            otps[username] = otp;
+            otps[username] = (otp, DateTime.Now.AddMinutes(5));
             return otp;
         }
+
 
         public (bool IsValid, string Message) VerifyOtp(string username, string otp)
         {
             if (!otps.ContainsKey(username))
                 return (false, "Không tìm thấy OTP");
-            if (otps[username] != otp)
+
+            var (storedOtp, expireTime) = otps[username];
+
+            if (DateTime.Now > expireTime)
+            {
+                otps.Remove(username);
+                return (false, "OTP đã hết hạn");
+            }
+
+            if (storedOtp != otp)
                 return (false, "OTP không đúng");
+
             otps.Remove(username);
             return (true, "Xác thực OTP thành công");
         }

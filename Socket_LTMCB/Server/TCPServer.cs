@@ -28,7 +28,7 @@ namespace Socket_LTMCB.Server
             dbService = new DatabaseService();
             tokenManager = new TokenManager();
             validationService = new ValidationService();  
-            securityService = new SecurityService();     
+            securityService = new SecurityService();   
         }
 
         public void Start(int port)
@@ -78,8 +78,8 @@ namespace Socket_LTMCB.Server
                 try
                 {
                     TcpClient client = await listener.AcceptTcpClientAsync();
-                    var clientHandler = new ClientHandler(client, this, dbService, tokenManager);
-
+                    var clientHandler = new ClientHandler(client, this, dbService, tokenManager,
+                                                          validationService, securityService);
                     lock (connectedClients)
                     {
                         connectedClients.Add(clientHandler);
@@ -124,17 +124,19 @@ namespace Socket_LTMCB.Server
         private TokenManager tokenManager;
         private string currentToken;
         private ValidationService validationService; 
-        private SecurityService securityService;   
+        private SecurityService securityService;
 
-        public ClientHandler(TcpClient client, TcpServer server, DatabaseService dbService, TokenManager tokenManager)
+        public ClientHandler(TcpClient client, TcpServer server, DatabaseService dbService,
+                      TokenManager tokenManager, ValidationService validationService,
+                      SecurityService securityService)
         {
             tcpClient = client;
             this.server = server;
             this.dbService = dbService;
             this.tokenManager = tokenManager;
             stream = client.GetStream();
-            validationService = validationService;  
-            securityService = securityService;  
+            this.validationService = validationService;
+            this.securityService = securityService; 
         }
 
         public async Task Handle()

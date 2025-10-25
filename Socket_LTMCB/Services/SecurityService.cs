@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Socket_LTMCB.Services
 {
@@ -80,6 +82,27 @@ namespace Socket_LTMCB.Services
 
             int elapsed = (int)(DateTime.Now - lastAttempt).TotalMinutes;
             return Math.Max(0, LOCKOUT_MINUTES - elapsed);
+        }
+
+        public string EncryptPassword(string password)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(password);
+            byte[] encrypted = ProtectedData.Protect(data, null, DataProtectionScope.CurrentUser);
+            return Convert.ToBase64String(encrypted);
+        }
+
+        public string DecryptPassword(string encryptedPassword)
+        {
+            try
+            {
+                byte[] data = Convert.FromBase64String(encryptedPassword);
+                byte[] decrypted = ProtectedData.Unprotect(data, null, DataProtectionScope.CurrentUser);
+                return Encoding.UTF8.GetString(decrypted);
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
     }
 }

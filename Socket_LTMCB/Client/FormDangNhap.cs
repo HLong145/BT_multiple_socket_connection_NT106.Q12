@@ -11,6 +11,7 @@ namespace Socket_LTMCB
         private int floatingOffset = 0;
         private Random random = new Random();
         private System.Windows.Forms.Timer floatingItemsTimer;
+        private readonly SecurityService securityService = new SecurityService();
 
         private readonly DatabaseService dbService = new DatabaseService();
         public event EventHandler SwitchToRegister;
@@ -74,18 +75,18 @@ namespace Socket_LTMCB
             if (Properties.Settings.Default.RememberMe)
             {
                 tb_Username.Text = Properties.Settings.Default.SavedUsername;
-                tb_Password.Text = Properties.Settings.Default.SavedPassword;
+                string encrypted = Properties.Settings.Default.SavedPassword;
+                tb_Password.Text = securityService.DecryptPassword(encrypted);
                 chk_Remember.Checked = true;
             }
         }
-
         private void SaveRememberedLogin(string username, string password)
         {
             if (chk_Remember.Checked)
             {
                 Properties.Settings.Default.RememberMe = true;
                 Properties.Settings.Default.SavedUsername = username;
-                Properties.Settings.Default.SavedPassword = password;
+                Properties.Settings.Default.SavedPassword = securityService.EncryptPassword(password);
             }
             else
             {
@@ -95,8 +96,8 @@ namespace Socket_LTMCB
             }
 
             Properties.Settings.Default.Save();
-        }
-
+        }        
+        
         // =========================
         // 3️⃣ Validation helpers
         // =========================

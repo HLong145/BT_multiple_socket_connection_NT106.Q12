@@ -19,9 +19,8 @@ namespace Socket_LTMCB.Services
         public bool IsValidPhone(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone)) return false;
-            return Regex.IsMatch(phone, @"^\d{10}$");
+            return Regex.IsMatch(phone, @"^0\d{9}$"); 
         }
-
         public bool IsValidPassword(string password)
         {
             if (string.IsNullOrEmpty(password)) return false;
