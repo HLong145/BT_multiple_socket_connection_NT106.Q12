@@ -23,56 +23,80 @@ namespace Socket_LTMCB
     {
         private FormDangNhap loginForm;
         private FormDangKy registerForm;
+        private bool isExiting = false;
 
         public ApplicationController()
         {
-            loginForm = new FormDangNhap();
+            ShowLoginForm();
+        }
 
-            // Đăng ký sự kiện chuyển sang Form Register
-            loginForm.SwitchToRegister += OnSwitchToRegister;
+        private void ShowLoginForm()
+        {
+            if (loginForm == null || loginForm.IsDisposed)
+            {
+                loginForm = new FormDangNhap();
+                loginForm.SwitchToRegister += OnSwitchToRegister;
+                loginForm.FormClosed += LoginForm_FormClosed;
+            }
 
             this.MainForm = loginForm;
             loginForm.Show();
+            loginForm.BringToFront();
+        }
+
+        private void ShowRegisterForm()
+        {
+            if (registerForm == null || registerForm.IsDisposed)
+            {
+                registerForm = new FormDangKy();
+                registerForm.SwitchToLogin += OnSwitchToLogin;
+                registerForm.FormClosed += RegisterForm_FormClosed;
+            }
+
+            registerForm.Show();
+            registerForm.BringToFront();
         }
 
         private void OnSwitchToRegister(object sender, EventArgs e)
         {
-            loginForm.Hide();
-
-            if (registerForm == null)
-            {
-                registerForm = new FormDangKy();
-                registerForm.SwitchToLogin += OnSwitchToLogin;
-
-                // Xử lý khi người dùng đóng Form đăng ký bằng nút X (thoát)
-                registerForm.FormClosed += (s, args) => {
-                    // Nếu Form đăng ký đóng và không còn hiển thị, quay lại Form đăng nhập
-                    if (registerForm.Visible == false)
-                    {
-                        this.MainForm = loginForm;
-                        loginForm.Show();
-                    }
-                };
-            }
-
-            registerForm.Show();
+            loginForm?.Hide();
+            ShowRegisterForm();
         }
 
         private void OnSwitchToLogin(object sender, EventArgs e)
         {
-            registerForm.Hide();
-            // Đảm bảo Form Dang Nhap được đặt làm MainForm (để khi đóng nó thì ứng dụng thoát)
-            this.MainForm = loginForm;
-            loginForm.Show();
+            registerForm?.Hide();
+            ShowLoginForm();
+        }
+
+        private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (!isExiting)
+            {
+                isExiting = true;
+                registerForm?.Close();
+                ExitThread();
+            }
+        }
+
+        private void RegisterForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Nếu form đăng ký đóng nhưng không phải từ việc chuyển form
+            if (registerForm != null && !loginForm.Visible)
+            {
+                ShowLoginForm();
+            }
         }
 
         protected override void OnMainFormClosed(object sender, EventArgs e)
         {
-            // Chỉ đóng ứng dụng khi Form chính (FormDangNhap) đóng
-            if (sender == loginForm)
+            if (!isExiting)
             {
-                base.OnMainFormClosed(sender, e);
+                isExiting = true;
+                registerForm?.Close();
+                loginForm?.Close();
             }
+            base.OnMainFormClosed(sender, e);
         }
     }
 }

@@ -24,7 +24,6 @@ namespace Socket_LTMCB
             floatingItemsTimer.Interval = 50;
             floatingItemsTimer.Tick += FloatingItemsTimer_Tick;
             floatingItemsTimer.Start();
-
         }
 
         private void FloatingItemsTimer_Tick(object sender, EventArgs e)
@@ -66,21 +65,21 @@ namespace Socket_LTMCB
         private void btn_Register_Click(object sender, EventArgs e)
         {
             SwitchToRegister?.Invoke(this, EventArgs.Empty);
-            this.Hide();
         }
 
         private void btn_Forgot_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Forgot password clicked!");
         }
-        private void FormDangNhap_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                e.Cancel = true; // Hủy đóng Form
-                this.Hide();     // Chỉ ẩn Form đi
-            }
-        }
 
+        // ✅ BỎ LOGIC CANCEL - Cho phép form đóng bình thường
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Dừng animation khi form đóng
+            floatingItemsTimer?.Stop();
+            floatingItemsTimer?.Dispose();
+
+            base.OnFormClosing(e);
+        }
     }
 }
