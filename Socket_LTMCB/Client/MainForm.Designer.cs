@@ -20,6 +20,7 @@ namespace Socket_LTMCB
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             panelSidebar = new Panel();
             pbAvatar = new PictureBox();
             lblUserName = new Label();
@@ -28,6 +29,11 @@ namespace Socket_LTMCB
             btn_joinroom = new Btn_Pixel();
             btnLogout = new Btn_Pixel();
             panelMainContent = new Panel();
+            pictureBox9 = new PictureBox();
+            pictureBox8 = new PictureBox();
+            pictureBox7 = new PictureBox();
+            pictureBox6 = new PictureBox();
+            pictureBox5 = new PictureBox();
             pictureBox4 = new PictureBox();
             pictureBox3 = new PictureBox();
             pictureBox2 = new PictureBox();
@@ -37,6 +43,11 @@ namespace Socket_LTMCB
             panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
             panelMainContent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -135,6 +146,11 @@ namespace Socket_LTMCB
             // panelMainContent
             // 
             panelMainContent.BackgroundImage = Properties.Resources.background2;
+            panelMainContent.Controls.Add(pictureBox9);
+            panelMainContent.Controls.Add(pictureBox8);
+            panelMainContent.Controls.Add(pictureBox7);
+            panelMainContent.Controls.Add(pictureBox6);
+            panelMainContent.Controls.Add(pictureBox5);
             panelMainContent.Controls.Add(pictureBox4);
             panelMainContent.Controls.Add(pictureBox3);
             panelMainContent.Controls.Add(pictureBox2);
@@ -145,16 +161,71 @@ namespace Socket_LTMCB
             panelMainContent.Location = new Point(335, 0);
             panelMainContent.Margin = new Padding(4, 5, 4, 5);
             panelMainContent.Name = "panelMainContent";
-            panelMainContent.Size = new Size(1011, 742);
+            panelMainContent.Size = new Size(977, 742);
             panelMainContent.TabIndex = 0;
+            // 
+            // pictureBox9
+            // 
+            pictureBox9.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox9.Image = Properties.Resources.balanceskill;
+            pictureBox9.Location = new Point(520, 487);
+            pictureBox9.Name = "pictureBox9";
+            pictureBox9.Size = new Size(192, 79);
+            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox9.TabIndex = 11;
+            pictureBox9.TabStop = false;
+            // 
+            // pictureBox8
+            // 
+            pictureBox8.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox8.Image = Properties.Resources.thanhdamage;
+            pictureBox8.Location = new Point(20, 512);
+            pictureBox8.Name = "pictureBox8";
+            pictureBox8.Size = new Size(173, 54);
+            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox8.TabIndex = 10;
+            pictureBox8.TabStop = false;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox7.Image = Properties.Resources.thanhspeed;
+            pictureBox7.Location = new Point(366, 512);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(148, 54);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 9;
+            pictureBox7.TabStop = false;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox6.Image = Properties.Resources.thanh_hp;
+            pictureBox6.Location = new Point(199, 502);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(140, 64);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 8;
+            pictureBox6.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.BackColor = Color.Transparent;
+            pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
+            pictureBox5.Location = new Point(157, 65);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(459, 68);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 7;
+            pictureBox5.TabStop = false;
             // 
             // pictureBox4
             // 
             pictureBox4.BackColor = Color.FromArgb(180, 83, 9);
             pictureBox4.Image = Properties.Resources.boy3;
-            pictureBox4.Location = new Point(232, 531);
+            pictureBox4.Location = new Point(180, 563);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(146, 147);
+            pictureBox4.Size = new Size(164, 140);
             pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox4.TabIndex = 6;
             pictureBox4.TabStop = false;
@@ -163,9 +234,9 @@ namespace Socket_LTMCB
             // 
             pictureBox3.BackColor = Color.FromArgb(180, 83, 9);
             pictureBox3.Image = Properties.Resources.boy2;
-            pictureBox3.Location = new Point(384, 531);
+            pictureBox3.Location = new Point(350, 563);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(146, 147);
+            pictureBox3.Size = new Size(164, 140);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 5;
             pictureBox3.TabStop = false;
@@ -174,9 +245,9 @@ namespace Socket_LTMCB
             // 
             pictureBox2.BackColor = Color.FromArgb(180, 83, 9);
             pictureBox2.Image = Properties.Resources.boy1;
-            pictureBox2.Location = new Point(80, 531);
+            pictureBox2.Location = new Point(20, 563);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(146, 147);
+            pictureBox2.Size = new Size(164, 140);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 4;
             pictureBox2.TabStop = false;
@@ -185,9 +256,9 @@ namespace Socket_LTMCB
             // 
             pictureBox1.BackColor = Color.FromArgb(180, 83, 9);
             pictureBox1.Image = Properties.Resources.girlwithgun;
-            pictureBox1.Location = new Point(536, 531);
+            pictureBox1.Location = new Point(520, 563);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(146, 147);
+            pictureBox1.Size = new Size(164, 140);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 3;
             pictureBox1.TabStop = false;
@@ -198,11 +269,11 @@ namespace Socket_LTMCB
             tbQuestLog.BorderStyle = BorderStyle.None;
             tbQuestLog.Font = new Font("Arial", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbQuestLog.ForeColor = Color.WhiteSmoke;
-            tbQuestLog.Location = new Point(20, 126);
+            tbQuestLog.Location = new Point(20, 141);
             tbQuestLog.Margin = new Padding(4, 5, 4, 5);
             tbQuestLog.Name = "tbQuestLog";
             tbQuestLog.ReadOnly = true;
-            tbQuestLog.Size = new Size(963, 563);
+            tbQuestLog.Size = new Size(842, 574);
             tbQuestLog.TabIndex = 1;
             tbQuestLog.Text = "";
             // 
@@ -212,19 +283,19 @@ namespace Socket_LTMCB
             lblWelcome.BackColor = Color.SaddleBrown;
             lblWelcome.Font = new Font("Courier New", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblWelcome.ForeColor = Color.SandyBrown;
-            lblWelcome.Location = new Point(20, 68);
+            lblWelcome.Location = new Point(157, 9);
             lblWelcome.Margin = new Padding(4, 0, 4, 0);
             lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(963, 53);
+            lblWelcome.Size = new Size(459, 53);
             lblWelcome.TabIndex = 2;
-            lblWelcome.Text = "🗡️ WELCOME TO FIGHTER X FIGHTER 🛡️";
+            lblWelcome.Text = "🗡️ WELCOME TO 🛡️";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(25, 15, 8);
-            ClientSize = new Size(1346, 742);
+            ClientSize = new Size(1312, 742);
             Controls.Add(panelMainContent);
             Controls.Add(panelSidebar);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -239,6 +310,11 @@ namespace Socket_LTMCB
             ((System.ComponentModel.ISupportInitialize)pbAvatar).EndInit();
             panelMainContent.ResumeLayout(false);
             panelMainContent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -262,5 +338,10 @@ namespace Socket_LTMCB
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
+        private PictureBox pictureBox5;
+        private PictureBox pictureBox6;
+        private PictureBox pictureBox7;
+        private PictureBox pictureBox8;
+        private PictureBox pictureBox9;
     }
 }

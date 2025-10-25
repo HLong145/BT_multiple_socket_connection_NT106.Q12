@@ -305,7 +305,7 @@ namespace Socket_LTMCB
             MaximizeBox = false;
             Name = "FormXacThucOTP";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Pixel Quest - Verify Code";
+            Text = "Verify Code";
             pnl_Main.ResumeLayout(false);
             pnl_Title.ResumeLayout(false);
             panelOTP.ResumeLayout(false);

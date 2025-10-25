@@ -33,10 +33,15 @@ namespace Socket_LTMCB
             panelOuter = new Panel();
             panelMain = new Panel();
             pnl_Main = new Pnl_Pixel();
+            btn_alreadyHaveAccount = new Btn_Pixel();
+            pictureBox4 = new PictureBox();
+            pictureBox3 = new PictureBox();
             pnl_Title = new Pnl_Pixel();
             lbl_Title = new Label();
+            pictureBox1 = new PictureBox();
+            pictureBox5 = new PictureBox();
+            pictureBox2 = new PictureBox();
             lbl_Subtitle = new Label();
-            btn_alreadyHaveAccount = new Btn_Pixel();
             btn_register = new Btn_Pixel();
             panelContact = new Panel();
             lblContactError = new Label();
@@ -62,7 +67,12 @@ namespace Socket_LTMCB
             panelOuter.SuspendLayout();
             panelMain.SuspendLayout();
             pnl_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             pnl_Title.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panelContact.SuspendLayout();
             panelRobotCheck.SuspendLayout();
             panelPassword.SuspendLayout();
@@ -80,7 +90,7 @@ namespace Socket_LTMCB
             panelOuter.Location = new Point(0, 0);
             panelOuter.Name = "panelOuter";
             panelOuter.Padding = new Padding(12);
-            panelOuter.Size = new Size(700, 808);
+            panelOuter.Size = new Size(717, 808);
             panelOuter.TabIndex = 0;
             // 
             // panelMain
@@ -92,15 +102,17 @@ namespace Socket_LTMCB
             panelMain.Location = new Point(12, 12);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(32);
-            panelMain.Size = new Size(676, 784);
+            panelMain.Size = new Size(693, 784);
             panelMain.TabIndex = 0;
             // 
             // pnl_Main
             // 
             pnl_Main.BackColor = Color.FromArgb(210, 105, 30);
             pnl_Main.BackgroundImage = Properties.Resources.background2;
-            pnl_Main.Controls.Add(pnl_Title);
             pnl_Main.Controls.Add(btn_alreadyHaveAccount);
+            pnl_Main.Controls.Add(pictureBox4);
+            pnl_Main.Controls.Add(pictureBox3);
+            pnl_Main.Controls.Add(pnl_Title);
             pnl_Main.Controls.Add(btn_register);
             pnl_Main.Controls.Add(panelContact);
             pnl_Main.Controls.Add(panelRobotCheck);
@@ -112,10 +124,51 @@ namespace Socket_LTMCB
             pnl_Main.Size = new Size(633, 755);
             pnl_Main.TabIndex = 10;
             // 
+            // btn_alreadyHaveAccount
+            // 
+            btn_alreadyHaveAccount.BackColor = Color.FromArgb(217, 119, 6);
+            btn_alreadyHaveAccount.BtnColor = Color.FromArgb(217, 119, 6);
+            btn_alreadyHaveAccount.FlatAppearance.BorderSize = 0;
+            btn_alreadyHaveAccount.FlatStyle = FlatStyle.Flat;
+            btn_alreadyHaveAccount.Font = new Font("Courier New", 12F, FontStyle.Bold);
+            btn_alreadyHaveAccount.ForeColor = Color.White;
+            btn_alreadyHaveAccount.Location = new Point(17, 656);
+            btn_alreadyHaveAccount.Name = "btn_alreadyHaveAccount";
+            btn_alreadyHaveAccount.Size = new Size(592, 62);
+            btn_alreadyHaveAccount.TabIndex = 7;
+            btn_alreadyHaveAccount.Text = "← HAVE ACCOUNT? LOGIN";
+            btn_alreadyHaveAccount.UseVisualStyleBackColor = false;
+            btn_alreadyHaveAccount.Click += btn_alreadyHaveAccount_Click;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.BackColor = Color.Transparent;
+            pictureBox4.Image = Properties.Resources.mây;
+            pictureBox4.Location = new Point(-18, 672);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(194, 97);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 12;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackColor = Color.Transparent;
+            pictureBox3.Image = Properties.Resources.mayxanh;
+            pictureBox3.Location = new Point(483, 684);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(194, 97);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 11;
+            pictureBox3.TabStop = false;
+            // 
             // pnl_Title
             // 
             pnl_Title.BackColor = Color.FromArgb(210, 105, 30);
             pnl_Title.Controls.Add(lbl_Title);
+            pnl_Title.Controls.Add(pictureBox1);
+            pnl_Title.Controls.Add(pictureBox5);
+            pnl_Title.Controls.Add(pictureBox2);
             pnl_Title.Controls.Add(lbl_Subtitle);
             pnl_Title.Location = new Point(61, 22);
             pnl_Title.Name = "pnl_Title";
@@ -134,6 +187,39 @@ namespace Socket_LTMCB
             lbl_Title.Text = "⚔️ NEW PLAYER ⚔️";
             lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.mayxanh;
+            pictureBox1.Location = new Point(334, 28);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(194, 97);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 10;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.BackColor = Color.Transparent;
+            pictureBox5.Image = Properties.Resources.moon;
+            pictureBox5.Location = new Point(-88, -19);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(194, 78);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 13;
+            pictureBox5.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.mayxanh;
+            pictureBox2.Location = new Point(-79, 52);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(194, 73);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 11;
+            pictureBox2.TabStop = false;
+            // 
             // lbl_Subtitle
             // 
             lbl_Subtitle.BackColor = Color.Transparent;
@@ -145,22 +231,6 @@ namespace Socket_LTMCB
             lbl_Subtitle.TabIndex = 1;
             lbl_Subtitle.Text = "CREATE YOUR ACCOUNT";
             lbl_Subtitle.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btn_alreadyHaveAccount
-            // 
-            btn_alreadyHaveAccount.BackColor = Color.FromArgb(217, 119, 6);
-            btn_alreadyHaveAccount.BtnColor = Color.FromArgb(217, 119, 6);
-            btn_alreadyHaveAccount.FlatAppearance.BorderSize = 0;
-            btn_alreadyHaveAccount.FlatStyle = FlatStyle.Flat;
-            btn_alreadyHaveAccount.Font = new Font("Courier New", 12F, FontStyle.Bold);
-            btn_alreadyHaveAccount.ForeColor = Color.White;
-            btn_alreadyHaveAccount.Location = new Point(17, 656);
-            btn_alreadyHaveAccount.Name = "btn_alreadyHaveAccount";
-            btn_alreadyHaveAccount.Size = new Size(592, 62);
-            btn_alreadyHaveAccount.TabIndex = 7;
-            btn_alreadyHaveAccount.Text = "← HAVE ACCOUNT? LOGIN";
-            btn_alreadyHaveAccount.UseVisualStyleBackColor = false;
-            btn_alreadyHaveAccount.Click += btn_alreadyHaveAccount_Click;
             // 
             // btn_register
             // 
@@ -207,7 +277,7 @@ namespace Socket_LTMCB
             tb_contact.ForeColor = Color.FromArgb(214, 211, 209);
             tb_contact.Location = new Point(0, 25);
             tb_contact.Multiline = true;
-            tb_contact.Name = "tb_email";
+            tb_contact.Name = "tb_contact";
             tb_contact.Size = new Size(592, 35);
             tb_contact.TabIndex = 1;
             // 
@@ -413,16 +483,21 @@ namespace Socket_LTMCB
             // 
             // FormDangKy
             // 
-            ClientSize = new Size(700, 808);
+            ClientSize = new Size(717, 808);
             Controls.Add(panelOuter);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormDangKy";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ADVENTURE - NEW PLAYER REGISTRATION";
+            Text = "FIGHTER X FIGHTER- NEW PLAYER REGISTRATION";
             panelOuter.ResumeLayout(false);
             panelMain.ResumeLayout(false);
             pnl_Main.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             pnl_Title.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panelContact.ResumeLayout(false);
             panelContact.PerformLayout();
             panelRobotCheck.ResumeLayout(false);
@@ -468,5 +543,10 @@ namespace Socket_LTMCB
         private Tb_Pixel tb_username;
         private Label lblUsername;
         private Label lblUsernameError;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox5;
     }
 }

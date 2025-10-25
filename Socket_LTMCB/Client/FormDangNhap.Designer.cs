@@ -42,26 +42,39 @@
             components = new System.ComponentModel.Container();
             timer_FloatingItems = new System.Windows.Forms.Timer(components);
             pnl_Main = new Pnl_Pixel();
+            chk_Remember = new CheckBox();
             pnl_Title = new Pnl_Pixel();
-            lbl_Title = new Label();
             lbl_Subtitle = new Label();
+            lbl_Title = new Label();
             lbl_Username = new Label();
             tb_Username = new Tb_Pixel();
             lbl_Password = new Label();
             tb_Password = new Tb_Pixel();
             chk_ShowPassword = new CheckBox();
             chk_Captcha = new CheckBox();
-            chk_Remember = new CheckBox();
             btn_Login = new Btn_Pixel();
             btn_Register = new Btn_Pixel();
             btn_Forgot = new Btn_Pixel();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox4 = new PictureBox();
+            pictureBox5 = new PictureBox();
             pnl_Main.SuspendLayout();
             pnl_Title.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             SuspendLayout();
             // 
             // pnl_Main
             // 
             pnl_Main.BackColor = Color.FromArgb(210, 105, 30);
+            pnl_Main.Controls.Add(pictureBox1);
+            pnl_Main.Controls.Add(pictureBox2);
+            pnl_Main.Controls.Add(pictureBox3);
             pnl_Main.Controls.Add(chk_Remember);
             pnl_Main.Controls.Add(pnl_Title);
             pnl_Main.Controls.Add(lbl_Username);
@@ -78,39 +91,53 @@
             pnl_Main.Size = new Size(413, 573);
             pnl_Main.TabIndex = 0;
             // 
+            // chk_Remember
+            // 
+            chk_Remember.BackColor = Color.Transparent;
+            chk_Remember.Font = new Font("Courier New", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chk_Remember.ForeColor = Color.White;
+            chk_Remember.Location = new Point(246, 300);
+            chk_Remember.Name = "chk_Remember";
+            chk_Remember.Size = new Size(167, 25);
+            chk_Remember.TabIndex = 7;
+            chk_Remember.Text = "REMEMBER ME";
+            chk_Remember.UseVisualStyleBackColor = false;
+            // 
             // pnl_Title
             // 
             pnl_Title.BackColor = Color.FromArgb(210, 105, 30);
+            pnl_Title.Controls.Add(pictureBox5);
             pnl_Title.Controls.Add(lbl_Title);
+            pnl_Title.Controls.Add(pictureBox4);
             pnl_Title.Controls.Add(lbl_Subtitle);
             pnl_Title.Location = new Point(20, 20);
             pnl_Title.Name = "pnl_Title";
             pnl_Title.Size = new Size(360, 100);
             pnl_Title.TabIndex = 0;
             // 
-            // lbl_Title
-            // 
-            lbl_Title.BackColor = Color.Transparent;
-            lbl_Title.Font = new Font("Courier New", 14F, FontStyle.Bold);
-            lbl_Title.ForeColor = Color.Gold;
-            lbl_Title.Location = new Point(16, 19);
-            lbl_Title.Name = "lbl_Title";
-            lbl_Title.Size = new Size(341, 30);
-            lbl_Title.TabIndex = 0;
-            lbl_Title.Text = "⚔️ FIGHTER × FIGHTER ⚔️";
-            lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // lbl_Subtitle
             // 
             lbl_Subtitle.BackColor = Color.Transparent;
             lbl_Subtitle.Font = new Font("Courier New", 7F, FontStyle.Bold);
             lbl_Subtitle.ForeColor = Color.White;
-            lbl_Subtitle.Location = new Point(16, 49);
+            lbl_Subtitle.Location = new Point(20, 48);
             lbl_Subtitle.Name = "lbl_Subtitle";
             lbl_Subtitle.Size = new Size(325, 20);
             lbl_Subtitle.TabIndex = 1;
             lbl_Subtitle.Text = "ENTER YOUR CREDENTIALS";
             lbl_Subtitle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Title
+            // 
+            lbl_Title.BackColor = Color.Transparent;
+            lbl_Title.Font = new Font("Courier New", 14F, FontStyle.Bold);
+            lbl_Title.ForeColor = Color.Gold;
+            lbl_Title.Location = new Point(-17, 18);
+            lbl_Title.Name = "lbl_Title";
+            lbl_Title.Size = new Size(397, 30);
+            lbl_Title.TabIndex = 0;
+            lbl_Title.Text = "⚔️ FIGHTER X FIGHTER ⚔️";
+            lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lbl_Username
             // 
@@ -183,18 +210,6 @@
             chk_Captcha.Text = "I'M NOT A ROBOT 🤖";
             chk_Captcha.UseVisualStyleBackColor = false;
             // 
-            // chk_Remember
-            // 
-            chk_Remember.BackColor = Color.Transparent;
-            chk_Remember.Font = new Font("Courier New", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chk_Remember.ForeColor = Color.White;
-            chk_Remember.Location = new Point(246, 300);
-            chk_Remember.Name = "chk_Remember";
-            chk_Remember.Size = new Size(167, 25);
-            chk_Remember.TabIndex = 7;
-            chk_Remember.Text = "REMEMBER ME";
-            chk_Remember.UseVisualStyleBackColor = false;
-            // 
             // btn_Login
             // 
             btn_Login.BtnColor = Color.FromArgb(34, 139, 34);
@@ -234,23 +249,89 @@
             btn_Forgot.Text = "FORGOT?";
             btn_Forgot.Click += btn_Forgot_Click;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.mây;
+            pictureBox1.Location = new Point(-93, 494);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(182, 93);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.mây;
+            pictureBox2.Location = new Point(256, 494);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(233, 93);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 9;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackColor = Color.Transparent;
+            pictureBox3.Image = Properties.Resources.mây;
+            pictureBox3.Location = new Point(71, 494);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(179, 93);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 2;
+            pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.BackColor = Color.Transparent;
+            pictureBox4.Image = Properties.Resources.mây;
+            pictureBox4.Location = new Point(226, 29);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(136, 91);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 10;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.BackColor = Color.Transparent;
+            pictureBox5.Image = Properties.Resources.mây;
+            pictureBox5.Location = new Point(-30, 51);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(176, 51);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 2;
+            pictureBox5.TabStop = false;
+            // 
             // FormDangNhap
             // 
             BackColor = SystemColors.ControlDark;
             BackgroundImage = Properties.Resources.background2;
-            ClientSize = new Size(581, 641);
+            ClientSize = new Size(588, 641);
             Controls.Add(pnl_Main);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             Name = "FormDangNhap";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Pixel Quest - Login";
+            Text = "Login";
             pnl_Main.ResumeLayout(false);
             pnl_Main.PerformLayout();
             pnl_Title.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
+
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox5;
+        private PictureBox pictureBox4;
     }
 }

@@ -42,12 +42,16 @@ namespace Socket_LTMCB
             lblConfirmPassword = new Label();
             btn_complete = new Btn_Pixel();
             btn_backToLogin = new Btn_Pixel();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
             pnl_Main.SuspendLayout();
             pnl_Title.SuspendLayout();
             panelNewPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock1).BeginInit();
             panelConfirmPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // pnl_Main
@@ -68,6 +72,8 @@ namespace Socket_LTMCB
             // 
             pnl_Title.BackColor = Color.FromArgb(210, 105, 30);
             pnl_Title.Controls.Add(lbl_Title);
+            pnl_Title.Controls.Add(pictureBox1);
+            pnl_Title.Controls.Add(pictureBox2);
             pnl_Title.Controls.Add(lbl_Subtitle);
             pnl_Title.Location = new Point(20, 20);
             pnl_Title.Name = "pnl_Title";
@@ -246,6 +252,28 @@ namespace Socket_LTMCB
             btn_backToLogin.Text = "← BACK TO LOGIN";
             btn_backToLogin.Click += btn_backToLogin_Click;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.key;
+            pictureBox1.Location = new Point(262, 49);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(79, 36);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.núi;
+            pictureBox2.Location = new Point(0, 32);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(135, 68);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 2;
+            pictureBox2.TabStop = false;
+            // 
             // FormResetPass
             // 
             BackColor = SystemColors.ControlDark;
@@ -256,7 +284,7 @@ namespace Socket_LTMCB
             MaximizeBox = false;
             Name = "FormResetPass";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Pixel Quest - Reset Password";
+            Text = "Reset Password";
             pnl_Main.ResumeLayout(false);
             pnl_Title.ResumeLayout(false);
             panelNewPassword.ResumeLayout(false);
@@ -265,6 +293,8 @@ namespace Socket_LTMCB
             panelConfirmPassword.ResumeLayout(false);
             panelConfirmPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 
@@ -287,5 +317,7 @@ namespace Socket_LTMCB
         private Label lblConfirmPassword;
         private Btn_Pixel btn_complete;
         private Btn_Pixel btn_backToLogin;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
     }
 }
