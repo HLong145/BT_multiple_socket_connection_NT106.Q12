@@ -146,9 +146,9 @@ namespace Socket_LTMCB
             // panelMainContent
             // 
             panelMainContent.BackgroundImage = Properties.Resources.background2;
+            panelMainContent.Controls.Add(pictureBox7);
             panelMainContent.Controls.Add(pictureBox9);
             panelMainContent.Controls.Add(pictureBox8);
-            panelMainContent.Controls.Add(pictureBox7);
             panelMainContent.Controls.Add(pictureBox6);
             panelMainContent.Controls.Add(pictureBox5);
             panelMainContent.Controls.Add(pictureBox4);
@@ -168,9 +168,9 @@ namespace Socket_LTMCB
             // 
             pictureBox9.BackColor = Color.FromArgb(180, 83, 9);
             pictureBox9.Image = Properties.Resources.balanceskill;
-            pictureBox9.Location = new Point(520, 487);
+            pictureBox9.Location = new Point(341, 487);
             pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(192, 79);
+            pictureBox9.Size = new Size(186, 79);
             pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox9.TabIndex = 11;
             pictureBox9.TabStop = false;
@@ -190,7 +190,7 @@ namespace Socket_LTMCB
             // 
             pictureBox7.BackColor = Color.FromArgb(180, 83, 9);
             pictureBox7.Image = Properties.Resources.thanhspeed;
-            pictureBox7.Location = new Point(366, 512);
+            pictureBox7.Location = new Point(520, 512);
             pictureBox7.Name = "pictureBox7";
             pictureBox7.Size = new Size(148, 54);
             pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
@@ -201,9 +201,9 @@ namespace Socket_LTMCB
             // 
             pictureBox6.BackColor = Color.FromArgb(180, 83, 9);
             pictureBox6.Image = Properties.Resources.thanh_hp;
-            pictureBox6.Location = new Point(199, 502);
+            pictureBox6.Location = new Point(190, 502);
             pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(140, 64);
+            pictureBox6.Size = new Size(145, 64);
             pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox6.TabIndex = 8;
             pictureBox6.TabStop = false;
