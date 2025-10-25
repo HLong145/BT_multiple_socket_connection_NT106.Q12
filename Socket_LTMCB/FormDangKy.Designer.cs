@@ -40,7 +40,7 @@ namespace Socket_LTMCB
             btn_register = new Btn_Pixel();
             panelContact = new Panel();
             lblContactError = new Label();
-            tb_email = new TextBox();
+            tb_email = new Tb_Pixel();
             lblContact = new Label();
             panelRobotCheck = new Panel();
             lblRobotError = new Label();
@@ -48,15 +48,15 @@ namespace Socket_LTMCB
             panelPassword = new Panel();
             lblPasswordError = new Label();
             pictureBoxLock1 = new PictureBox();
-            tb_password = new TextBox();
+            tb_password = new Tb_Pixel();
             lblPassword = new Label();
             panelConfirmPassword = new Panel();
             lblConfirmPasswordError = new Label();
             pictureBoxLock2 = new PictureBox();
-            tb_confirmPassword = new TextBox();
+            tb_confirmPassword = new Tb_Pixel();
             lblConfirmPassword = new Label();
             panelUsername = new Panel();
-            tb_username = new TextBox();
+            tb_username = new Tb_Pixel();
             lblUsername = new Label();
             lblUsernameError = new Label();
             panelOuter.SuspendLayout();
@@ -86,6 +86,7 @@ namespace Socket_LTMCB
             // panelMain
             // 
             panelMain.BackColor = Color.Chocolate;
+            panelMain.BackgroundImage = Properties.Resources.background2;
             panelMain.Controls.Add(pnl_Main);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(12, 12);
@@ -200,9 +201,9 @@ namespace Socket_LTMCB
             // 
             // tb_email
             // 
-            tb_email.BackColor = Color.FromArgb(41, 37, 36);
+            tb_email.BackColor = Color.FromArgb(42, 31, 26);
             tb_email.BorderStyle = BorderStyle.None;
-            tb_email.Font = new Font("Courier New", 14F);
+            tb_email.Font = new Font("Courier New", 10F, FontStyle.Bold);
             tb_email.ForeColor = Color.FromArgb(214, 211, 209);
             tb_email.Location = new Point(0, 25);
             tb_email.Multiline = true;
@@ -292,9 +293,9 @@ namespace Socket_LTMCB
             // 
             // tb_password
             // 
-            tb_password.BackColor = Color.FromArgb(41, 37, 36);
+            tb_password.BackColor = Color.FromArgb(42, 31, 26);
             tb_password.BorderStyle = BorderStyle.None;
-            tb_password.Font = new Font("Courier New", 14F);
+            tb_password.Font = new Font("Courier New", 10F, FontStyle.Bold);
             tb_password.ForeColor = Color.FromArgb(214, 211, 209);
             tb_password.Location = new Point(0, 25);
             tb_password.Multiline = true;
@@ -346,9 +347,9 @@ namespace Socket_LTMCB
             // 
             // tb_confirmPassword
             // 
-            tb_confirmPassword.BackColor = Color.FromArgb(41, 37, 36);
+            tb_confirmPassword.BackColor = Color.FromArgb(42, 31, 26);
             tb_confirmPassword.BorderStyle = BorderStyle.None;
-            tb_confirmPassword.Font = new Font("Courier New", 14F);
+            tb_confirmPassword.Font = new Font("Courier New", 10F, FontStyle.Bold);
             tb_confirmPassword.ForeColor = Color.FromArgb(214, 211, 209);
             tb_confirmPassword.Location = new Point(0, 25);
             tb_confirmPassword.Multiline = true;
@@ -379,9 +380,9 @@ namespace Socket_LTMCB
             // 
             // tb_username
             // 
-            tb_username.BackColor = Color.FromArgb(41, 37, 36);
+            tb_username.BackColor = Color.FromArgb(42, 31, 26);
             tb_username.BorderStyle = BorderStyle.None;
-            tb_username.Font = new Font("Courier New", 14F);
+            tb_username.Font = new Font("Courier New", 10F, FontStyle.Bold);
             tb_username.ForeColor = Color.FromArgb(214, 211, 209);
             tb_username.Location = new Point(0, 25);
             tb_username.Multiline = true;
@@ -448,7 +449,7 @@ namespace Socket_LTMCB
         private Btn_Pixel btn_register;
         private Panel panelContact;
         private Label lblContactError;
-        private TextBox tb_email;
+        private Tb_Pixel tb_email;
         private Label lblContact;
         private Panel panelRobotCheck;
         private Label lblRobotError;
@@ -456,15 +457,15 @@ namespace Socket_LTMCB
         private Panel panelPassword;
         private Label lblPasswordError;
         private PictureBox pictureBoxLock1;
-        private TextBox tb_password;
+        private Tb_Pixel tb_password;
         private Label lblPassword;
         private Panel panelConfirmPassword;
         private Label lblConfirmPasswordError;
         private PictureBox pictureBoxLock2;
-        private TextBox tb_confirmPassword;
+        private Tb_Pixel tb_confirmPassword;
         private Label lblConfirmPassword;
         private Panel panelUsername;
-        private TextBox tb_username;
+        private Tb_Pixel tb_username;
         private Label lblUsername;
         private Label lblUsernameError;
     }

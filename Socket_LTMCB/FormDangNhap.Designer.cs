@@ -149,9 +149,9 @@
             tb_Password.Location = new Point(20, 245);
             tb_Password.Multiline = true;
             tb_Password.Name = "tb_Password";
+            tb_Password.PasswordChar = '●';
             tb_Password.Size = new Size(360, 35);
             tb_Password.TabIndex = 4;
-            tb_Password.UseSystemPasswordChar = true;
             // 
             // chk_ShowPassword
             // 
