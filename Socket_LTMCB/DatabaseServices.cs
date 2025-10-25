@@ -89,16 +89,6 @@ namespace ServerApp.Services
             }
             return null;
         }
-        public string GetUsernameByContact(string contact, bool isEmail)
-        {
-            foreach (var u in users)
-            {
-                if (isEmail && u.Value.Email == contact)
-                    return u.Key;
-                if (!isEmail && u.Value.Phone == contact)
-                    return u.Key;
-            }
-            return null;
-        }
+
     }
 }
