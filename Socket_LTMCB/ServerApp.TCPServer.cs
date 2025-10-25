@@ -17,6 +17,8 @@ namespace ServerApp
         private List<ClientHandler> connectedClients = new List<ClientHandler>();
         private DatabaseService dbService;
         private TokenManager tokenManager;
+        private ValidationService validationService;  
+        private SecurityService securityService;      
 
         public event Action<string> OnLog;
         public bool IsRunning => isRunning;
@@ -25,6 +27,8 @@ namespace ServerApp
         {
             dbService = new DatabaseService();
             tokenManager = new TokenManager();
+            validationService = new ValidationService();  
+            securityService = new SecurityService();     
         }
 
         public void Start(int port)
@@ -119,6 +123,8 @@ namespace ServerApp
         private DatabaseService dbService;
         private TokenManager tokenManager;
         private string currentToken;
+        private ValidationService validationService; 
+        private SecurityService securityService;   
 
         public ClientHandler(TcpClient client, TcpServer server, DatabaseService dbService, TokenManager tokenManager)
         {
@@ -127,6 +133,8 @@ namespace ServerApp
             this.dbService = dbService;
             this.tokenManager = tokenManager;
             this.stream = client.GetStream();
+            this.validationService = validationService;  
+            this.securityService = securityService;  
         }
 
         public async Task Handle()
@@ -196,6 +204,7 @@ namespace ServerApp
                     case "GET_USER_BY_CONTACT":
                         return HandleGetUserByContact(request);
 
+
                     default:
                         return CreateResponse(false, "Unknown action");
                 }
@@ -216,9 +225,11 @@ namespace ServerApp
                 var phone = request.Data.ContainsKey("phone") ? request.Data["phone"]?.ToString() : null;
                 var password = request.Data?["password"]?.ToString();
 
-                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                // ✅ VALIDATE INPUT
+                var validationResult = validationService.ValidateRegistration(username, email, phone, password);
+                if (!validationResult.IsValid)
                 {
-                    return CreateResponse(false, "Username and password are required");
+                    return CreateResponse(false, validationResult.Message);
                 }
 
                 if (dbService.IsUserExists(username, email, phone))
@@ -251,7 +262,17 @@ namespace ServerApp
                     return CreateResponse(false, "Username and password are required");
                 }
 
+                // ✅ CHECK BRUTE-FORCE
+                if (!securityService.CheckLoginAttempts(username))
+                {
+                    int remainingMinutes = securityService.GetLockoutMinutes(username);
+                    return CreateResponse(false, $"Account locked. Try again in {remainingMinutes} minutes.");
+                }
+
                 bool loginSuccess = dbService.VerifyUserLogin(username, password);
+
+                // ✅ RECORD ATTEMPT
+                securityService.RecordLoginAttempt(username, loginSuccess);
 
                 if (loginSuccess)
                 {
@@ -259,14 +280,15 @@ namespace ServerApp
                     currentToken = token;
 
                     return CreateResponse(true, "Login successful", new Dictionary<string, object>
-                    {
-                        { "token", token },
-                        { "username", username }
-                    });
+            {
+                { "token", token },
+                { "username", username }
+            });
                 }
                 else
                 {
-                    return CreateResponse(false, "Invalid credentials or account locked");
+                    int remaining = securityService.GetRemainingAttempts(username);
+                    return CreateResponse(false, $"Invalid credentials. {remaining} attempts remaining.");
                 }
             }
             catch (Exception ex)
