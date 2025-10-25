@@ -86,7 +86,6 @@ namespace Socket_LTMCB
             // panelMain
             // 
             panelMain.BackColor = Color.Chocolate;
-            panelMain.BackgroundImage = Properties.Resources.background3;
             panelMain.Controls.Add(pnl_Main);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(12, 12);

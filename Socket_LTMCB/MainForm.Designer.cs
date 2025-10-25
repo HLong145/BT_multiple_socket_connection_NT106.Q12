@@ -28,15 +28,24 @@ namespace Socket_LTMCB
             btn_joinroom = new Btn_Pixel();
             btnLogout = new Btn_Pixel();
             panelMainContent = new Panel();
+            pictureBox4 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            pictureBox1 = new PictureBox();
             tbQuestLog = new RichTextBox();
             lblWelcome = new Label();
             panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
             panelMainContent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panelSidebar
             // 
+            panelSidebar.BackColor = Color.FromArgb(180, 83, 9);
             panelSidebar.Controls.Add(pbAvatar);
             panelSidebar.Controls.Add(lblUserName);
             panelSidebar.Controls.Add(lblUserStatus);
@@ -47,17 +56,17 @@ namespace Socket_LTMCB
             panelSidebar.Location = new Point(0, 0);
             panelSidebar.Margin = new Padding(4, 5, 4, 5);
             panelSidebar.Name = "panelSidebar";
-            panelSidebar.Size = new Size(333, 742);
+            panelSidebar.Size = new Size(335, 742);
             panelSidebar.TabIndex = 1;
             // 
             // pbAvatar
             // 
-            pbAvatar.BackColor = Color.FromArgb(50, 50, 50);
+            pbAvatar.BackColor = Color.FromArgb(255, 192, 128);
             pbAvatar.BorderStyle = BorderStyle.FixedSingle;
-            pbAvatar.Location = new Point(100, 77);
+            pbAvatar.Location = new Point(77, 70);
             pbAvatar.Margin = new Padding(4, 5, 4, 5);
             pbAvatar.Name = "pbAvatar";
-            pbAvatar.Size = new Size(133, 153);
+            pbAvatar.Size = new Size(169, 165);
             pbAvatar.TabIndex = 3;
             pbAvatar.TabStop = false;
             pbAvatar.Tag = "Placeholder for Hero Avatar";
@@ -65,8 +74,9 @@ namespace Socket_LTMCB
             // lblUserName
             // 
             lblUserName.AutoSize = true;
+            lblUserName.BackColor = Color.Transparent;
             lblUserName.Font = new Font("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblUserName.ForeColor = Color.FromArgb(217, 119, 6);
+            lblUserName.ForeColor = Color.FromArgb(64, 0, 0);
             lblUserName.Location = new Point(29, 277);
             lblUserName.Margin = new Padding(4, 0, 4, 0);
             lblUserName.Name = "lblUserName";
@@ -93,7 +103,7 @@ namespace Socket_LTMCB
             btn_createroom.ForeColor = Color.White;
             btn_createroom.Location = new Point(12, 410);
             btn_createroom.Name = "btn_createroom";
-            btn_createroom.Size = new Size(297, 45);
+            btn_createroom.Size = new Size(314, 45);
             btn_createroom.TabIndex = 7;
             btn_createroom.Text = "▶ CREATR ROOM ◀";
             // 
@@ -105,7 +115,7 @@ namespace Socket_LTMCB
             btn_joinroom.ForeColor = Color.White;
             btn_joinroom.Location = new Point(12, 487);
             btn_joinroom.Name = "btn_joinroom";
-            btn_joinroom.Size = new Size(297, 45);
+            btn_joinroom.Size = new Size(314, 45);
             btn_joinroom.TabIndex = 8;
             btn_joinroom.Text = "▶ JOIN ROOM ◀";
             // 
@@ -124,47 +134,97 @@ namespace Socket_LTMCB
             // 
             // panelMainContent
             // 
+            panelMainContent.BackgroundImage = Properties.Resources.background2;
+            panelMainContent.Controls.Add(pictureBox4);
+            panelMainContent.Controls.Add(pictureBox3);
+            panelMainContent.Controls.Add(pictureBox2);
+            panelMainContent.Controls.Add(pictureBox1);
             panelMainContent.Controls.Add(tbQuestLog);
             panelMainContent.Controls.Add(lblWelcome);
             panelMainContent.Dock = DockStyle.Fill;
-            panelMainContent.Location = new Point(333, 0);
+            panelMainContent.Location = new Point(335, 0);
             panelMainContent.Margin = new Padding(4, 5, 4, 5);
             panelMainContent.Name = "panelMainContent";
-            panelMainContent.Size = new Size(905, 742);
+            panelMainContent.Size = new Size(1011, 742);
             panelMainContent.TabIndex = 0;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox4.Image = Properties.Resources.boy3;
+            pictureBox4.Location = new Point(232, 531);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(146, 147);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 6;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox3.Image = Properties.Resources.boy2;
+            pictureBox3.Location = new Point(384, 531);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(146, 147);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 5;
+            pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox2.Image = Properties.Resources.boy1;
+            pictureBox2.Location = new Point(80, 531);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(146, 147);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 4;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox1.Image = Properties.Resources.girlwithgun;
+            pictureBox1.Location = new Point(536, 531);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(146, 147);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 3;
+            pictureBox1.TabStop = false;
             // 
             // tbQuestLog
             // 
-            tbQuestLog.BackColor = Color.FromArgb(50, 40, 35);
+            tbQuestLog.BackColor = Color.FromArgb(180, 83, 9);
             tbQuestLog.BorderStyle = BorderStyle.None;
             tbQuestLog.Font = new Font("Arial", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbQuestLog.ForeColor = Color.WhiteSmoke;
-            tbQuestLog.Location = new Point(33, 106);
+            tbQuestLog.Location = new Point(20, 126);
             tbQuestLog.Margin = new Padding(4, 5, 4, 5);
             tbQuestLog.Name = "tbQuestLog";
             tbQuestLog.ReadOnly = true;
-            tbQuestLog.Size = new Size(807, 583);
+            tbQuestLog.Size = new Size(963, 563);
             tbQuestLog.TabIndex = 1;
             tbQuestLog.Text = "";
             // 
             // lblWelcome
             // 
             lblWelcome.AutoSize = true;
+            lblWelcome.BackColor = Color.SaddleBrown;
             lblWelcome.Font = new Font("Courier New", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblWelcome.ForeColor = Color.White;
-            lblWelcome.Location = new Point(33, 46);
+            lblWelcome.ForeColor = Color.SandyBrown;
+            lblWelcome.Location = new Point(20, 68);
             lblWelcome.Margin = new Padding(4, 0, 4, 0);
             lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(807, 53);
+            lblWelcome.Size = new Size(963, 53);
             lblWelcome.TabIndex = 2;
-            lblWelcome.Text = "WELCOME TO FIGHTER X FIGHTER";
+            lblWelcome.Text = "🗡️ WELCOME TO FIGHTER X FIGHTER 🛡️";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(25, 15, 8);
-            ClientSize = new Size(1238, 742);
+            ClientSize = new Size(1346, 742);
             Controls.Add(panelMainContent);
             Controls.Add(panelSidebar);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -179,6 +239,10 @@ namespace Socket_LTMCB
             ((System.ComponentModel.ISupportInitialize)pbAvatar).EndInit();
             panelMainContent.ResumeLayout(false);
             panelMainContent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -194,5 +258,9 @@ namespace Socket_LTMCB
         private Btn_Pixel btn_createroom;
         private Btn_Pixel btn_joinroom;
         private Btn_Pixel btnLogout;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox1;
     }
 }
