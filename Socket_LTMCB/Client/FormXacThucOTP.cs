@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using ServerApp.Services; // ✅ để dùng DatabaseService
+using Socket_LTMCB.Services;
 
 namespace Socket_LTMCB
 {
@@ -10,7 +10,6 @@ namespace Socket_LTMCB
         private readonly string _username;
         private readonly DatabaseService _databaseService;
 
-        // ✅ Constructor nhận username từ form quên mật khẩu
         public FormXacThucOTP(string username)
         {
             InitializeComponent();
@@ -18,10 +17,8 @@ namespace Socket_LTMCB
             _databaseService = new DatabaseService();
         }
 
-        // 🔹 Khi nhấn nút "XÁC THỰC"
         private void btn_verify_Click(object sender, EventArgs e)
         {
-            // Ghép 6 ô nhập thành một chuỗi OTP
             string otp = string.Concat(
                 tb_otp1.Text.Trim(),
                 tb_otp2.Text.Trim(),
@@ -33,36 +30,33 @@ namespace Socket_LTMCB
 
             if (otp.Length != 6 || !otp.All(char.IsDigit))
             {
-                MessageBox.Show("Vui lòng nhập đủ 6 chữ số OTP!",
-                    "Thiếu OTP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter all 6 digits of the OTP!",
+                    "Missing OTP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // ✅ Kiểm tra OTP trong DatabaseService
             var result = _databaseService.VerifyOtp(_username, otp);
 
             if (result.IsValid)
             {
-                MessageBox.Show(result.Message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(result.Message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FormResetPass formReset = new FormResetPass(_username);
                 formReset.Show();
                 this.Close();
             }
             else
             {
-                MessageBox.Show(result.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // 🔹 Khi nhấn nút "GỬI LẠI MÃ"
         private void btn_resend_Click(object sender, EventArgs e)
         {
             string newOtp = _databaseService.GenerateOtp(_username);
-            MessageBox.Show($"Mã OTP mới của bạn là: {newOtp}\n(Chỉ hiển thị để test, sau này có thể gửi qua Email/SMS)",
-                "OTP mới", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Your new OTP is: {newOtp}\n(This is shown for testing only, later it will be sent via Email/SMS)",
+                "New OTP", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // 🔹 Khi nhấn nút "QUAY LẠI ĐĂNG NHẬP"
         private void btn_backToLogin_Click(object sender, EventArgs e)
         {
             this.Close();

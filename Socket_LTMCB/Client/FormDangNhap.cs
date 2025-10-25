@@ -1,4 +1,4 @@
-﻿using ServerApp.Services;
+﻿using Socket_LTMCB.Services;
 using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
@@ -107,7 +107,7 @@ namespace Socket_LTMCB
 
         private bool IsValidPhone(string phone)
         {
-            // ✅ Bắt đầu bằng 0 và có đúng 10 chữ số
+            // ✅ Must start with 0 and have exactly 10 digits
             return Regex.IsMatch(phone, @"^0\d{9}$");
         }
 
@@ -124,23 +124,23 @@ namespace Socket_LTMCB
             string contact = tb_Username.Text.Trim();
             string password = tb_Password.Text;
 
-            // 1. Kiểm tra captcha
+            // 1. Captcha check
             if (!chk_Captcha.Checked)
             {
-                MessageBox.Show("Vui lòng xác nhận bạn không phải robot!",
-                    "⚠ Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please confirm that you are not a robot!",
+                    "⚠ Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Kiểm tra trống
+            // 2. Empty check
             if (string.IsNullOrEmpty(contact) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin đăng nhập!",
-                    "⚠ Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please fill in all required login information!",
+                    "⚠ Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 3. Xác định loại liên hệ (username / email / phone)
+            // 3. Determine contact type (username / email / phone)
             string username = contact;
             bool isEmail = IsValidEmail(contact);
             bool isPhone = IsValidPhone(contact);
@@ -150,28 +150,28 @@ namespace Socket_LTMCB
                 username = dbService.GetUsernameByContact(contact, isEmail);
                 if (string.IsNullOrEmpty(username))
                 {
-                    MessageBox.Show("Không tìm thấy tài khoản phù hợp với thông tin này.",
-                        "❌ Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No account found for this information.",
+                        "❌ Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
 
-            // 4. Xác thực đăng nhập
+            // 4. Login verification
             bool loginSuccess = dbService.VerifyUserLogin(username, password);
 
             if (loginSuccess)
             {
                 SaveRememberedLogin(username, password);
-                MessageBox.Show($"🎉 Đăng nhập thành công!\n\nChào mừng {username}!",
-                    "✅ Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"🎉 Login successful!\n\nWelcome {username}!",
+                    "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // TODO: mở form chính ở đây (nếu có)
+                // TODO: open main form here (if any)
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!",
-                    "❌ Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Incorrect username or password!",
+                    "❌ Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -182,8 +182,10 @@ namespace Socket_LTMCB
 
         private void btn_Forgot_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Tính năng quên mật khẩu đang được phát triển.",
-                "🔧 Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Hide();
+            FormQuenPass formQuenPass = new FormQuenPass();
+            formQuenPass.FormClosed += (s, args) => this.Show(); // Return to login when the other form is closed
+            formQuenPass.Show();
         }
     }
 }
