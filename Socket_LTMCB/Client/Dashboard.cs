@@ -16,5 +16,15 @@ namespace Socket_LTMCB.Client
         {
             InitializeComponent();
         }
+
+        private void btn_Client_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Server_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

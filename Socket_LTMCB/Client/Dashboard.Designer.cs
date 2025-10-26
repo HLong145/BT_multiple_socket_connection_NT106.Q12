@@ -97,6 +97,7 @@
             btn_Client.Size = new Size(260, 60);
             btn_Client.TabIndex = 1;
             btn_Client.Text = "\U0001f9d1‍💻 CLIENT";
+            btn_Client.Click += btn_Client_Click;
             // 
             // btn_Server
             // 
@@ -109,6 +110,7 @@
             btn_Server.Size = new Size(260, 60);
             btn_Server.TabIndex = 2;
             btn_Server.Text = "🖥️ SERVER";
+            btn_Server.Click += btn_Server_Click;
             // 
             // pictureBox1
             // 
