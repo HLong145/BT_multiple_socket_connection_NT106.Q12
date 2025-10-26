@@ -53,9 +53,6 @@ namespace Socket_LTMCB.Client
                 MessageBox.Show("Server window opened!\n\nClick 'Start' to begin listening for connections on port 8080.",
                     "🖥️ Server Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // ✅ ẨN DASHBOARD (không đóng)
-                this.Hide();
-
                 // ✅ KHI SERVER ĐÓNG → HIỆN LẠI DASHBOARD
                 serverForm.FormClosed += (s, args) =>
                 {
