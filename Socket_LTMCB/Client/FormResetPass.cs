@@ -41,8 +41,8 @@ namespace Socket_LTMCB
                 return;
             }
 
-            MessageBox.Show("Mật khẩu phải có tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt!",
-                            "Mật khẩu không hợp lệ", 
+            MessageBox.Show("Password must be at least 8 characters long, including uppercase, lowercase, and a special character!",
+                            "Invalid Password", 
                             MessageBoxButtons.OK, 
                             MessageBoxIcon.Warning);
 

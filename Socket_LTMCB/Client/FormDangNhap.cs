@@ -11,20 +11,195 @@ namespace Socket_LTMCB
         private int floatingOffset = 0;
         private Random random = new Random();
         private System.Windows.Forms.Timer floatingItemsTimer;
-        private readonly SecurityService securityService = new SecurityService();
 
+        private readonly TcpClientService tcpClient; // ✅ THÊM
         private readonly DatabaseService dbService = new DatabaseService();
+
         public event EventHandler SwitchToRegister;
 
         public FormDangNhap()
         {
             InitializeComponent();
             SetupFloatingAnimation();
+
+            // ✅ KHỞI TẠO TCP CLIENT
+            tcpClient = new TcpClientService("127.0.0.1", 8080);
+
+            // ✅ TỰ ĐỘNG ĐĂNG NHẬP NẾU CÓ TOKEN
             LoadRememberedLogin();
         }
 
         // =========================
-        // 1️⃣ Animation setup
+        // 2️⃣ Remember Login - ✅ SỬA LẠI
+        // =========================
+        private void LoadRememberedLogin()
+        {
+            if (Properties.Settings.Default.RememberMe)
+            {
+                string savedUsername = Properties.Settings.Default.SavedUsername;
+                string savedToken = Properties.Settings.Default.SavedToken;
+
+                tb_Username.Text = savedUsername;
+
+                // Nếu có token, verify với server
+                if (!string.IsNullOrEmpty(savedToken))
+                {
+                    var response = tcpClient.VerifyToken(savedToken);
+
+                    if (response.Success)
+                    {
+                        string username = response.GetDataValue("username");
+
+                        MessageBox.Show($"🎉 Auto login successful!\n\nWelcome back {username}!",
+                            "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // ✅ MỞ MAINFORM (nếu có)
+                        // MainForm mainForm = new MainForm(username, savedToken);
+                        // mainForm.Show();
+                        // this.Hide();
+
+                        this.Close();
+                    }
+                    else
+                    {
+                        // Token hết hạn hoặc không hợp lệ
+                        MessageBox.Show("Your session has expired. Please login again.",
+                            "⚠ Session Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        // Xóa token cũ
+                        Properties.Settings.Default.SavedToken = "";
+                        Properties.Settings.Default.Save();
+                    }
+                }
+            }
+        }
+
+        private void SaveRememberedLogin(string username, string token)
+        {
+            if (chk_Remember.Checked)
+            {
+                Properties.Settings.Default.RememberMe = true;
+                Properties.Settings.Default.SavedUsername = username;
+                Properties.Settings.Default.SavedToken = token; // ✅ LƯU TOKEN
+            }
+            else
+            {
+                Properties.Settings.Default.RememberMe = false;
+                Properties.Settings.Default.SavedUsername = "";
+                Properties.Settings.Default.SavedToken = "";
+            }
+
+            Properties.Settings.Default.Save();
+        }
+
+        // =========================
+        // 4️⃣ Button events - ✅ SỬA LẠI
+        // =========================
+        private void btn_Login_Click(object sender, EventArgs e)
+        {
+            string contact = tb_Username.Text.Trim();
+            string password = tb_Password.Text;
+
+            // 1. Captcha check
+            if (!chk_Captcha.Checked)
+            {
+                MessageBox.Show("Please confirm that you are not a robot!",
+                    "⚠ Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Empty check
+            if (string.IsNullOrEmpty(contact) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Please fill in all required login information!",
+                    "⚠ Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 3. Determine contact type (username / email / phone)
+            string username = contact;
+            bool isEmail = IsValidEmail(contact);
+            bool isPhone = IsValidPhone(contact);
+
+            if (isEmail || isPhone)
+            {
+                username = dbService.GetUsernameByContact(contact, isEmail);
+                if (string.IsNullOrEmpty(username))
+                {
+                    MessageBox.Show("No account found for this information.",
+                        "❌ Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            // ✅ 4. GỬI REQUEST ĐẾN SERVER
+            var response = tcpClient.Login(username, password);
+
+            if (response.Success)
+            {
+                // ✅ Lấy token từ response
+                string token = response.GetDataValue("token");
+                string returnedUsername = response.GetDataValue("username");
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    MessageBox.Show("Server did not return authentication token.",
+                        "❌ Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Lưu token để Remember Me
+                SaveRememberedLogin(returnedUsername, token);
+
+                MessageBox.Show($"🎉 Login successful!\n\nWelcome {returnedUsername}!",
+                    "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // ✅ MỞ MAINFORM (nếu có)
+                // MainForm mainForm = new MainForm(returnedUsername, token);
+                // mainForm.Show();
+
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(response.Message,
+                    "❌ Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // =========================
+        // 3️⃣ Validation helpers (GIỮ NGUYÊN)
+        // =========================
+        private bool IsValidEmail(string email)
+        {
+            return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+        }
+
+        private bool IsValidPhone(string phone)
+        {
+            return Regex.IsMatch(phone, @"^0\d{9}$");
+        }
+
+        private void ShowPasswordCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            tb_Password.UseSystemPasswordChar = !chk_ShowPassword.Checked;
+        }
+
+        private void btn_Register_Click(object sender, EventArgs e)
+        {
+            SwitchToRegister?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void btn_Forgot_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormQuenPass formQuenPass = new FormQuenPass();
+            formQuenPass.FormClosed += (s, args) => this.Show();
+            formQuenPass.Show();
+        }
+
+        // =========================
+        // 1️⃣ Animation setup (GIỮ NGUYÊN)
         // =========================
         private void SetupFloatingAnimation()
         {
@@ -65,128 +240,6 @@ namespace Socket_LTMCB
             floatingItemsTimer?.Stop();
             floatingItemsTimer?.Dispose();
             base.OnFormClosing(e);
-        }
-
-        // =========================
-        // 2️⃣ Remember Login
-        // =========================
-        private void LoadRememberedLogin()
-        {
-            if (Properties.Settings.Default.RememberMe)
-            {
-                tb_Username.Text = Properties.Settings.Default.SavedUsername;
-                string encrypted = Properties.Settings.Default.SavedPassword;
-                tb_Password.Text = securityService.DecryptPassword(encrypted);
-                chk_Remember.Checked = true;
-            }
-        }
-        private void SaveRememberedLogin(string username, string password)
-        {
-            if (chk_Remember.Checked)
-            {
-                Properties.Settings.Default.RememberMe = true;
-                Properties.Settings.Default.SavedUsername = username;
-                Properties.Settings.Default.SavedPassword = securityService.EncryptPassword(password);
-            }
-            else
-            {
-                Properties.Settings.Default.RememberMe = false;
-                Properties.Settings.Default.SavedUsername = "";
-                Properties.Settings.Default.SavedPassword = "";
-            }
-
-            Properties.Settings.Default.Save();
-        }        
-        
-        // =========================
-        // 3️⃣ Validation helpers
-        // =========================
-        private bool IsValidEmail(string email)
-        {
-            return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-        }
-
-        private bool IsValidPhone(string phone)
-        {
-            // ✅ Must start with 0 and have exactly 10 digits
-            return Regex.IsMatch(phone, @"^0\d{9}$");
-        }
-
-        // =========================
-        // 4️⃣ Button events
-        // =========================
-        private void ShowPasswordCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            tb_Password.UseSystemPasswordChar = !chk_ShowPassword.Checked;
-        }
-
-        private void btn_Login_Click(object sender, EventArgs e)
-        {
-            string contact = tb_Username.Text.Trim();
-            string password = tb_Password.Text;
-
-            // 1. Captcha check
-            if (!chk_Captcha.Checked)
-            {
-                MessageBox.Show("Please confirm that you are not a robot!",
-                    "⚠ Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // 2. Empty check
-            if (string.IsNullOrEmpty(contact) || string.IsNullOrEmpty(password))
-            {
-                MessageBox.Show("Please fill in all required login information!",
-                    "⚠ Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // 3. Determine contact type (username / email / phone)
-            string username = contact;
-            bool isEmail = IsValidEmail(contact);
-            bool isPhone = IsValidPhone(contact);
-
-            if (isEmail || isPhone)
-            {
-                username = dbService.GetUsernameByContact(contact, isEmail);
-                if (string.IsNullOrEmpty(username))
-                {
-                    MessageBox.Show("No account found for this information.",
-                        "❌ Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-
-            // 4. Login verification
-            bool loginSuccess = dbService.VerifyUserLogin(username, password);
-
-            if (loginSuccess)
-            {
-                SaveRememberedLogin(username, password);
-                MessageBox.Show($"🎉 Login successful!\n\nWelcome {username}!",
-                    "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // TODO: open main form here (if any)
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Incorrect username or password!",
-                    "❌ Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btn_Register_Click(object sender, EventArgs e)
-        {
-            SwitchToRegister?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void btn_Forgot_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            FormQuenPass formQuenPass = new FormQuenPass();
-            formQuenPass.FormClosed += (s, args) => this.Show(); // Return to login when the other form is closed
-            formQuenPass.Show();
         }
     }
 }

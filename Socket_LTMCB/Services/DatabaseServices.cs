@@ -62,21 +62,21 @@ namespace Socket_LTMCB.Services
         public (bool IsValid, string Message) VerifyOtp(string username, string otp)
         {
             if (!otps.ContainsKey(username))
-                return (false, "Không tìm thấy OTP");
+                return (false, "OTP not found!");
 
             var (storedOtp, expireTime) = otps[username];
 
             if (DateTime.Now > expireTime)
             {
                 otps.Remove(username);
-                return (false, "OTP đã hết hạn");
+                return (false, "OTP expired!");
             }
 
             if (storedOtp != otp)
-                return (false, "OTP không đúng");
+                return (false, "Wrong OPT, try again!");
 
             otps.Remove(username);
-            return (true, "Xác thực OTP thành công");
+            return (true, "Verify OTP successfully");
         }
 
         public bool ResetPassword(string username, string newPassword)
