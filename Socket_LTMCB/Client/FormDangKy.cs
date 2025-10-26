@@ -120,6 +120,11 @@ namespace Socket_LTMCB
         // =========================
         private void btn_register_Click(object sender, EventArgs e)
         {
+            lblUsernameError.Text = "";
+            lblContactError.Text = "";
+            lblPasswordError.Text = "";
+            lblConfirmPasswordError.Text = "";
+            lblRobotError.Text = "";
             string username = tb_username.Text.Trim();
             string contact = tb_contact.Text.Trim();
             string password = tb_password.Text;
@@ -128,19 +133,19 @@ namespace Socket_LTMCB
             // --- [1. Input Validation] ---
             if (string.IsNullOrEmpty(username) || username == "ENTER USERNAME")
             {
-                MessageBox.Show("Please enter your username.", "⚠ Missing Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblUsernameError.Text = "⚠ Please enter your username.";
                 return;
             }
 
             if (string.IsNullOrEmpty(contact) || contact == "EMAIL OR PHONE")
             {
-                MessageBox.Show("Please enter your Email or Phone number.", "⚠ Missing Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblContactError.Text = "⚠ Please enter your Email or Phone number.";
                 return;
             }
 
             if (!chkNotRobot.Checked)
             {
-                MessageBox.Show("Please verify the captcha.", "⚠ Verification Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblRobotError.Text = "⚠ Please verify the captcha.";
                 return;
             }
 
@@ -149,26 +154,25 @@ namespace Socket_LTMCB
 
             if (!isEmail && !isPhone)
             {
-                MessageBox.Show("Please enter a valid Email or Phone number.", "⚠ Invalid Format", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblContactError.Text = "⚠ Please enter a valid Email or Phone number.";
                 return;
             }
 
             if (!IsValidPassword(password))
             {
-                MessageBox.Show("Weak password. Must contain at least 8 characters, including upper/lowercase letters, numbers, and special characters.",
-                    "⚠ Weak Password", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblPasswordError.Text = "⚠ Weak password. Must contain ≥8 chars, upper/lowercase, number, symbol.";
                 return;
             }
 
             if (password != confirm)
             {
-                MessageBox.Show("Password confirmation does not match.", "⚠ Password Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblConfirmPasswordError.Text = "⚠ Password confirmation does not match.";
                 return;
             }
 
             if (dbService.IsUserExists(username, isEmail ? contact : null, isPhone ? contact : null))
             {
-                MessageBox.Show("Username or Email/Phone already exists.", "⚠ Duplicate Account", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblUsernameError.Text = "⚠ Username or Email/Phone already exists.";
                 return;
             }
 

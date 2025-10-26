@@ -95,10 +95,12 @@ namespace Socket_LTMCB
             // 
             // panelMain
             // 
-            panelMain.BackColor = Color.Chocolate;
+            panelMain.BackColor = Color.FromArgb(129, 64, 0);
             panelMain.BackgroundImage = Properties.Resources.background2;
             panelMain.Controls.Add(pnl_Main);
             panelMain.Dock = DockStyle.Fill;
+            panelMain.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold);
+            panelMain.ForeColor = Color.Red;
             panelMain.Location = new Point(12, 12);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(32);
@@ -130,7 +132,7 @@ namespace Socket_LTMCB
             btn_alreadyHaveAccount.BtnColor = Color.FromArgb(217, 119, 6);
             btn_alreadyHaveAccount.FlatAppearance.BorderSize = 0;
             btn_alreadyHaveAccount.FlatStyle = FlatStyle.Flat;
-            btn_alreadyHaveAccount.Font = new Font("Courier New", 12F, FontStyle.Bold);
+            btn_alreadyHaveAccount.Font = new Font("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_alreadyHaveAccount.ForeColor = Color.White;
             btn_alreadyHaveAccount.Location = new Point(17, 656);
             btn_alreadyHaveAccount.Name = "btn_alreadyHaveAccount";
@@ -178,7 +180,7 @@ namespace Socket_LTMCB
             // lbl_Title
             // 
             lbl_Title.BackColor = Color.Transparent;
-            lbl_Title.Font = new Font("Courier New", 14F, FontStyle.Bold);
+            lbl_Title.Font = new Font("Courier New", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Title.ForeColor = Color.Gold;
             lbl_Title.Location = new Point(99, 19);
             lbl_Title.Name = "lbl_Title";
@@ -238,7 +240,7 @@ namespace Socket_LTMCB
             btn_register.BtnColor = Color.FromArgb(34, 197, 94);
             btn_register.FlatAppearance.BorderSize = 0;
             btn_register.FlatStyle = FlatStyle.Flat;
-            btn_register.Font = new Font("Courier New", 18F, FontStyle.Bold);
+            btn_register.Font = new Font("Courier New", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_register.ForeColor = Color.FromArgb(41, 37, 36);
             btn_register.Location = new Point(17, 590);
             btn_register.Name = "btn_register";
@@ -260,9 +262,9 @@ namespace Socket_LTMCB
             // 
             // lblContactError
             // 
-            lblContactError.BackColor = Color.FromArgb(128, 64, 0);
+            lblContactError.BackColor = Color.FromArgb(129, 64, 0);
             lblContactError.Dock = DockStyle.Bottom;
-            lblContactError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblContactError.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold);
             lblContactError.ForeColor = Color.Red;
             lblContactError.Location = new Point(0, 58);
             lblContactError.Name = "lblContactError";
@@ -343,9 +345,9 @@ namespace Socket_LTMCB
             // 
             // lblPasswordError
             // 
-            lblPasswordError.BackColor = Color.FromArgb(128, 64, 0);
+            lblPasswordError.BackColor = Color.FromArgb(129, 64, 0);
             lblPasswordError.Dock = DockStyle.Bottom;
-            lblPasswordError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblPasswordError.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold);
             lblPasswordError.ForeColor = Color.Red;
             lblPasswordError.Location = new Point(0, 58);
             lblPasswordError.Name = "lblPasswordError";
@@ -354,10 +356,10 @@ namespace Socket_LTMCB
             // 
             // pictureBoxLock1
             // 
-            pictureBoxLock1.BackColor = Color.FromArgb(41, 37, 36);
-            pictureBoxLock1.Location = new Point(542, 25);
+            pictureBoxLock1.BackColor = Color.FromArgb(42, 31, 26);
+            pictureBoxLock1.Location = new Point(554, 25);
             pictureBoxLock1.Name = "pictureBoxLock1";
-            pictureBoxLock1.Size = new Size(50, 35);
+            pictureBoxLock1.Size = new Size(35, 35);
             pictureBoxLock1.TabIndex = 2;
             pictureBoxLock1.TabStop = false;
             // 
@@ -397,9 +399,9 @@ namespace Socket_LTMCB
             // 
             // lblConfirmPasswordError
             // 
-            lblConfirmPasswordError.BackColor = Color.FromArgb(128, 64, 0);
+            lblConfirmPasswordError.BackColor = Color.FromArgb(129, 64, 0);
             lblConfirmPasswordError.Dock = DockStyle.Bottom;
-            lblConfirmPasswordError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblConfirmPasswordError.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold);
             lblConfirmPasswordError.ForeColor = Color.Red;
             lblConfirmPasswordError.Location = new Point(0, 58);
             lblConfirmPasswordError.Name = "lblConfirmPasswordError";
@@ -408,10 +410,10 @@ namespace Socket_LTMCB
             // 
             // pictureBoxLock2
             // 
-            pictureBoxLock2.BackColor = Color.FromArgb(41, 37, 36);
-            pictureBoxLock2.Location = new Point(542, 25);
+            pictureBoxLock2.BackColor = Color.FromArgb(42, 31, 26);
+            pictureBoxLock2.Location = new Point(554, 25);
             pictureBoxLock2.Name = "pictureBoxLock2";
-            pictureBoxLock2.Size = new Size(50, 35);
+            pictureBoxLock2.Size = new Size(35, 35);
             pictureBoxLock2.TabIndex = 2;
             pictureBoxLock2.TabStop = false;
             // 
@@ -472,9 +474,9 @@ namespace Socket_LTMCB
             // 
             // lblUsernameError
             // 
-            lblUsernameError.BackColor = Color.FromArgb(128, 64, 0);
+            lblUsernameError.BackColor = Color.FromArgb(129, 64, 0);
             lblUsernameError.Dock = DockStyle.Bottom;
-            lblUsernameError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblUsernameError.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold);
             lblUsernameError.ForeColor = Color.Red;
             lblUsernameError.Location = new Point(0, 58);
             lblUsernameError.Name = "lblUsernameError";
