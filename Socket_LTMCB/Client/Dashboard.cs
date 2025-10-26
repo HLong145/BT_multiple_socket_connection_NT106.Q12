@@ -70,25 +70,17 @@ namespace Socket_LTMCB.Client
         /// <summary>
         /// Khi đóng Dashboard → Thoát toàn bộ ứng dụng
         /// </summary>
-        protected override void OnFormClosing(FormClosingEventArgs e)
+       protected override void OnFormClosing(FormClosingEventArgs e)
         {
             var result = MessageBox.Show(
-                "Are you sure you want to exit the application?",
-                "⚠️ Exit Confirmation",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                "Are you sure you want to exit the application?", "⚠️ Exit Confirmation",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
 
             if (result == DialogResult.No)
             {
-                e.Cancel = true;
-            }
-            else
-            {
-                // Đóng toàn bộ ứng dụng
-                Application.Exit();
+                e.Cancel = true; // Hủy đóng form
             }
 
-            base.OnFormClosing(e);
+            base.OnFormClosing(e); // Gọi base
         }
 
         private void btn_Client_Click(object sender, EventArgs e)
