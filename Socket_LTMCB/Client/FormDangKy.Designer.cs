@@ -90,7 +90,7 @@ namespace Socket_LTMCB
             panelOuter.Location = new Point(0, 0);
             panelOuter.Name = "panelOuter";
             panelOuter.Padding = new Padding(12);
-            panelOuter.Size = new Size(717, 808);
+            panelOuter.Size = new Size(695, 752);
             panelOuter.TabIndex = 0;
             // 
             // panelMain
@@ -104,7 +104,7 @@ namespace Socket_LTMCB
             panelMain.Location = new Point(12, 12);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(32);
-            panelMain.Size = new Size(693, 784);
+            panelMain.Size = new Size(671, 728);
             panelMain.TabIndex = 0;
             // 
             // pnl_Main
@@ -485,7 +485,7 @@ namespace Socket_LTMCB
             // 
             // FormDangKy
             // 
-            ClientSize = new Size(717, 808);
+            ClientSize = new Size(695, 752);
             Controls.Add(panelOuter);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormDangKy";
