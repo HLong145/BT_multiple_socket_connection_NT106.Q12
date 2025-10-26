@@ -24,6 +24,13 @@ namespace Socket_LTMCB
             InitializeComponent();
             InitializeCustomUI();
             this.AutoScroll = true;
+            for (int i = 0; i < 30; i++)
+            {
+                Button btn = new Button();
+                btn.Text = "Button " + i;
+                btn.Location = new Point(20, 30 * i);
+                this.Controls.Add(btn);
+            }
 
             // ✅ KHỞI TẠO CẢ HAI SERVICE
             tcpClient = new TcpClientService("127.0.0.1", 8080);
