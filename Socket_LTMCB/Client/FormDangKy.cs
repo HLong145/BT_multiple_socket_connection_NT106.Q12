@@ -8,7 +8,9 @@ namespace Socket_LTMCB
 {
     public partial class FormDangKy : Form
     {
-        private readonly DatabaseService dbService = new DatabaseService();
+        private readonly TcpClientService tcpService = new TcpClientService("127.0.0.1", 8080);
+        private readonly ValidationService validationService = new ValidationService();
+
         public event EventHandler SwitchToLogin;
         private System.Windows.Forms.Timer myTimer;
 
@@ -92,7 +94,8 @@ namespace Socket_LTMCB
         {
             pb.Paint += (s, e) =>
             {
-                e.Graphics.DrawString(icon, new Font("Segoe UI Emoji", 16), new SolidBrush(Color.FromArgb(217, 119, 6)), 5, 5);
+                e.Graphics.DrawString(icon, new Font("Segoe UI Emoji", 16),
+                    new SolidBrush(Color.FromArgb(217, 119, 6)), 5, 5);
             };
         }
 
@@ -109,22 +112,24 @@ namespace Socket_LTMCB
             return Regex.IsMatch(phone, @"^0\d{9}$");
         }
 
-        private readonly ValidationService validationService = new ValidationService();
         private bool IsValidPassword(string password)
         {
             return validationService.IsValidPassword(password);
         }
+
 
         // =========================
         // Register Button Click
         // =========================
         private void btn_register_Click(object sender, EventArgs e)
         {
+            // Clear all error labels
             lblUsernameError.Text = "";
             lblContactError.Text = "";
             lblPasswordError.Text = "";
             lblConfirmPasswordError.Text = "";
             lblRobotError.Text = "";
+
             string username = tb_username.Text.Trim();
             string contact = tb_contact.Text.Trim();
             string password = tb_password.Text;
@@ -170,38 +175,36 @@ namespace Socket_LTMCB
                 return;
             }
 
-            if (dbService.IsUserExists(username, isEmail ? contact : null, isPhone ? contact : null))
+            // --- [2. Send request to TCP server] ---
+            try
             {
-                lblUsernameError.Text = "⚠ Username or Email/Phone already exists.";
-                return;
+                var response = tcpService.Register(
+                    username,
+                    isEmail ? contact : null,
+                    isPhone ? contact : null,
+                    password
+                );
+
+                if (response.Success)
+                {
+                    MessageBox.Show("🎉 Registration Successful!\nWelcome, " + username + "!",
+                        "✓ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    FormDangNhap loginForm = new FormDangNhap();
+                    loginForm.Show();
+                    this.Close();
+                }
+                else
+                {
+                    // Hiển thị lỗi từ server
+                    MessageBox.Show("❌ Registration failed: " + response.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-            // --- [2. Create Salt & Hash Password] ---
-            string salt = dbService.CreateSalt();
-            string hashedPassword = dbService.HashPassword_Sha256(password, salt);
-
-            // --- [3. Save to Database] ---
-            bool success = dbService.SaveUserToDatabase(
-                username,
-                isEmail ? contact : null,
-                isPhone ? contact : null,
-                hashedPassword,
-                salt
-            );
-
-            if (success)
+            catch (Exception ex)
             {
-                MessageBox.Show("🎉 Registration Successful!\n\nWelcome, " + username + "!",
-                    "✓ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                FormDangNhap loginForm = new FormDangNhap();
-                loginForm.Show();
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("An error occurred while saving your information.\nPlease try again later.",
-                    "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("⚠ Could not connect to TCP Server:\n" + ex.Message,
+                    "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

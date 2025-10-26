@@ -12,7 +12,7 @@ namespace Socket_LTMCB.Services
     public class TcpClientService
     {
         private string serverAddress = "127.0.0.1"; // localhost
-        private int serverPort = 8080; // Cổng server (thay đổi nếu cần)
+        private int serverPort = 8080; // Cổng server 
 
         public TcpClientService(string address = "127.0.0.1", int port = 8080)
         {
@@ -64,6 +64,52 @@ namespace Socket_LTMCB.Services
         }
 
         /// <summary>
+        /// Gửi request QUÊN MẬT KHẨU (FORGOT_PASSWORD) đến server
+        /// </summary>
+        public ServerResponse ForgotPassword(string contact)
+        {
+            var requestData = new Dictionary<string, object>
+            {
+                { "contact", contact }
+            };
+
+            return SendRequest("FORGOT_PASSWORD", requestData);
+        }
+
+        /// <summary>
+        /// Gửi request RESET_PASSWORD đến server
+        /// </summary>
+        public ServerResponse ResetPassword(string username, string newPassword)
+        {
+            var requestData = new Dictionary<string, object>
+            {
+                { "username", username },
+                { "newPassword", newPassword }
+            };
+
+            return SendRequest("RESET_PASSWORD", requestData);
+        }
+
+        public ServerResponse VerifyOtp(string username, string otp)
+        {
+            var requestData = new Dictionary<string, object>
+    {
+        { "username", username },
+        { "otp", otp }
+    };
+            return SendRequest("VERIFY_OTP", requestData);
+        }
+
+        public ServerResponse ResendOtp(string username)
+        {
+            var requestData = new Dictionary<string, object>
+    {
+        { "username", username }
+    };
+            return SendRequest("RESEND_OTP", requestData);
+        }
+
+        /// <summary>
         /// Hàm chung để gửi request đến server
         /// </summary>
         private ServerResponse SendRequest(string action, Dictionary<string, object> data)
@@ -109,7 +155,11 @@ namespace Socket_LTMCB.Services
 
                         // Parse response
                         var response = JsonSerializer.Deserialize<ServerResponse>(responseJson);
-                        return response;
+                        return response ?? new ServerResponse
+                        {
+                            Success = false,
+                            Message = "Invalid response from server."
+                        };
                     }
                 }
             }

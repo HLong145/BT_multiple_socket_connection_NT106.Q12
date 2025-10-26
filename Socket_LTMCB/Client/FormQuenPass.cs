@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Socket_LTMCB.Services;
 
@@ -6,28 +7,32 @@ namespace Socket_LTMCB
 {
     public partial class FormQuenPass : Form
     {
-        private readonly DatabaseService _databaseService;
+        private readonly TcpClientService tcpClient; // ✅ Dùng TCP thay vì DatabaseService
 
         public FormQuenPass()
         {
             InitializeComponent();
-            _databaseService = new DatabaseService();
+            tcpClient = new TcpClientService("127.0.0.1", 8080); // ✅ Kết nối TCP server
             lblContactError.Text = "";
         }
+
         private void btn_backToLogin_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
         private void btn_continue_Click(object sender, EventArgs e)
         {
             lblContactError.Text = "";
             string input = tb_contact.Text.Trim();
 
+            // 1️⃣ Kiểm tra đầu vào
             if (string.IsNullOrEmpty(input))
             {
                 lblContactError.Text = "⚠ Please enter your Email or Phone number.";
                 return;
             }
+
             bool isEmail = IsValidEmail(input);
             bool isPhone = IsValidPhone(input);
 
@@ -39,21 +44,28 @@ namespace Socket_LTMCB
 
             try
             {
-                string username = _databaseService.GetUsernameByContact(input, isEmail);
+                // 2️⃣ Gọi ForgotPassword (server tự kiểm tra contact type)
+                var response = tcpClient.ForgotPassword(input);
 
-                if (username == null)
+                // 3️⃣ Kiểm tra phản hồi
+                if (response != null && response.Success)
                 {
-                    MessageBox.Show("No account found matching this information!",
-                        "Account Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                string otp = _databaseService.GenerateOtp(username);
+                    string username = response.GetDataValue("username");
+                    string otp = response.GetDataValue("otp");
 
-                MessageBox.Show($"Your OTP code is: {otp}\n(This is shown for testing purposes only. In production, it will be sent via email/SMS.)",
-                    "OTP Generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                FormXacThucOTP formOtp = new FormXacThucOTP(username);
-                formOtp.Show();
-                this.Hide();
+                    MessageBox.Show(
+                        $"✅ OTP sent successfully!\n\nYour OTP code is: {otp}\n(This is shown for testing — in production it will be sent via Email/SMS.)",
+                        "OTP Sent", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    FormXacThucOTP formOtp = new FormXacThucOTP(username);
+                    formOtp.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show(response?.Message ?? "Account not found!",
+                        "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
@@ -77,7 +89,7 @@ namespace Socket_LTMCB
 
         private bool IsValidPhone(string phone)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(phone, @"^0\d{9}$");
+            return Regex.IsMatch(phone, @"^0\d{9}$");
         }
     }
 }

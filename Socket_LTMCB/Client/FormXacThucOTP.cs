@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Windows.Forms;
 using Socket_LTMCB.Services;
+using System.Drawing;
 
 namespace Socket_LTMCB
 {
     public partial class FormXacThucOTP : Form
     {
         private readonly string _username;
-        private readonly DatabaseService _databaseService;
+        private readonly TcpClientService _tcpClient;
         private System.Windows.Forms.Timer otpTimer;
         private int remainingSeconds = 300;
 
@@ -16,7 +17,7 @@ namespace Socket_LTMCB
         {
             InitializeComponent();
             _username = username;
-            _databaseService = new DatabaseService();
+            _tcpClient = new TcpClientService();
 
             InitializeTimer();
             InitializeOTPAutoFocus();
@@ -32,14 +33,12 @@ namespace Socket_LTMCB
 
         private void InitializeOTPAutoFocus()
         {
-            // Auto focus giữa các ô OTP
             tb_otp1.TextChanged += (s, e) => { if (tb_otp1.Text.Length == 1) tb_otp2.Focus(); };
             tb_otp2.TextChanged += (s, e) => { if (tb_otp2.Text.Length == 1) tb_otp3.Focus(); };
             tb_otp3.TextChanged += (s, e) => { if (tb_otp3.Text.Length == 1) tb_otp4.Focus(); };
             tb_otp4.TextChanged += (s, e) => { if (tb_otp4.Text.Length == 1) tb_otp5.Focus(); };
             tb_otp5.TextChanged += (s, e) => { if (tb_otp5.Text.Length == 1) tb_otp6.Focus(); };
 
-            // Chỉ cho phép nhập số
             tb_otp1.KeyPress += OtpBox_KeyPress;
             tb_otp2.KeyPress += OtpBox_KeyPress;
             tb_otp3.KeyPress += OtpBox_KeyPress;
@@ -47,6 +46,7 @@ namespace Socket_LTMCB
             tb_otp5.KeyPress += OtpBox_KeyPress;
             tb_otp6.KeyPress += OtpBox_KeyPress;
         }
+
         private void OtpTimer_Tick(object sender, EventArgs e)
         {
             remainingSeconds--;
@@ -64,17 +64,16 @@ namespace Socket_LTMCB
             int seconds = remainingSeconds % 60;
             lbl_timer.Text = $"Code expires in: {minutes:D2}:{seconds:D2}";
 
-            // Cảnh báo khi còn 30 giây
             if (remainingSeconds <= 30)
             {
                 lbl_timer.ForeColor = Color.Red;
             }
         }
 
-
         private void btn_verify_Click(object sender, EventArgs e)
         {
             lblOTPError.Text = "";
+
             string otp = string.Concat(
                 tb_otp1.Text.Trim(),
                 tb_otp2.Text.Trim(),
@@ -90,33 +89,56 @@ namespace Socket_LTMCB
                 return;
             }
 
-            var result = _databaseService.VerifyOtp(_username, otp);
+            try
+            {
+                var response = _tcpClient.VerifyOtp(_username, otp);
 
-            if (result.IsValid)
-            {
-                MessageBox.Show(result.Message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                FormResetPass formReset = new FormResetPass(_username);
-                formReset.Show();
-                this.Close();
+                if (response != null && response.Success)
+                {
+                    MessageBox.Show(response.Message, "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    FormResetPass formReset = new FormResetPass(_username);
+                    formReset.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show(response?.Message ?? "❌ OTP verification failed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(result.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("⚠ An error has occurred: " + ex.Message, "System Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btn_resend_Click(object sender, EventArgs e)
         {
-            string newOtp = _databaseService.GenerateOtp(_username);
-            MessageBox.Show($"Your new OTP is: {newOtp}\n(This is shown for testing only)",
-                "New OTP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                var response = _tcpClient.ResendOtp(_username);
 
-            // Reset timer
-            remainingSeconds = 300;
-            lbl_timer.ForeColor = Color.White;
-            btn_verify.Enabled = true;
-            otpTimer.Start();
+                if (response != null && response.Success)
+                {
+                    string newOtp = response.GetDataValue("otp");
+                    MessageBox.Show($"Your new OTP is: {newOtp}\n(This is shown for testing only)",
+                        "New OTP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    remainingSeconds = 300;
+                    lbl_timer.ForeColor = Color.White;
+                    btn_verify.Enabled = true;
+                    otpTimer.Start();
+                }
+                else
+                {
+                    MessageBox.Show(response?.Message ?? "❌ Unable to resend OTP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("⚠ An error has occurred: " + ex.Message, "System Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
         private void btn_backToLogin_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -129,7 +151,6 @@ namespace Socket_LTMCB
             base.OnFormClosing(e);
         }
 
-
         private void OtpBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
@@ -138,6 +159,4 @@ namespace Socket_LTMCB
             }
         }
     }
-
-
 }
