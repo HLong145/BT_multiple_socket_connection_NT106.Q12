@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Socket_LTMCB
 {
@@ -30,14 +32,42 @@ namespace Socket_LTMCB
         // =========================
         // ✅ Remember Login (ASYNC)
         // =========================
+        private string Encrypt(string plainText)
+        {
+            if (string.IsNullOrEmpty(plainText)) return "";
+            var bytes = ProtectedData.Protect(
+                Encoding.UTF8.GetBytes(plainText),
+                null,
+                DataProtectionScope.CurrentUser);
+            return Convert.ToBase64String(bytes);
+        }
+
+        private string Decrypt(string cipherText)
+        {
+            if (string.IsNullOrEmpty(cipherText)) return "";
+            try
+            {
+                var bytes = ProtectedData.Unprotect(
+                    Convert.FromBase64String(cipherText),
+                    null,
+                    DataProtectionScope.CurrentUser);
+                return Encoding.UTF8.GetString(bytes);
+            }
+            catch
+            {
+                return ""; // token bị lỗi hoặc user khác
+            }
+        }
         private async Task LoadRememberedLoginAsync()
         {
             if (Properties.Settings.Default.RememberMe)
             {
                 string savedUsername = Properties.Settings.Default.SavedUsername;
-                string savedToken = Properties.Settings.Default.SavedToken;
+                string savedPassword = Decrypt(Properties.Settings.Default.SavedPassword);
+                string savedToken = Decrypt(Properties.Settings.Default.SavedToken);
 
                 tb_Username.Text = savedUsername;
+                tb_Password.Text = savedPassword; // 🔄 tự điền password
 
                 if (!string.IsNullOrEmpty(savedToken))
                 {
@@ -50,10 +80,10 @@ namespace Socket_LTMCB
                         MessageBox.Show($"🎉 Auto login successful!\n\nWelcome back {username}!",
                             "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // ✅ MỞ MAINFORM (nếu có)
-                        // MainForm mainForm = new MainForm(username, savedToken);
-                        // mainForm.Show();
-                        this.Close();
+                        this.Hide();
+                        MainForm mainForm = new MainForm(username, savedToken);
+                        mainForm.FormClosed += (s, args) => this.Close();
+                        mainForm.Show();
                     }
                     else
                     {
@@ -67,24 +97,25 @@ namespace Socket_LTMCB
             }
         }
 
-        private void SaveRememberedLogin(string username, string token)
+        private void SaveRememberedLogin(string username, string password, string token)
         {
             if (chk_Remember.Checked)
             {
                 Properties.Settings.Default.RememberMe = true;
                 Properties.Settings.Default.SavedUsername = username;
-                Properties.Settings.Default.SavedToken = token;
+                Properties.Settings.Default.SavedPassword = Encrypt(password); // 🔒 mã hóa password
+                Properties.Settings.Default.SavedToken = Encrypt(token);
             }
             else
             {
                 Properties.Settings.Default.RememberMe = false;
                 Properties.Settings.Default.SavedUsername = "";
+                Properties.Settings.Default.SavedPassword = "";
                 Properties.Settings.Default.SavedToken = "";
             }
 
             Properties.Settings.Default.Save();
         }
-
         // =========================
         // ✅ Button Login (ASYNC)
         // =========================
@@ -141,7 +172,7 @@ namespace Socket_LTMCB
                         return;
                     }
 
-                    SaveRememberedLogin(returnedUsername, token);
+                    SaveRememberedLogin(returnedUsername, password, token);
 
                     MessageBox.Show($"🎉 Login successful!\n\nWelcome {returnedUsername}!",
                         "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -243,6 +274,11 @@ namespace Socket_LTMCB
             floatingItemsTimer?.Stop();
             floatingItemsTimer?.Dispose();
             base.OnFormClosing(e);
+        }
+
+        private void chk_Remember_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

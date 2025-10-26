@@ -42,9 +42,11 @@
             components = new System.ComponentModel.Container();
             timer_FloatingItems = new System.Windows.Forms.Timer(components);
             pnl_Main = new Pnl_Pixel();
+            pictureBox7 = new PictureBox();
+            pictureBox6 = new PictureBox();
             pictureBox1 = new PictureBox();
-            pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
+            pictureBox2 = new PictureBox();
             chk_Remember = new CheckBox();
             pnl_Title = new Pnl_Pixel();
             pictureBox5 = new PictureBox();
@@ -60,17 +62,15 @@
             btn_Login = new Btn_Pixel();
             btn_Register = new Btn_Pixel();
             btn_Forgot = new Btn_Pixel();
-            pictureBox6 = new PictureBox();
-            pictureBox7 = new PictureBox();
             pnl_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             pnl_Title.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             SuspendLayout();
             // 
             // pnl_Main
@@ -97,6 +97,28 @@
             pnl_Main.Size = new Size(413, 573);
             pnl_Main.TabIndex = 0;
             // 
+            // pictureBox7
+            // 
+            pictureBox7.BackColor = Color.Transparent;
+            pictureBox7.Image = Properties.Resources.mayxanh;
+            pictureBox7.Location = new Point(-47, 316);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(118, 38);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 10;
+            pictureBox7.TabStop = false;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.BackColor = Color.Transparent;
+            pictureBox6.Image = Properties.Resources.mayxanh;
+            pictureBox6.Location = new Point(340, 206);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(118, 38);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 3;
+            pictureBox6.TabStop = false;
+            // 
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.Transparent;
@@ -107,17 +129,6 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.Image = Properties.Resources.mây;
-            pictureBox2.Location = new Point(256, 494);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(233, 93);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 9;
-            pictureBox2.TabStop = false;
             // 
             // pictureBox3
             // 
@@ -130,6 +141,17 @@
             pictureBox3.TabIndex = 2;
             pictureBox3.TabStop = false;
             // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.mây;
+            pictureBox2.Location = new Point(256, 494);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(233, 93);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 9;
+            pictureBox2.TabStop = false;
+            // 
             // chk_Remember
             // 
             chk_Remember.BackColor = Color.Transparent;
@@ -141,6 +163,7 @@
             chk_Remember.TabIndex = 7;
             chk_Remember.Text = "REMEMBER ME";
             chk_Remember.UseVisualStyleBackColor = false;
+            chk_Remember.CheckedChanged += chk_Remember_CheckedChanged;
             // 
             // pnl_Title
             // 
@@ -310,28 +333,6 @@
             btn_Forgot.Text = "FORGOT?";
             btn_Forgot.Click += btn_Forgot_Click;
             // 
-            // pictureBox6
-            // 
-            pictureBox6.BackColor = Color.Transparent;
-            pictureBox6.Image = Properties.Resources.mayxanh;
-            pictureBox6.Location = new Point(340, 206);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(118, 38);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 3;
-            pictureBox6.TabStop = false;
-            // 
-            // pictureBox7
-            // 
-            pictureBox7.BackColor = Color.Transparent;
-            pictureBox7.Image = Properties.Resources.mayxanh;
-            pictureBox7.Location = new Point(-47, 316);
-            pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(118, 38);
-            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox7.TabIndex = 10;
-            pictureBox7.TabStop = false;
-            // 
             // FormDangNhap
             // 
             BackColor = SystemColors.ControlDark;
@@ -345,14 +346,14 @@
             Text = "Login";
             pnl_Main.ResumeLayout(false);
             pnl_Main.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             pnl_Title.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ResumeLayout(false);
         }
 
