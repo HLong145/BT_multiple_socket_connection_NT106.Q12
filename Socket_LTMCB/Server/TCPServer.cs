@@ -18,7 +18,10 @@ namespace Socket_LTMCB.Server
         private DatabaseService dbService;
         private TokenManager tokenManager;
         private ValidationService validationService;  
-        private SecurityService securityService;      
+        private SecurityService securityService;
+        
+        private Task _acceptTask;                     // 💡 Giữ task AcceptClients
+        private CancellationTokenSource cts;          // 💡 Dùng để hủy mềm
 
         public event Action<string> OnLog;
         public bool IsRunning => isRunning;
@@ -35,13 +38,20 @@ namespace Socket_LTMCB.Server
         {
             try
             {
+                if (isRunning)
+                {
+                    Log("⚠️ Server is already running");
+                    return;
+                }
+
+                cts = new CancellationTokenSource();
                 listener = new TcpListener(IPAddress.Any, port);
                 listener.Start();
                 isRunning = true;
 
                 Log($"✅ Server started on port {port}");
 
-                Task.Run(() => AcceptClients());
+                _acceptTask = Task.Run(() => AcceptClients(cts.Token)); // 💡 truyền token hủy
             }
             catch (Exception ex)
             {
@@ -49,37 +59,80 @@ namespace Socket_LTMCB.Server
                 throw;
             }
         }
-
-        public void Stop()
+        public async Task Stop()
         {
+            if (!isRunning)
+            {
+                Log("⚠️ Server is not running");
+                return;
+            }
+
             try
             {
                 isRunning = false;
+                cts.Cancel(); // 💡 yêu cầu dừng AcceptClients()
+                listener?.Stop();
 
+                // 💡 Đóng tất cả client an toàn
                 foreach (var client in connectedClients.ToArray())
                 {
-                    client.Close();
+                    try
+                    {
+                        client.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log($"⚠️ Error closing client: {ex.Message}");
+                    }
                 }
                 connectedClients.Clear();
 
-                listener?.Stop();
-                Log("🛑 Server stopped");
+                // 💡 Đợi vòng AcceptClients kết thúc
+                if (_acceptTask != null)
+                {
+                    await _acceptTask;
+                }
+
+                Log("🛑 Server stopped safely");
             }
             catch (Exception ex)
             {
                 Log($"❌ Error stopping server: {ex.Message}");
             }
-        }
-
-        private async Task AcceptClients()
-        {
-            while (isRunning)
+            finally
             {
-                try
+                listener = null;
+                cts = null;
+                isRunning = false;
+            }
+        }
+        private async Task AcceptClients(CancellationToken token)
+        {
+            try
+            {
+                while (!token.IsCancellationRequested)
                 {
-                    TcpClient client = await listener.AcceptTcpClientAsync();
+                    TcpClient client = null;
+                    try
+                    {
+                        client = await listener.AcceptTcpClientAsync();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // 💡 Listener bị dừng khi Stop() gọi -> thoát vòng
+                        break;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // 💡 Listener đã bị dispose
+                        break;
+                    }
+
+                    if (client == null) break;
+
                     var clientHandler = new ClientHandler(client, this, dbService, tokenManager,
                                                           validationService, securityService);
+
                     lock (connectedClients)
                     {
                         connectedClients.Add(clientHandler);
@@ -87,15 +140,18 @@ namespace Socket_LTMCB.Server
 
                     Log($"📱 New client connected. Total: {connectedClients.Count}");
 
-                    Task.Run(() => clientHandler.Handle());
+                    // 💡 Xử lý client trong luồng riêng
+                    _ = Task.Run(() => clientHandler.Handle());
                 }
-                catch (Exception ex)
-                {
-                    if (isRunning)
-                    {
-                        Log($"❌ Error accepting client: {ex.Message}");
-                    }
-                }
+            }
+            catch (Exception ex)
+            {
+                if (isRunning)
+                    Log($"❌ Error in AcceptClients: {ex.Message}");
+            }
+            finally
+            {
+                Log("🧩 AcceptClients stopped safely");
             }
         }
 
