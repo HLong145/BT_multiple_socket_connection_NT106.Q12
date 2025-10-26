@@ -24,27 +24,29 @@ namespace Socket_LTMCB
 
         private void btn_complete_Click(object sender, EventArgs e)
         {
+            lblNewPasswordError.Text = "";
+            lblConfirmPasswordError.Text = "";
             string newPass = tb_newPassword.Text.Trim();
             string confirmPass = tb_confirmPassword.Text.Trim();
 
-            if (string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(confirmPass))
+            if (string.IsNullOrEmpty(newPass))
             {
-                MessageBox.Show("Please enter both password fields!",
-                    "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblNewPasswordError.Text = "Please enter both password fields!";
+                return;
+            }
+            if (string.IsNullOrEmpty(confirmPass))
+            {
+                lblConfirmPasswordError.Text = "Please enter both password fields!";
                 return;
             }
 
             if (newPass != confirmPass)
             {
-                MessageBox.Show("Password confirmation does not match!",
-                    "Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblConfirmPasswordError.Text = "Password confirmation does not match!";
                 return;
             }
 
-            MessageBox.Show("Password must be at least 8 characters long, including uppercase, lowercase, and a special character!",
-                            "Invalid Password", 
-                            MessageBoxButtons.OK, 
-                            MessageBoxIcon.Warning);
+            MessageBox.Show("Password must be at least 8 characters long, including uppercase, lowercase, and a special character!", "Invalid Password", MessageBoxButtons.OK,  MessageBoxIcon.Warning);
 
             bool updated = _databaseService.ResetPassword(_username, newPass);
 

@@ -237,7 +237,7 @@ namespace Socket_LTMCB
             // 
             lblOTPError.BackColor = Color.FromArgb(128, 64, 0);
             lblOTPError.Dock = DockStyle.Bottom;
-            lblOTPError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblOTPError.Font = new Font("Arial", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblOTPError.ForeColor = Color.Red;
             lblOTPError.Location = new Point(0, 88);
             lblOTPError.Name = "lblOTPError";

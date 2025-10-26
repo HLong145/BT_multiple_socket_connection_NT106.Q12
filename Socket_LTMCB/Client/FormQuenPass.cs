@@ -12,6 +12,7 @@ namespace Socket_LTMCB
         {
             InitializeComponent();
             _databaseService = new DatabaseService();
+            lblContactError.Text = "";
         }
         private void btn_backToLogin_Click(object sender, EventArgs e)
         {
@@ -19,12 +20,12 @@ namespace Socket_LTMCB
         }
         private void btn_continue_Click(object sender, EventArgs e)
         {
+            lblContactError.Text = "";
             string input = tb_contact.Text.Trim();
 
             if (string.IsNullOrEmpty(input))
             {
-                MessageBox.Show("Please enter your email or phone number!",
-                    "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblContactError.Text = "⚠ Please enter your Email or Phone number.";
                 return;
             }
             bool isEmail = IsValidEmail(input);
@@ -32,8 +33,7 @@ namespace Socket_LTMCB
 
             if (!isEmail && !isPhone)
             {
-                MessageBox.Show("Please enter a valid email or phone number format!",
-                    "Invalid Format", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblContactError.Text = "Please enter a valid email or phone number format!";
                 return;
             }
 

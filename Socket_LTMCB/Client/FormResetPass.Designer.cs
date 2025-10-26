@@ -28,6 +28,8 @@ namespace Socket_LTMCB
             pnl_Main = new Pnl_Pixel();
             pnl_Title = new Pnl_Pixel();
             lbl_Title = new Label();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
             lbl_Subtitle = new Label();
             lbl_Description = new Label();
             panelNewPassword = new Panel();
@@ -42,16 +44,14 @@ namespace Socket_LTMCB
             lblConfirmPassword = new Label();
             btn_complete = new Btn_Pixel();
             btn_backToLogin = new Btn_Pixel();
-            pictureBox1 = new PictureBox();
-            pictureBox2 = new PictureBox();
             pnl_Main.SuspendLayout();
             pnl_Title.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panelNewPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock1).BeginInit();
             panelConfirmPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // pnl_Main
@@ -92,6 +92,28 @@ namespace Socket_LTMCB
             lbl_Title.Text = "🔓 RESET PASSWORD 🔓";
             lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.key;
+            pictureBox1.Location = new Point(262, 49);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(79, 36);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.núi;
+            pictureBox2.Location = new Point(0, 32);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(135, 68);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 2;
+            pictureBox2.TabStop = false;
+            // 
             // lbl_Subtitle
             // 
             lbl_Subtitle.BackColor = Color.Transparent;
@@ -131,7 +153,7 @@ namespace Socket_LTMCB
             // 
             lblNewPasswordError.BackColor = Color.FromArgb(128, 64, 0);
             lblNewPasswordError.Dock = DockStyle.Bottom;
-            lblNewPasswordError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblNewPasswordError.Font = new Font("Arial", 10.2F, FontStyle.Bold);
             lblNewPasswordError.ForeColor = Color.Red;
             lblNewPasswordError.Location = new Point(0, 58);
             lblNewPasswordError.Name = "lblNewPasswordError";
@@ -140,7 +162,7 @@ namespace Socket_LTMCB
             // 
             // pictureBoxLock1
             // 
-            pictureBoxLock1.BackColor = Color.FromArgb(41, 37, 36);
+            pictureBoxLock1.BackColor = Color.FromArgb(42, 31, 26);
             pictureBoxLock1.Location = new Point(310, 25);
             pictureBoxLock1.Name = "pictureBoxLock1";
             pictureBoxLock1.Size = new Size(50, 35);
@@ -186,7 +208,7 @@ namespace Socket_LTMCB
             // 
             lblConfirmPasswordError.BackColor = Color.FromArgb(128, 64, 0);
             lblConfirmPasswordError.Dock = DockStyle.Bottom;
-            lblConfirmPasswordError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblConfirmPasswordError.Font = new Font("Arial", 10.2F, FontStyle.Bold);
             lblConfirmPasswordError.ForeColor = Color.Red;
             lblConfirmPasswordError.Location = new Point(0, 58);
             lblConfirmPasswordError.Name = "lblConfirmPasswordError";
@@ -195,7 +217,7 @@ namespace Socket_LTMCB
             // 
             // pictureBoxLock2
             // 
-            pictureBoxLock2.BackColor = Color.FromArgb(41, 37, 36);
+            pictureBoxLock2.BackColor = Color.FromArgb(42, 31, 26);
             pictureBoxLock2.Location = new Point(310, 25);
             pictureBoxLock2.Name = "pictureBoxLock2";
             pictureBoxLock2.Size = new Size(50, 35);
@@ -252,28 +274,6 @@ namespace Socket_LTMCB
             btn_backToLogin.Text = "← BACK TO LOGIN";
             btn_backToLogin.Click += btn_backToLogin_Click;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = Properties.Resources.key;
-            pictureBox1.Location = new Point(262, 49);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(79, 36);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.Image = Properties.Resources.núi;
-            pictureBox2.Location = new Point(0, 32);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(135, 68);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 2;
-            pictureBox2.TabStop = false;
-            // 
             // FormResetPass
             // 
             BackColor = SystemColors.ControlDark;
@@ -287,14 +287,14 @@ namespace Socket_LTMCB
             Text = "Reset Password";
             pnl_Main.ResumeLayout(false);
             pnl_Title.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panelNewPassword.ResumeLayout(false);
             panelNewPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock1).EndInit();
             panelConfirmPassword.ResumeLayout(false);
             panelConfirmPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 

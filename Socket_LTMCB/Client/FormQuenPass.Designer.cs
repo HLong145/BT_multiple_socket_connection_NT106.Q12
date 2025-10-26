@@ -28,6 +28,8 @@ namespace Socket_LTMCB
             pnl_Main = new Pnl_Pixel();
             pnl_Title = new Pnl_Pixel();
             lbl_Title = new Label();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
             lbl_Subtitle = new Label();
             lbl_Description = new Label();
             panelContact = new Panel();
@@ -36,13 +38,11 @@ namespace Socket_LTMCB
             lblContact = new Label();
             btn_continue = new Btn_Pixel();
             btn_backToLogin = new Btn_Pixel();
-            pictureBox1 = new PictureBox();
-            pictureBox2 = new PictureBox();
             pnl_Main.SuspendLayout();
             pnl_Title.SuspendLayout();
-            panelContact.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            panelContact.SuspendLayout();
             SuspendLayout();
             // 
             // pnl_Main
@@ -82,6 +82,28 @@ namespace Socket_LTMCB
             lbl_Title.Text = "🔑 FORGOT PASSWORD? 🔑";
             lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.thor;
+            pictureBox1.Location = new Point(-20, 38);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(125, 62);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.images__1__removebg_preview;
+            pictureBox2.Location = new Point(248, 38);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(109, 62);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 5;
+            pictureBox2.TabStop = false;
+            // 
             // lbl_Subtitle
             // 
             lbl_Subtitle.BackColor = Color.Transparent;
@@ -120,7 +142,7 @@ namespace Socket_LTMCB
             // 
             lblContactError.BackColor = Color.FromArgb(128, 64, 0);
             lblContactError.Dock = DockStyle.Bottom;
-            lblContactError.Font = new Font("Arial", 8F, FontStyle.Bold);
+            lblContactError.Font = new Font("Arial", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblContactError.ForeColor = Color.Red;
             lblContactError.Location = new Point(0, 58);
             lblContactError.Name = "lblContactError";
@@ -176,28 +198,6 @@ namespace Socket_LTMCB
             btn_backToLogin.Text = "← BACK TO LOGIN";
             btn_backToLogin.Click += btn_backToLogin_Click;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = Properties.Resources.thor;
-            pictureBox1.Location = new Point(-20, 38);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(125, 62);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.Image = Properties.Resources.images__1__removebg_preview;
-            pictureBox2.Location = new Point(248, 38);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(109, 62);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 5;
-            pictureBox2.TabStop = false;
-            // 
             // FormQuenPass
             // 
             BackColor = SystemColors.ControlDark;
@@ -211,10 +211,10 @@ namespace Socket_LTMCB
             Text = "Forgot Password";
             pnl_Main.ResumeLayout(false);
             pnl_Title.ResumeLayout(false);
-            panelContact.ResumeLayout(false);
-            panelContact.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            panelContact.ResumeLayout(false);
+            panelContact.PerformLayout();
             ResumeLayout(false);
         }
 

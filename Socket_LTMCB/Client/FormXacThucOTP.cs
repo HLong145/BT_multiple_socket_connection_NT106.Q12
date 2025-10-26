@@ -74,6 +74,7 @@ namespace Socket_LTMCB
 
         private void btn_verify_Click(object sender, EventArgs e)
         {
+            lblOTPError.Text = "";
             string otp = string.Concat(
                 tb_otp1.Text.Trim(),
                 tb_otp2.Text.Trim(),
@@ -85,8 +86,7 @@ namespace Socket_LTMCB
 
             if (otp.Length != 6 || !otp.All(char.IsDigit))
             {
-                MessageBox.Show("Please enter all 6 digits of the OTP!",
-                    "Missing OTP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblOTPError.Text = "Please enter all 6 digits of the OTP!";
                 return;
             }
 
