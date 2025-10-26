@@ -9,63 +9,11 @@ namespace Socket_LTMCB.Client
         public Dashboard()
         {
             InitializeComponent();
-
-            // ✅ ĐĂNG KÝ Sự KIỆN CHO CÁC BUTTON
-            btn_Client.Click += Btn_Client_Click;
-            btn_Server.Click += Btn_Server_Click;
         }
 
         /// <summary>
         /// Mở Client mode (Login/Register)
         /// </summary>
-        private void Btn_Client_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // ✅ ẨN DASHBOARD
-                this.Hide();
-
-                // ✅ KHỞI TẠO VÀ CHẠY CLIENT CONTROLLER
-                var clientController = new ClientApplicationController(this);
-
-                MessageBox.Show("Client mode started!\n\nPlease login or register to continue.",
-                    "🎮 Client Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error starting client: {ex.Message}",
-                    "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Show();
-            }
-        }
-
-        /// <summary>
-        /// Mở Server mode
-        /// </summary>
-        private void Btn_Server_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // ✅ MỞ SERVER FORM
-                ServerForm serverForm = new ServerForm();
-                serverForm.Show();
-
-                MessageBox.Show("Server window opened!\n\nClick 'Start' to begin listening for connections on port 8080.",
-                    "🖥️ Server Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // ✅ KHI SERVER ĐÓNG → HIỆN LẠI DASHBOARD
-                serverForm.FormClosed += (s, args) =>
-                {
-                    this.Show();
-                    this.BringToFront();
-                };
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error starting server: {ex.Message}",
-                    "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         /// <summary>
         /// Khi đóng Dashboard → Thoát toàn bộ ứng dụng
@@ -85,13 +33,49 @@ namespace Socket_LTMCB.Client
 
         private void btn_Client_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // ✅ ẨN DASHBOARD
+                this.Hide();
 
+                // ✅ KHỞI TẠO VÀ CHẠY CLIENT CONTROLLER
+                var clientController = new ClientApplicationController(this);
+
+                MessageBox.Show("Client mode started!\n\nPlease login or register to continue.",
+                            "🎮 Client Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error starting client: {ex.Message}",
+                    "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Show();
+            }
         }
-
-        private void btn_Server_Click(object sender, EventArgs e)
+        
+    private void btn_Server_Click(object sender, EventArgs e)
         {
+        try
+        {
+            // ✅ MỞ SERVER FORM
+            ServerForm serverForm = new ServerForm();
+            serverForm.Show();
 
+            MessageBox.Show("Server window opened!\n\nClick 'Start' to begin listening for connections on port 8080.",
+                "🖥️ Server Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // ✅ KHI SERVER ĐÓNG → HIỆN LẠI DASHBOARD
+            serverForm.FormClosed += (s, args) =>
+            {
+                this.Show();
+                this.BringToFront();
+            };
         }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error starting server: {ex.Message}",
+                "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
     }
 
     /// <summary>
