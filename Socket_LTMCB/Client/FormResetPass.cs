@@ -7,25 +7,34 @@ namespace Socket_LTMCB
     public partial class FormResetPass : Form
     {
         private readonly string _username;
-        private readonly DatabaseService _databaseService;
+        private readonly TcpClientService tcpClient; // ✅ TCP CLIENT
+        private readonly DatabaseService dbService;  // ✅ DATABASE SERVICE
         private readonly ValidationService _validationService;
+
+        // ✅ CẤU HÌNH: true = dùng Server, false = dùng Database trực tiếp
+        private bool useServer = true;
 
         public FormResetPass(string username)
         {
             InitializeComponent();
             _username = username;
-            _databaseService = new DatabaseService();
             _validationService = new ValidationService();
+
+            // ✅ KHỞI TẠO CẢ HAI SERVICE
+            tcpClient = new TcpClientService("127.0.0.1", 8080);
+            dbService = new DatabaseService();
         }
 
         public FormResetPass() : this(string.Empty)
         {
         }
 
-        private void btn_complete_Click(object sender, EventArgs e)
+        // ✅ RESET PASSWORD (ASYNC)
+        private async void btn_complete_Click(object sender, EventArgs e)
         {
             lblNewPasswordError.Text = "";
             lblConfirmPasswordError.Text = "";
+
             string newPass = tb_newPassword.Text.Trim();
             string confirmPass = tb_confirmPassword.Text.Trim();
 
@@ -34,6 +43,7 @@ namespace Socket_LTMCB
                 lblNewPasswordError.Text = "Please enter both password fields!";
                 return;
             }
+
             if (string.IsNullOrEmpty(confirmPass))
             {
                 lblConfirmPasswordError.Text = "Please enter both password fields!";
@@ -46,23 +56,61 @@ namespace Socket_LTMCB
                 return;
             }
 
-            MessageBox.Show("Password must be at least 8 characters long, including uppercase, lowercase, and a special character!", "Invalid Password", MessageBoxButtons.OK,  MessageBoxIcon.Warning);
-
-            bool updated = _databaseService.ResetPassword(_username, newPass);
-
-            if (updated)
+            // ✅ VALIDATE PASSWORD
+            if (!_validationService.IsValidPassword(newPass))
             {
-                MessageBox.Show("Password has been reset successfully!",
-                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                MessageBox.Show(
+                    "Password must be at least 8 characters long, including uppercase, lowercase, number and a special character!",
+                    "Invalid Password",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
 
+            bool success = false;
+            string message = "";
+
+            // ✅ Disable nút trong lúc đang xử lý
+            btn_complete.Enabled = false;
+
+            if (useServer)
+            {
+                // ✅ DÙNG SERVER (ASYNC)
+                var response = await tcpClient.ResetPasswordAsync(_username, newPass);
+                success = response.Success;
+                message = response.Message;
+            }
+            else
+            {
+                // ✅ DÙNG DATABASE TRỰC TIẾP
+                success = dbService.ResetPassword(_username, newPass);
+                message = success ? "Password reset successful" : "Password reset failed";
+            }
+
+            btn_complete.Enabled = true; // Re-enable button
+
+            if (success)
+            {
+                MessageBox.Show(
+                    "Password has been reset successfully!",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                this.Close();
                 FormDangNhap formLogin = new FormDangNhap();
                 formLogin.Show();
             }
             else
             {
-                MessageBox.Show("Unable to update password. Please try again!",
-                    "System Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    message,
+                    "System Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 

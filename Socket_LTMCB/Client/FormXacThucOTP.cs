@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Socket_LTMCB.Services;
 
@@ -8,15 +10,22 @@ namespace Socket_LTMCB
     public partial class FormXacThucOTP : Form
     {
         private readonly string _username;
-        private readonly DatabaseService _databaseService;
+        private readonly TcpClientService tcpClient; // ✅ TCP CLIENT
+        private readonly DatabaseService dbService; // ✅ DATABASE SERVICE
         private System.Windows.Forms.Timer otpTimer;
         private int remainingSeconds = 300;
+
+        // ✅ CẤU HÌNH: true = dùng Server, false = dùng Database trực tiếp
+        private bool useServer = true;
 
         public FormXacThucOTP(string username)
         {
             InitializeComponent();
             _username = username;
-            _databaseService = new DatabaseService();
+
+            // ✅ KHỞI TẠO CẢ HAI SERVICE
+            tcpClient = new TcpClientService("127.0.0.1", 8080);
+            dbService = new DatabaseService();
 
             InitializeTimer();
             InitializeOTPAutoFocus();
@@ -47,6 +56,7 @@ namespace Socket_LTMCB
             tb_otp5.KeyPress += OtpBox_KeyPress;
             tb_otp6.KeyPress += OtpBox_KeyPress;
         }
+
         private void OtpTimer_Tick(object sender, EventArgs e)
         {
             remainingSeconds--;
@@ -71,8 +81,8 @@ namespace Socket_LTMCB
             }
         }
 
-
-        private void btn_verify_Click(object sender, EventArgs e)
+        // ✅ VERIFY OTP - HỖ TRỢ CẢ SERVER & DATABASE (ASYNC)
+        private async void btn_verify_Click(object sender, EventArgs e)
         {
             lblOTPError.Text = "";
             string otp = string.Concat(
@@ -90,24 +100,71 @@ namespace Socket_LTMCB
                 return;
             }
 
-            var result = _databaseService.VerifyOtp(_username, otp);
+            bool isValid = false;
+            string message = "";
 
-            if (result.IsValid)
+            if (useServer)
             {
-                MessageBox.Show(result.Message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // ✅ DÙNG SERVER (ASYNC)
+                var response = await tcpClient.VerifyOtpAsync(_username, otp);
+                isValid = response.Success;
+                message = response.Message;
+            }
+            else
+            {
+                // ✅ DÙNG DATABASE TRỰC TIẾP
+                var result = dbService.VerifyOtp(_username, otp);
+                isValid = result.IsValid;
+                message = result.Message;
+            }
+
+            if (isValid)
+            {
+                MessageBox.Show(message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FormResetPass formReset = new FormResetPass(_username);
                 formReset.Show();
                 this.Close();
             }
             else
             {
-                MessageBox.Show(result.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btn_resend_Click(object sender, EventArgs e)
+        // ✅ RESEND OTP - ASYNC
+        private async void btn_resend_Click(object sender, EventArgs e)
         {
-            string newOtp = _databaseService.GenerateOtp(_username);
+            string newOtp = null;
+
+            if (useServer)
+            {
+                // ✅ DÙNG SERVER (ASYNC)
+                var response = await tcpClient.GenerateOtpAsync(_username);
+
+                if (response.Success)
+                {
+                    newOtp = response.GetDataValue("otp");
+                }
+                else
+                {
+                    MessageBox.Show("Unable to generate new OTP. Please try again!",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            else
+            {
+                // ✅ DÙNG DATABASE TRỰC TIẾP
+                newOtp = dbService.GenerateOtp(_username);
+
+                if (string.IsNullOrEmpty(newOtp))
+                {
+                    MessageBox.Show("Unable to generate new OTP. Please try again!",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
             MessageBox.Show($"Your new OTP is: {newOtp}\n(This is shown for testing only)",
                 "New OTP", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -117,6 +174,7 @@ namespace Socket_LTMCB
             btn_verify.Enabled = true;
             otpTimer.Start();
         }
+
         private void btn_backToLogin_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -129,7 +187,6 @@ namespace Socket_LTMCB
             base.OnFormClosing(e);
         }
 
-
         private void OtpBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
@@ -138,6 +195,4 @@ namespace Socket_LTMCB
             }
         }
     }
-
-
 }

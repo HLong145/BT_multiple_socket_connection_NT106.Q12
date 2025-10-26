@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Socket_LTMCB
@@ -12,7 +13,7 @@ namespace Socket_LTMCB
         private Random random = new Random();
         private System.Windows.Forms.Timer floatingItemsTimer;
 
-        private readonly TcpClientService tcpClient; // ✅ THÊM
+        private readonly TcpClientService tcpClient;
         private readonly DatabaseService dbService = new DatabaseService();
 
         public event EventHandler SwitchToRegister;
@@ -22,17 +23,14 @@ namespace Socket_LTMCB
             InitializeComponent();
             SetupFloatingAnimation();
 
-            // ✅ KHỞI TẠO TCP CLIENT
             tcpClient = new TcpClientService("127.0.0.1", 8080);
-
-            // ✅ TỰ ĐỘNG ĐĂNG NHẬP NẾU CÓ TOKEN
-            LoadRememberedLogin();
+            _ = LoadRememberedLoginAsync(); // ✅ auto login nếu có token
         }
 
         // =========================
-        // 2️⃣ Remember Login - ✅ SỬA LẠI
+        // ✅ Remember Login (ASYNC)
         // =========================
-        private void LoadRememberedLogin()
+        private async Task LoadRememberedLoginAsync()
         {
             if (Properties.Settings.Default.RememberMe)
             {
@@ -41,10 +39,9 @@ namespace Socket_LTMCB
 
                 tb_Username.Text = savedUsername;
 
-                // Nếu có token, verify với server
                 if (!string.IsNullOrEmpty(savedToken))
                 {
-                    var response = tcpClient.VerifyToken(savedToken);
+                    var response = await tcpClient.VerifyTokenAsync(savedToken);
 
                     if (response.Success)
                     {
@@ -56,17 +53,13 @@ namespace Socket_LTMCB
                         // ✅ MỞ MAINFORM (nếu có)
                         // MainForm mainForm = new MainForm(username, savedToken);
                         // mainForm.Show();
-                        // this.Hide();
-
                         this.Close();
                     }
                     else
                     {
-                        // Token hết hạn hoặc không hợp lệ
                         MessageBox.Show("Your session has expired. Please login again.",
                             "⚠ Session Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                        // Xóa token cũ
                         Properties.Settings.Default.SavedToken = "";
                         Properties.Settings.Default.Save();
                     }
@@ -80,7 +73,7 @@ namespace Socket_LTMCB
             {
                 Properties.Settings.Default.RememberMe = true;
                 Properties.Settings.Default.SavedUsername = username;
-                Properties.Settings.Default.SavedToken = token; // ✅ LƯU TOKEN
+                Properties.Settings.Default.SavedToken = token;
             }
             else
             {
@@ -93,14 +86,13 @@ namespace Socket_LTMCB
         }
 
         // =========================
-        // 4️⃣ Button events - ✅ SỬA LẠI
+        // ✅ Button Login (ASYNC)
         // =========================
-        private void btn_Login_Click(object sender, EventArgs e)
+        private async void btn_Login_Click(object sender, EventArgs e)
         {
             string contact = tb_Username.Text.Trim();
             string password = tb_Password.Text;
 
-            // 1. Captcha check
             if (!chk_Captcha.Checked)
             {
                 MessageBox.Show("Please confirm that you are not a robot!",
@@ -108,7 +100,6 @@ namespace Socket_LTMCB
                 return;
             }
 
-            // 2. Empty check
             if (string.IsNullOrEmpty(contact) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Please fill in all required login information!",
@@ -116,7 +107,6 @@ namespace Socket_LTMCB
                 return;
             }
 
-            // 3. Determine contact type (username / email / phone)
             string username = contact;
             bool isEmail = IsValidEmail(contact);
             bool isPhone = IsValidPhone(contact);
@@ -132,43 +122,56 @@ namespace Socket_LTMCB
                 }
             }
 
-            // ✅ 4. GỬI REQUEST ĐẾN SERVER
-            var response = tcpClient.Login(username, password);
-
-            if (response.Success)
+            try
             {
-                // ✅ Lấy token từ response
-                string token = response.GetDataValue("token");
-                string returnedUsername = response.GetDataValue("username");
+                btn_Login.Enabled = false;
 
-                if (string.IsNullOrEmpty(token))
+                // ✅ GỬI REQUEST ĐẾN SERVER (ASYNC)
+                var response = await tcpClient.LoginAsync(username, password);
+
+                if (response.Success)
                 {
-                    MessageBox.Show("Server did not return authentication token.",
-                        "❌ Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    string token = response.GetDataValue("token");
+                    string returnedUsername = response.GetDataValue("username");
+
+                    if (string.IsNullOrEmpty(token))
+                    {
+                        MessageBox.Show("Server did not return authentication token.",
+                            "❌ Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    SaveRememberedLogin(returnedUsername, token);
+
+                    MessageBox.Show($"🎉 Login successful!\n\nWelcome {returnedUsername}!",
+                        "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // ✅ MỞ MAINFORM 
+                    this.Hide();
+                    MainForm mainForm = new MainForm(returnedUsername, token);
+                    mainForm.FormClosed += (s, args) => this.Close(); // khi MainForm đóng, thì login form cũng đóng
+                    mainForm.Show();
+
                 }
-
-                // Lưu token để Remember Me
-                SaveRememberedLogin(returnedUsername, token);
-
-                MessageBox.Show($"🎉 Login successful!\n\nWelcome {returnedUsername}!",
-                    "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // ✅ MỞ MAINFORM (nếu có)
-                // MainForm mainForm = new MainForm(returnedUsername, token);
-                // mainForm.Show();
-
-                this.Close();
+                else
+                {
+                    MessageBox.Show(response.Message,
+                        "❌ Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(response.Message,
-                    "❌ Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error while connecting to server:\n" + ex.Message,
+                    "⚠ Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btn_Login.Enabled = true;
             }
         }
 
         // =========================
-        // 3️⃣ Validation helpers (GIỮ NGUYÊN)
+        // Helpers
         // =========================
         private bool IsValidEmail(string email)
         {
@@ -199,7 +202,7 @@ namespace Socket_LTMCB
         }
 
         // =========================
-        // 1️⃣ Animation setup (GIỮ NGUYÊN)
+        // Floating Animation
         // =========================
         private void SetupFloatingAnimation()
         {

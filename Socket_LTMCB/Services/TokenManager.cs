@@ -9,7 +9,7 @@ namespace Socket_LTMCB.Services
 {
     public class TokenManager
     {
-        private readonly string secretKey = "MySuperSecretKeyForJwt123!";
+        private readonly string secretKey = "ThisIsAVeryStrongAndLongJwtSecretKey_2025!";
         private ConcurrentDictionary<string, string> validTokens = new();
 
         public string GenerateToken(string username)

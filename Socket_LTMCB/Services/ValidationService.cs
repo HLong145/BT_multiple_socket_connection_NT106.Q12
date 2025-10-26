@@ -35,16 +35,16 @@ namespace Socket_LTMCB.Services
             string password)
         {
             if (!IsValidUsername(username))
-                return (false, "Username phải 3-20 ký tự, chỉ chứa chữ, số, gạch dưới");
+                return (false, "Username must be 3–20 characters long and contain only letters, numbers, or underscores.");
 
             if (!string.IsNullOrEmpty(email) && !IsValidEmail(email))
-                return (false, "Email không hợp lệ");
+                return (false, "Invalid email address.");
 
             if (!string.IsNullOrEmpty(phone) && !IsValidPhone(phone))
-                return (false, "Số điện thoại phải 10 chữ số");
+                return (false, "Phone number must contain exactly 10 digits.");
 
             if (!IsValidPassword(password))
-                return (false, "Mật khẩu phải có tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt");
+                return (false, "Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.");
 
             return (true, "Valid");
         }

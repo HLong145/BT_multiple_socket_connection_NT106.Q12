@@ -9,6 +9,8 @@ namespace Socket_LTMCB
         private FormDangNhap frm_DangNhap;
         private FormDangKy frm_DangKy;
         private Panel pnl_Overlay;
+        private string username;
+        private string token;
 
         public MainForm()
         {
@@ -18,6 +20,12 @@ namespace Socket_LTMCB
 
             // Đăng ký sự kiện khi MainForm đóng
             this.FormClosing += MainForm_FormClosing;
+        }
+        public MainForm(string username, string token) : this()
+        {
+            this.username = username;
+            this.token = token;
+            this.Text = $"Adventure App - Welcome {username}";
         }
         private void InitForms()
         {
@@ -139,7 +147,12 @@ namespace Socket_LTMCB
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
+          
+            FormDangNhap loginForm = new FormDangNhap();
+            loginForm.Show();
 
+            this.Close();
         }
+
     }
 }

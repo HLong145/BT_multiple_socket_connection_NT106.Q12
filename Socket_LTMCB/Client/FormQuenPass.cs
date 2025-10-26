@@ -6,19 +6,29 @@ namespace Socket_LTMCB
 {
     public partial class FormQuenPass : Form
     {
-        private readonly DatabaseService _databaseService;
+        private readonly TcpClientService tcpClient;  // ✅ TCP CLIENT
+        private readonly DatabaseService dbService;   // ✅ DATABASE SERVICE
+
+        // ✅ CẤU HÌNH: true = dùng Server, false = dùng Database trực tiếp
+        private bool useServer = true;
 
         public FormQuenPass()
         {
             InitializeComponent();
-            _databaseService = new DatabaseService();
             lblContactError.Text = "";
+
+            // ✅ KHỞI TẠO CẢ HAI SERVICE
+            tcpClient = new TcpClientService("127.0.0.1", 8080);
+            dbService = new DatabaseService();
         }
+
         private void btn_backToLogin_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        private void btn_continue_Click(object sender, EventArgs e)
+
+        // ✅ BẤM "TIẾP TỤC" - ASYNC VERSION
+        private async void btn_continue_Click(object sender, EventArgs e)
         {
             lblContactError.Text = "";
             string input = tb_contact.Text.Trim();
@@ -28,6 +38,7 @@ namespace Socket_LTMCB
                 lblContactError.Text = "⚠ Please enter your Email or Phone number.";
                 return;
             }
+
             bool isEmail = IsValidEmail(input);
             bool isPhone = IsValidPhone(input);
 
@@ -39,18 +50,72 @@ namespace Socket_LTMCB
 
             try
             {
-                string username = _databaseService.GetUsernameByContact(input, isEmail);
+                // Disable nút trong lúc chờ phản hồi
+                btn_continue.Enabled = false;
 
-                if (username == null)
+                string username = null;
+                string otp = null;
+
+                if (useServer)
                 {
-                    MessageBox.Show("No account found matching this information!",
-                        "Account Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                string otp = _databaseService.GenerateOtp(username);
+                    // ✅ DÙNG SERVER (ASYNC)
+                    var getUserResponse = await tcpClient.GetUserByContactAsync(input, isEmail);
 
-                MessageBox.Show($"Your OTP code is: {otp}\n(This is shown for testing purposes only. In production, it will be sent via email/SMS.)",
-                    "OTP Generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (!getUserResponse.Success)
+                    {
+                        MessageBox.Show("No account found matching this information!",
+                            "Account Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        btn_continue.Enabled = true;
+                        return;
+                    }
+
+                    username = getUserResponse.GetDataValue("username");
+
+                    var otpResponse = await tcpClient.GenerateOtpAsync(username);
+
+                    if (!otpResponse.Success)
+                    {
+                        MessageBox.Show("Unable to generate OTP. Please try again!",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        btn_continue.Enabled = true;
+                        return;
+                    }
+
+                    otp = otpResponse.GetDataValue("otp");
+                }
+                else
+                {
+                    // ✅ DÙNG DATABASE TRỰC TIẾP
+                    username = dbService.GetUsernameByContact(input, isEmail);
+
+                    if (string.IsNullOrEmpty(username))
+                    {
+                        MessageBox.Show("No account found matching this information!",
+                            "Account Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        btn_continue.Enabled = true;
+                        return;
+                    }
+
+                    otp = dbService.GenerateOtp(username);
+
+                    if (string.IsNullOrEmpty(otp))
+                    {
+                        MessageBox.Show("Unable to generate OTP. Please try again!",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        btn_continue.Enabled = true;
+                        return;
+                    }
+                }
+
+                // ✅ Hiển thị OTP cho test (sau này bỏ khi gửi thật qua mail/sms)
+                MessageBox.Show(
+                    $"Your OTP code is: {otp}\n(This is shown for testing purposes only. In production, it will be sent via email/SMS.)",
+                    "OTP Generated",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                // ✅ Mở form xác thực OTP
                 FormXacThucOTP formOtp = new FormXacThucOTP(username);
                 formOtp.Show();
                 this.Hide();
@@ -59,6 +124,10 @@ namespace Socket_LTMCB
             {
                 MessageBox.Show("An error has occurred: " + ex.Message,
                     "System Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btn_continue.Enabled = true;
             }
         }
 

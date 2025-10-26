@@ -17,10 +17,15 @@ namespace Socket_LTMCB.Services
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = @"SELECT COUNT(*) FROM NGUOIDUNG 
-                            WHERE USERNAME = @Username 
-                            OR (@Email IS NOT NULL AND EMAIL = @Email) 
-                            OR (@Phone IS NOT NULL AND PHONE = @Phone)";
+
+                // ✅ Chỉ thêm điều kiện nếu có dữ liệu thật
+                string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE USERNAME = @Username";
+
+                if (!string.IsNullOrEmpty(email))
+                    query += " OR EMAIL = @Email";
+
+                if (!string.IsNullOrEmpty(phone))
+                    query += " OR PHONE = @Phone";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -28,10 +33,12 @@ namespace Socket_LTMCB.Services
                     command.Parameters.AddWithValue("@Email", (object)email ?? DBNull.Value);
                     command.Parameters.AddWithValue("@Phone", (object)phone ?? DBNull.Value);
 
-                    return (int)command.ExecuteScalar() > 0;
+                    int count = (int)command.ExecuteScalar();
+                    return count > 0;
                 }
             }
         }
+
 
         // ✅ LƯU USER VÀO DATABASE
         public bool SaveUserToDatabase(string username, string email, string phone, string hash, string salt)

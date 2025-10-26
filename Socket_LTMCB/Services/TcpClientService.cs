@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Socket_LTMCB.Services
 {
     /// <summary>
-    /// Service để kết nối với TCP Server
+    /// Service để kết nối TCP Server (async/await + sync wrapper)
     /// </summary>
     public class TcpClientService
     {
-        private string serverAddress = "127.0.0.1"; // localhost
-        private int serverPort = 8080; // Cổng server (thay đổi nếu cần)
+        private readonly string serverAddress;
+        private readonly int serverPort;
 
         public TcpClientService(string address = "127.0.0.1", int port = 8080)
         {
@@ -20,24 +21,21 @@ namespace Socket_LTMCB.Services
             serverPort = port;
         }
 
-        /// <summary>
-        /// Gửi request LOGIN đến server
-        /// </summary>
-        public ServerResponse Login(string username, string password)
+        // ==========================
+        // 🟢 ASYNC API
+        // ==========================
+
+        public Task<ServerResponse> LoginAsync(string username, string password)
         {
             var requestData = new Dictionary<string, object>
             {
                 { "username", username },
                 { "password", password }
             };
-
-            return SendRequest("LOGIN", requestData);
+            return SendRequestAsync("LOGIN", requestData);
         }
 
-        /// <summary>
-        /// Gửi request REGISTER đến server
-        /// </summary>
-        public ServerResponse Register(string username, string email, string phone, string password)
+        public Task<ServerResponse> RegisterAsync(string username, string email, string phone, string password)
         {
             var requestData = new Dictionary<string, object>
             {
@@ -46,50 +44,81 @@ namespace Socket_LTMCB.Services
                 { "phone", phone ?? "" },
                 { "password", password }
             };
-
-            return SendRequest("REGISTER", requestData);
+            return SendRequestAsync("REGISTER", requestData);
         }
 
-        /// <summary>
-        /// Verify token với server
-        /// </summary>
-        public ServerResponse VerifyToken(string token)
+        public Task<ServerResponse> VerifyTokenAsync(string token)
         {
             var requestData = new Dictionary<string, object>
             {
                 { "token", token }
             };
-
-            return SendRequest("VERIFY_TOKEN", requestData);
+            return SendRequestAsync("VERIFY_TOKEN", requestData);
         }
 
-        /// <summary>
-        /// Hàm chung để gửi request đến server
-        /// </summary>
-        private ServerResponse SendRequest(string action, Dictionary<string, object> data)
+        public Task<ServerResponse> GenerateOtpAsync(string username)
+        {
+            var requestData = new Dictionary<string, object>
+            {
+                { "username", username }
+            };
+            return SendRequestAsync("GENERATE_OTP", requestData);
+        }
+
+        public Task<ServerResponse> VerifyOtpAsync(string username, string otp)
+        {
+            var requestData = new Dictionary<string, object>
+            {
+                { "username", username },
+                { "otp", otp }
+            };
+            return SendRequestAsync("VERIFY_OTP", requestData);
+        }
+
+        public Task<ServerResponse> ResetPasswordAsync(string username, string newPassword)
+        {
+            var requestData = new Dictionary<string, object>
+            {
+                { "username", username },
+                { "newPassword", newPassword }
+            };
+            return SendRequestAsync("RESET_PASSWORD", requestData);
+        }
+
+        public Task<ServerResponse> GetUserByContactAsync(string contact, bool isEmail)
+        {
+            var requestData = new Dictionary<string, object>
+            {
+                { "contact", contact },
+                { "isEmail", isEmail }
+            };
+            return SendRequestAsync("GET_USER_BY_CONTACT", requestData);
+        }
+
+        // ==========================
+        // ⚙️ CORE ASYNC METHOD
+        // ==========================
+        private async Task<ServerResponse> SendRequestAsync(string action, Dictionary<string, object> data)
         {
             try
             {
                 using (TcpClient client = new TcpClient())
                 {
-                    // Timeout 5 giây
-                    var result = client.BeginConnect(serverAddress, serverPort, null, null);
-                    var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(5));
+                    // Timeout kết nối 5 giây
+                    var connectTask = client.ConnectAsync(serverAddress, serverPort);
+                    var timeoutTask = Task.Delay(5000);
 
-                    if (!success)
+                    if (await Task.WhenAny(connectTask, timeoutTask) == timeoutTask)
                     {
                         return new ServerResponse
                         {
                             Success = false,
-                            Message = "Cannot connect to server. Please check if server is running."
+                            Message = $"⏱ Timeout: Cannot connect to server {serverAddress}:{serverPort}"
                         };
                     }
 
-                    client.EndConnect(result);
-
                     using (NetworkStream stream = client.GetStream())
                     {
-                        // Tạo request JSON
                         var request = new
                         {
                             Action = action,
@@ -100,25 +129,34 @@ namespace Socket_LTMCB.Services
                         byte[] requestBytes = Encoding.UTF8.GetBytes(requestJson);
 
                         // Gửi request
-                        stream.Write(requestBytes, 0, requestBytes.Length);
+                        await stream.WriteAsync(requestBytes, 0, requestBytes.Length);
 
-                        // Nhận response
-                        byte[] buffer = new byte[8192];
-                        int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                        string responseJson = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        // Đọc response (có timeout)
+                        var buffer = new byte[8192];
+                        using (var cts = new System.Threading.CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                        {
+                            int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cts.Token);
+                            string responseJson = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
-                        // Parse response
-                        var response = JsonSerializer.Deserialize<ServerResponse>(responseJson);
-                        return response;
+                            return JsonSerializer.Deserialize<ServerResponse>(responseJson);
+                        }
                     }
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                return new ServerResponse
+                {
+                    Success = false,
+                    Message = "⏱ Timeout waiting for server response."
+                };
             }
             catch (SocketException)
             {
                 return new ServerResponse
                 {
                     Success = false,
-                    Message = "Cannot connect to server. Please ensure the server is running on " + serverAddress + ":" + serverPort
+                    Message = $"❌ Cannot connect to server {serverAddress}:{serverPort}. Please check if server is running."
                 };
             }
             catch (Exception ex)
@@ -126,28 +164,49 @@ namespace Socket_LTMCB.Services
                 return new ServerResponse
                 {
                     Success = false,
-                    Message = $"Connection error: {ex.Message}"
+                    Message = $"⚠️ Connection error: {ex.Message}"
                 };
             }
         }
+
+        // ==========================
+        // 🟠 SYNC WRAPPER (cho form cũ)
+        // ==========================
+        public ServerResponse Register(string username, string email, string phone, string password)
+            => RegisterAsync(username, email, phone, password).GetAwaiter().GetResult();
+
+        public ServerResponse Login(string username, string password)
+            => LoginAsync(username, password).GetAwaiter().GetResult();
+
+        public ServerResponse ResetPassword(string username, string newPassword)
+            => ResetPasswordAsync(username, newPassword).GetAwaiter().GetResult();
+
+        public ServerResponse VerifyToken(string token)
+            => VerifyTokenAsync(token).GetAwaiter().GetResult();
+
+        public ServerResponse GenerateOtp(string username)
+            => GenerateOtpAsync(username).GetAwaiter().GetResult();
+
+        public ServerResponse VerifyOtp(string username, string otp)
+            => VerifyOtpAsync(username, otp).GetAwaiter().GetResult();
+
+        public ServerResponse GetUserByContact(string contact, bool isEmail)
+            => GetUserByContactAsync(contact, isEmail).GetAwaiter().GetResult();
     }
 
-    /// <summary>
-    /// DTO cho response từ server
-    /// </summary>
+    // ==========================
+    // DTO: Response
+    // ==========================
     public class ServerResponse
     {
         public bool Success { get; set; }
         public string Message { get; set; }
         public Dictionary<string, object> Data { get; set; }
 
-        // Helper method để lấy giá trị từ Data
         public string GetDataValue(string key)
         {
             if (Data != null && Data.ContainsKey(key))
-            {
                 return Data[key]?.ToString();
-            }
             return null;
         }
     }

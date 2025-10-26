@@ -8,31 +8,41 @@ namespace Socket_LTMCB
 {
     public partial class FormDangKy : Form
     {
-        private readonly DatabaseService dbService = new DatabaseService();
+        private readonly TcpClientService tcpClient; // ✅ TCP CLIENT
+        private readonly DatabaseService dbService;  // ✅ DATABASE SERVICE
+        private readonly ValidationService validationService = new ValidationService();
+
         public event EventHandler SwitchToLogin;
+
         private System.Windows.Forms.Timer myTimer;
+
+        // ✅ CẤU HÌNH: true = dùng Server, false = dùng Database trực tiếp
+        private bool useServer = true;
 
         public FormDangKy()
         {
             InitializeComponent();
             InitializeCustomUI();
             this.AutoScroll = true;
+
+            // ✅ KHỞI TẠO CẢ HAI SERVICE
+            tcpClient = new TcpClientService("127.0.0.1", 8080);
+            dbService = new DatabaseService();
         }
 
+        // =========================
+        // GIAO DIỆN & PLACEHOLDER
+        // =========================
         private void InitializeCustomUI()
         {
-            // --- Placeholder setup ---
             SetPlaceholder(tb_username, "ENTER USERNAME");
             SetPlaceholder(tb_contact, "EMAIL OR PHONE");
-
             SetPasswordPlaceholder(tb_password, "ENTER PASSWORD");
             SetPasswordPlaceholder(tb_confirmPassword, "CONFIRM PASSWORD");
 
-            // --- Icons ---
             DrawLockIcon(pictureBoxLock1, "🔒");
             DrawLockIcon(pictureBoxLock2, "🔒");
 
-            // Checkbox default
             chkNotRobot.Text = "  ☐ I'M NOT A ROBOT  🤖";
             chkNotRobot.CheckedChanged += (s, e) =>
             {
@@ -40,17 +50,7 @@ namespace Socket_LTMCB
                 chkNotRobot.Text = chkNotRobot.Checked ? "  ☑ I'M NOT A ROBOT  🤖" : "  ☐ I'M NOT A ROBOT  🤖";
             };
 
-            // ✅ Bật chế độ cuộn cho form
             this.AutoScroll = true;
-
-            // Ví dụ: thêm 50 button, chắc chắn bị tràn
-            for (int i = 0; i < 30; i++)
-            {
-                Button btn = new Button();
-                btn.Text = "Button " + i;
-                btn.Location = new Point(20, 30 * i);
-                this.Controls.Add(btn);
-            }
         }
 
         private void SetPlaceholder(TextBox tb, string placeholder)
@@ -104,12 +104,13 @@ namespace Socket_LTMCB
         {
             pb.Paint += (s, e) =>
             {
-                e.Graphics.DrawString(icon, new Font("Segoe UI Emoji", 16), new SolidBrush(Color.FromArgb(217, 119, 6)), 5, 5);
+                e.Graphics.DrawString(icon, new Font("Segoe UI Emoji", 16),
+                    new SolidBrush(Color.FromArgb(217, 119, 6)), 5, 5);
             };
         }
 
         // =========================
-        // Validation Helpers
+        // VALIDATION
         // =========================
         private bool IsValidEmail(string email)
         {
@@ -121,22 +122,22 @@ namespace Socket_LTMCB
             return Regex.IsMatch(phone, @"^0\d{9}$");
         }
 
-        private readonly ValidationService validationService = new ValidationService();
         private bool IsValidPassword(string password)
         {
             return validationService.IsValidPassword(password);
         }
 
         // =========================
-        // Register Button Click
+        // ✅ ĐĂNG KÝ - SERVER / DATABASE
         // =========================
-        private void btn_register_Click(object sender, EventArgs e)
+        private async void btn_register_Click(object sender, EventArgs e)
         {
             lblUsernameError.Text = "";
             lblContactError.Text = "";
             lblPasswordError.Text = "";
             lblConfirmPasswordError.Text = "";
             lblRobotError.Text = "";
+
             string username = tb_username.Text.Trim();
             string contact = tb_contact.Text.Trim();
             string password = tb_password.Text;
@@ -182,24 +183,41 @@ namespace Socket_LTMCB
                 return;
             }
 
-            if (dbService.IsUserExists(username, isEmail ? contact : null, isPhone ? contact : null))
+            // --- [2. ĐĂNG KÝ XỬ LÝ] ---
+            bool success = false;
+            string message = "";
+
+            if (useServer)
             {
-                lblUsernameError.Text = "⚠ Username or Email/Phone already exists.";
-                return;
-            }
-
-            // --- [2. Create Salt & Hash Password] ---
-            string salt = dbService.CreateSalt();
-            string hashedPassword = dbService.HashPassword_Sha256(password, salt);
-
-            // --- [3. Save to Database] ---
-            bool success = dbService.SaveUserToDatabase(
+                var response = await tcpClient.RegisterAsync(
                 username,
                 isEmail ? contact : null,
                 isPhone ? contact : null,
-                hashedPassword,
-                salt
-            );
+                password
+                );
+                success = response.Success;
+                message = response.Message;
+            }
+            else
+            {
+                if (dbService.IsUserExists(username, isEmail ? contact : null, isPhone ? contact : null))
+                {
+                    message = "Username, email or phone already exists";
+                }
+                else
+                {
+                    string salt = dbService.CreateSalt();
+                    string hash = dbService.HashPassword_Sha256(password, salt);
+                    success = dbService.SaveUserToDatabase(
+                        username,
+                        isEmail ? contact : null,
+                        isPhone ? contact : null,
+                        hash,
+                        salt
+                    );
+                    message = success ? "Registration successful" : "Registration failed";
+                }
+            }
 
             if (success)
             {
@@ -212,13 +230,13 @@ namespace Socket_LTMCB
             }
             else
             {
-                MessageBox.Show("An error occurred while saving your information.\nPlease try again later.",
-                    "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(message,
+                    "❌ Registration Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         // =========================
-        // Switch to Login
+        // CHUYỂN VỀ FORM LOGIN
         // =========================
         private void btn_alreadyHaveAccount_Click(object sender, EventArgs e)
         {
@@ -227,7 +245,7 @@ namespace Socket_LTMCB
         }
 
         // =========================
-        // Animation Control
+        // ANIMATION
         // =========================
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -263,10 +281,7 @@ namespace Socket_LTMCB
                 pictureBox1.Left = this.Width;
         }
 
-        private void tb_username_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void tb_username_TextChanged(object sender, EventArgs e) { }
 
         private void FormDangKy_Load(object sender, EventArgs e)
         {
