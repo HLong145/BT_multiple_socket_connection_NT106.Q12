@@ -41,6 +41,18 @@ namespace Socket_LTMCB
                 lblRobotError.Text = "";
                 chkNotRobot.Text = chkNotRobot.Checked ? "  ☑ I'M NOT A ROBOT  🤖" : "  ☐ I'M NOT A ROBOT  🤖";
             };
+
+            // ✅ Bật chế độ cuộn cho form
+            this.AutoScroll = true;
+
+            // Ví dụ: thêm 50 button, chắc chắn bị tràn
+            for (int i = 0; i < 30; i++)
+            {
+                Button btn = new Button();
+                btn.Text = "Button " + i;
+                btn.Location = new Point(20, 30 * i);
+                this.Controls.Add(btn);
+            }
         }
 
         private void SetPlaceholder(TextBox tb, string placeholder)
@@ -249,8 +261,19 @@ namespace Socket_LTMCB
 
         private void MyTimer_Tick(object sender, EventArgs e)
         {
-            // Animation logic...
+            pictureBox1.Left -= 2;
+            if (pictureBox1.Right < 0)
+                pictureBox1.Left = this.Width;
         }
 
+        private void tb_username_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormDangKy_Load(object sender, EventArgs e)
+        {
+            StartAnimations();
+        }
     }
 }

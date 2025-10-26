@@ -42,10 +42,15 @@
             components = new System.ComponentModel.Container();
             timer_FloatingItems = new System.Windows.Forms.Timer(components);
             pnl_Main = new Pnl_Pixel();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            pictureBox3 = new PictureBox();
             chk_Remember = new CheckBox();
             pnl_Title = new Pnl_Pixel();
-            lbl_Subtitle = new Label();
+            pictureBox5 = new PictureBox();
             lbl_Title = new Label();
+            pictureBox4 = new PictureBox();
+            lbl_Subtitle = new Label();
             lbl_Username = new Label();
             tb_Username = new Tb_Pixel();
             lbl_Password = new Label();
@@ -55,26 +60,27 @@
             btn_Login = new Btn_Pixel();
             btn_Register = new Btn_Pixel();
             btn_Forgot = new Btn_Pixel();
-            pictureBox1 = new PictureBox();
-            pictureBox2 = new PictureBox();
-            pictureBox3 = new PictureBox();
-            pictureBox4 = new PictureBox();
-            pictureBox5 = new PictureBox();
+            pictureBox6 = new PictureBox();
+            pictureBox7 = new PictureBox();
             pnl_Main.SuspendLayout();
-            pnl_Title.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            pnl_Title.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             SuspendLayout();
             // 
             // pnl_Main
             // 
             pnl_Main.BackColor = Color.FromArgb(210, 105, 30);
+            pnl_Main.Controls.Add(pictureBox7);
+            pnl_Main.Controls.Add(pictureBox6);
             pnl_Main.Controls.Add(pictureBox1);
-            pnl_Main.Controls.Add(pictureBox2);
             pnl_Main.Controls.Add(pictureBox3);
+            pnl_Main.Controls.Add(pictureBox2);
             pnl_Main.Controls.Add(chk_Remember);
             pnl_Main.Controls.Add(pnl_Title);
             pnl_Main.Controls.Add(lbl_Username);
@@ -90,6 +96,39 @@
             pnl_Main.Name = "pnl_Main";
             pnl_Main.Size = new Size(413, 573);
             pnl_Main.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.mây;
+            pictureBox1.Location = new Point(-93, 494);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(182, 93);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.mây;
+            pictureBox2.Location = new Point(256, 494);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(233, 93);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 9;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackColor = Color.Transparent;
+            pictureBox3.Image = Properties.Resources.mây;
+            pictureBox3.Location = new Point(132, 508);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(118, 79);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 2;
+            pictureBox3.TabStop = false;
             // 
             // chk_Remember
             // 
@@ -115,17 +154,16 @@
             pnl_Title.Size = new Size(360, 100);
             pnl_Title.TabIndex = 0;
             // 
-            // lbl_Subtitle
+            // pictureBox5
             // 
-            lbl_Subtitle.BackColor = Color.Transparent;
-            lbl_Subtitle.Font = new Font("Courier New", 7F, FontStyle.Bold);
-            lbl_Subtitle.ForeColor = Color.White;
-            lbl_Subtitle.Location = new Point(20, 48);
-            lbl_Subtitle.Name = "lbl_Subtitle";
-            lbl_Subtitle.Size = new Size(325, 20);
-            lbl_Subtitle.TabIndex = 1;
-            lbl_Subtitle.Text = "ENTER YOUR CREDENTIALS";
-            lbl_Subtitle.TextAlign = ContentAlignment.MiddleCenter;
+            pictureBox5.BackColor = Color.Transparent;
+            pictureBox5.Image = Properties.Resources.mây;
+            pictureBox5.Location = new Point(-30, 51);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(124, 51);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 2;
+            pictureBox5.TabStop = false;
             // 
             // lbl_Title
             // 
@@ -138,6 +176,29 @@
             lbl_Title.TabIndex = 0;
             lbl_Title.Text = "⚔️ FIGHTER X FIGHTER ⚔️";
             lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.BackColor = Color.Transparent;
+            pictureBox4.Image = Properties.Resources.mây;
+            pictureBox4.Location = new Point(264, 18);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(98, 102);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 10;
+            pictureBox4.TabStop = false;
+            // 
+            // lbl_Subtitle
+            // 
+            lbl_Subtitle.BackColor = Color.Transparent;
+            lbl_Subtitle.Font = new Font("Courier New", 7F, FontStyle.Bold);
+            lbl_Subtitle.ForeColor = Color.White;
+            lbl_Subtitle.Location = new Point(20, 48);
+            lbl_Subtitle.Name = "lbl_Subtitle";
+            lbl_Subtitle.Size = new Size(325, 20);
+            lbl_Subtitle.TabIndex = 1;
+            lbl_Subtitle.Text = "ENTER YOUR CREDENTIALS";
+            lbl_Subtitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lbl_Username
             // 
@@ -249,60 +310,27 @@
             btn_Forgot.Text = "FORGOT?";
             btn_Forgot.Click += btn_Forgot_Click;
             // 
-            // pictureBox1
+            // pictureBox6
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = Properties.Resources.mây;
-            pictureBox1.Location = new Point(-93, 494);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(182, 93);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
+            pictureBox6.BackColor = Color.Transparent;
+            pictureBox6.Image = Properties.Resources.mayxanh;
+            pictureBox6.Location = new Point(340, 206);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(118, 38);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 3;
+            pictureBox6.TabStop = false;
             // 
-            // pictureBox2
+            // pictureBox7
             // 
-            pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.Image = Properties.Resources.mây;
-            pictureBox2.Location = new Point(256, 494);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(233, 93);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 9;
-            pictureBox2.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.BackColor = Color.Transparent;
-            pictureBox3.Image = Properties.Resources.mây;
-            pictureBox3.Location = new Point(71, 494);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(179, 93);
-            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 2;
-            pictureBox3.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.BackColor = Color.Transparent;
-            pictureBox4.Image = Properties.Resources.mây;
-            pictureBox4.Location = new Point(226, 29);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(136, 91);
-            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox4.TabIndex = 10;
-            pictureBox4.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            pictureBox5.BackColor = Color.Transparent;
-            pictureBox5.Image = Properties.Resources.mây;
-            pictureBox5.Location = new Point(-30, 51);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(176, 51);
-            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox5.TabIndex = 2;
-            pictureBox5.TabStop = false;
+            pictureBox7.BackColor = Color.Transparent;
+            pictureBox7.Image = Properties.Resources.mayxanh;
+            pictureBox7.Location = new Point(-47, 316);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(118, 38);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 10;
+            pictureBox7.TabStop = false;
             // 
             // FormDangNhap
             // 
@@ -317,12 +345,14 @@
             Text = "Login";
             pnl_Main.ResumeLayout(false);
             pnl_Main.PerformLayout();
-            pnl_Title.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            pnl_Title.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ResumeLayout(false);
         }
 
@@ -333,5 +363,7 @@
         private PictureBox pictureBox3;
         private PictureBox pictureBox5;
         private PictureBox pictureBox4;
+        private PictureBox pictureBox7;
+        private PictureBox pictureBox6;
     }
 }
