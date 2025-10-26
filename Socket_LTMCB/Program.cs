@@ -98,5 +98,6 @@ namespace Socket_LTMCB
             }
             base.OnMainFormClosed(sender, e);
         }
+
     }
 }
