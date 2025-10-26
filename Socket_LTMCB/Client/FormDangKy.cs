@@ -1,6 +1,7 @@
 ﻿using Socket_LTMCB.Services;
 using System;
 using System.Drawing;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -133,7 +134,8 @@ namespace Socket_LTMCB
         // =========================
         // Register Button Click
         // =========================
-        private void btn_register_Click(object sender, EventArgs e)
+        private readonly TcpClientService tcpClient = new TcpClientService();
+        private async void btn_register_Click(object sender, EventArgs e)
         {
             // Clear all error labels
             lblUsernameError.Text = "";
@@ -190,16 +192,23 @@ namespace Socket_LTMCB
             // --- [2. Send request to TCP server] ---
             try
             {
-                var response = tcpService.Register(
-                    username,
-                    isEmail ? contact : null,
-                    isPhone ? contact : null,
-                    password
-                );
+                // ⏳ Chặn spam & hiển thị trạng thái chờ
+                btn_register.Enabled = false;
+                Cursor = Cursors.WaitCursor;
 
-                if (response.Success)
+                // ✅ Gọi server trong Task riêng để không chặn UI
+                var response = await Task.Run(() => tcpClient.Register(
+                    username,
+                    isEmail ? contact : "",
+                    isPhone ? contact : "",
+                    password // gửi plain password, server sẽ tự hash nếu cần
+                ));
+
+                // ✅ Xử lý kết quả (UI thread)
+                if (response != null && response.Success)
                 {
-                    MessageBox.Show("🎉 Registration Successful!\nWelcome, " + username + "!",
+                    MessageBox.Show(
+                        "🎉 Registration Successful!\n\nWelcome, " + username + "!",
                         "✓ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     FormDangNhap loginForm = new FormDangNhap();
@@ -208,15 +217,22 @@ namespace Socket_LTMCB
                 }
                 else
                 {
-                    // Hiển thị lỗi từ server
-                    MessageBox.Show("❌ Registration failed: " + response.Message,
+                    MessageBox.Show(
+                        "❌ " + (response?.Message ?? "Unknown server response."),
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("⚠ Could not connect to TCP Server:\n" + ex.Message,
-                    "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "⚠ Network error: " + ex.Message,
+                    "Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            finally
+            {
+                // 🔄 Khôi phục trạng thái UI
+                btn_register.Enabled = true;
+                Cursor = Cursors.Default;
             }
         }
 
