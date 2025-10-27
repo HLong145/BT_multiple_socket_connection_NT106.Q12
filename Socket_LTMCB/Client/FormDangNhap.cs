@@ -247,7 +247,7 @@ namespace Socket_LTMCB
                     MainForm mainForm = new MainForm(returnedUsername, token);
                     mainForm.FormClosed += (s, args) => this.Close();
                     mainForm.Show();
-                    this.Hide();
+                    this.Close();
                 }
                 else
                 {
