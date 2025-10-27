@@ -36,23 +36,21 @@ namespace Socket_LTMCB.Client
         {
             try
             {
-                Console.WriteLine("🎮 Starting Client mode...");
+                Console.WriteLine("🎮 Starting NEW Client instance...");
 
-                // ✅ ẨN DASHBOARD TRƯỚC KHI MỞ CLIENT
-                this.Hide();
+                // ✅ TẠO CLIENT MỚI MÀ KHÔNG ẨN DASHBOARD
+                var loginForm = new FormDangNhap();
+                loginForm.StartPosition = FormStartPosition.CenterScreen;
+                loginForm.Show();
 
-                // ✅ KHỞI TẠO CLIENT CONTROLLER
-                var clientController = new ClientApplicationController(this);
-
-                MessageBox.Show("Client mode started!\n\nPlease login or register to continue.",
+                MessageBox.Show("New client instance started!\n\nYou can open multiple clients.",
                             "🎮 Client Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error: {ex.Message}");
+                Console.WriteLine($"❌ Error starting client: {ex.Message}");
                 MessageBox.Show($"Error starting client: {ex.Message}",
                     "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Show();
             }
         }
 
