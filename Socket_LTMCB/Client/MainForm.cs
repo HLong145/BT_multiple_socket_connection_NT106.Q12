@@ -20,8 +20,6 @@ namespace Socket_LTMCB
         {
             InitializeComponent();
             InitializeCustomUI();
-
-            // Đăng ký sự kiện khi MainForm đóng
             this.FormClosing += MainForm_FormClosing;
         }
 
@@ -29,46 +27,49 @@ namespace Socket_LTMCB
         {
             this.username = username;
             this.token = token;
-            this.Text = $"Adventure App - Welcome {username}";
+            this.isLoggedIn = true;
 
-            // ✅ THÊM: Ẩn form login/register nếu đã login
-            pnl_Overlay.Visible = false;
+            // ✅ KHỞI TẠO TCP CLIENT
+            tcpClient = new TcpClientService("127.0.0.1", 8080);
 
-            // ✅ THÊM: Hiển thị giao diện chính của app
-            InitializeMainAppUI();
+            // ✅ DEBUG: Kiểm tra username nhận được
+            Console.WriteLine($"🎯 MainForm constructor - Username: {username}, Token: {token}");
+
+            // ✅ CẬP NHẬT UI VỚI USERNAME
+            UpdateUsernameDisplay(username);
         }
 
-        private void InitializeMainAppUI()
+        // ✅ PHƯƠNG THỨC CẬP NHẬT USERNAME
+        public void UpdateUsernameDisplay(string newUsername)
         {
-            // ✅ THÊM: Tạo giao diện chính sau khi login
-            var lblWelcome = new Label()
-            {
-                Text = $"Welcome, {username}!",
-                Font = new Font("Arial", 16, FontStyle.Bold),
-                ForeColor = Color.White,
-                AutoSize = true,
-                Location = new Point(50, 50)
-            };
+            username = newUsername;
 
-            var btnLogout = new Button()
+            if (!string.IsNullOrEmpty(username))
             {
-                Text = "Logout",
-                Size = new Size(100, 40),
-                Location = new Point(50, 100),
-                BackColor = Color.Red,
-                ForeColor = Color.White
-            };
-            btnLogout.Click += btnLogout_Click;
+                // ✅ CẬP NHẬT LABEL USERNAME TRONG SIDEBAR
+                if (lblUserName != null)
+                {
+                    lblUserName.Text = username.ToUpper();
+                    Console.WriteLine($"✅ Updated lblUserName to: {username}");
+                }
 
-            this.Controls.Add(lblWelcome);
-            this.Controls.Add(btnLogout);
+                // ✅ CẬP NHẬT TIÊU ĐỀ FORM
+                this.Text = $"Adventure App - Welcome {username}";
+
+                // ✅ ẨN FORM LOGIN/REGISTER NẾU ĐÃ LOGIN
+                if (pnl_Overlay != null)
+                {
+                    pnl_Overlay.Visible = false;
+                    Console.WriteLine("✅ Hidden login/register overlay");
+                }
+            }
         }
 
         private void InitializeCustomUI()
         {
             // ⚙️ Cấu hình Form chính
             this.Text = "Adventure Login / Register";
-            this.ClientSize = new Size(900, 600);
+            this.ClientSize = new Size(1312, 742);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
@@ -80,29 +81,32 @@ namespace Socket_LTMCB
             }
             catch
             {
-                this.BackColor = Color.FromArgb(34, 25, 18); // fallback
+                this.BackColor = Color.FromArgb(34, 25, 18);
             }
 
-            // 🌑 Overlay tối nhẹ
-            pnl_Overlay = new Panel
-            {
-                Dock = DockStyle.Fill,
-                BackColor = Color.FromArgb(100, 0, 0, 0)
-            };
-            this.Controls.Add(pnl_Overlay);
-
+            // 🌑 Overlay tối nhẹ (chỉ hiển thị khi chưa login)
             if (!isLoggedIn)
             {
+                pnl_Overlay = new Panel
+                {
+                    Dock = DockStyle.Fill,
+                    BackColor = Color.FromArgb(100, 0, 0, 0)
+                };
+                this.Controls.Add(pnl_Overlay);
+                pnl_Overlay.BringToFront();
+
                 InitializeLoginForms();
             }
         }
+
         private void InitializeLoginForms()
         {
             // 🧙‍♂️ Form đăng nhập
             frm_DangNhap = new FormDangNhap
             {
                 TopLevel = false,
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                FormBorderStyle = FormBorderStyle.None
             };
             frm_DangNhap.SwitchToRegister += OnSwitchToDangKy;
 
@@ -110,7 +114,8 @@ namespace Socket_LTMCB
             frm_DangKy = new FormDangKy
             {
                 TopLevel = false,
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                FormBorderStyle = FormBorderStyle.None
             };
             frm_DangKy.SwitchToLogin += OnSwitchToDangNhap;
 
@@ -149,83 +154,75 @@ namespace Socket_LTMCB
 
         private async void btnLogout_Click(object sender, EventArgs e)
         {
-            // ✅ KIỂM TRA: Nếu user KHÔNG tick Remember me thì không hiển thị hộp thoại
-            if (!Properties.Settings.Default.RememberMe)
+            try
             {
-                // ❌ User không tick Remember me -> logout hoàn toàn
-                try
-                {
-                    await tcpClient.LogoutAsync(token, "complete");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Logout error: {ex.Message}");
-                }
+                Console.WriteLine($"🚪 Logging out user: {username}");
+                Console.WriteLine($"🔍 RememberMe setting: {Properties.Settings.Default.RememberMe}");
 
-                // Xóa tất cả thông tin (dù có lỗi kết nối server)
-                Properties.Settings.Default.RememberMe = false;
-                Properties.Settings.Default.SavedUsername = "";
-                Properties.Settings.Default.SavedPassword = "";
-                Properties.Settings.Default.SavedToken = "";
-                Properties.Settings.Default.Save();
-            }
-            else
-            {
-                // ✅ User CÓ tick Remember me -> hiển thị hộp thoại lựa chọn
-                DialogResult result = MessageBox.Show(
-                    "Do you want to stay logged in for next time?\n\n" +
-                    "Yes: Keep Remember Me (fast login next time)\n" +
-                    "No: Remove all saved login information",
-                    "Logout Options",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                try
+                // ✅ XỬ LÝ LOGOUT DỰA TRÊN REMEMBER ME (KHÔNG HIỂN THỊ HỘP THOẠI)
+                if (Properties.Settings.Default.RememberMe)
                 {
-                    if (result == DialogResult.Yes)
+                    // ✅ USER CÓ TICK REMEMBER ME -> LOGOUT BÌNH THƯỜNG (KHÔNG REVOKE TOKEN)
+                    try
                     {
-                        // ✅ LOGOUT BÌNH THƯỜNG: Giữ remember me, không revoke token
                         await tcpClient.LogoutAsync(token, "normal");
-
-                        // Chỉ xóa token khỏi settings, giữ username/password
-                        Properties.Settings.Default.SavedToken = "";
-                        Properties.Settings.Default.Save();
+                        Console.WriteLine("✅ Normal logout (token preserved for Remember Me)");
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        // ✅ LOGOUT HOÀN TOÀN: Xóa everything, revoke token
-                        await tcpClient.LogoutAsync(token, "complete");
-
-                        // Xóa tất cả thông tin
-                        Properties.Settings.Default.RememberMe = false;
-                        Properties.Settings.Default.SavedUsername = "";
-                        Properties.Settings.Default.SavedPassword = "";
-                        Properties.Settings.Default.SavedToken = "";
-                        Properties.Settings.Default.Save();
+                        Console.WriteLine($"⚠️ Normal logout error: {ex.Message}");
                     }
-                }
-                catch (Exception ex)
-                {
-                    // ❌ Nếu không kết nối được server, vẫn xóa token local
-                    Console.WriteLine($"Logout error: {ex.Message}");
+
+                    // ✅ CHỈ XÓA TOKEN, GIỮ USERNAME/PASSWORD
                     Properties.Settings.Default.SavedToken = "";
                     Properties.Settings.Default.Save();
+                    Console.WriteLine("✅ Token cleared, username/password preserved");
                 }
+                else
+                {
+                    // ✅ USER KHÔNG TICK REMEMBER ME -> LOGOUT HOÀN TOÀN (REVOKE TOKEN)
+                    try
+                    {
+                        await tcpClient.LogoutAsync(token, "complete");
+                        Console.WriteLine("✅ Complete logout (token revoked)");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"⚠️ Complete logout error: {ex.Message}");
+                    }
+
+                    // ✅ XÓA TẤT CẢ THÔNG TIN
+                    Properties.Settings.Default.RememberMe = false;
+                    Properties.Settings.Default.SavedUsername = "";
+                    Properties.Settings.Default.SavedPassword = "";
+                    Properties.Settings.Default.SavedToken = "";
+                    Properties.Settings.Default.Save();
+                    Console.WriteLine("✅ All login data cleared");
+                }
+
+                // ✅ MỞ LẠI FORM ĐĂNG NHẬP
+                FormDangNhap loginForm = new FormDangNhap();
+                loginForm.StartPosition = FormStartPosition.CenterScreen;
+                loginForm.Show();
+
+                // ✅ ĐÓNG FORM HIỆN TẠI
+                this.Close();
+
+                Console.WriteLine("✅ Logout completed successfully");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Logout error: {ex.Message}");
+                MessageBox.Show($"Logout error: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-            FormDangNhap loginForm = new FormDangNhap();
-            loginForm.StartPosition = FormStartPosition.CenterScreen;
-            loginForm.TopMost = false;
-            loginForm.ShowInTaskbar = true;
-
-            loginForm.TopMost = true;
-            loginForm.Show();
-            loginForm.BringToFront();
-            loginForm.Activate();
-
-
-            this.Close();
+        // ✅ Property để truy cập username
+        public string CurrentUsername
+        {
+            get { return username; }
+            set { UpdateUsernameDisplay(value); }
         }
     }
-
 }

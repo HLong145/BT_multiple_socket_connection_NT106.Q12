@@ -29,9 +29,9 @@ namespace Socket_LTMCB
             btn_joinroom = new Btn_Pixel();
             btnLogout = new Btn_Pixel();
             panelMainContent = new Panel();
+            pictureBox7 = new PictureBox();
             pictureBox9 = new PictureBox();
             pictureBox8 = new PictureBox();
-            pictureBox7 = new PictureBox();
             pictureBox6 = new PictureBox();
             pictureBox5 = new PictureBox();
             pictureBox4 = new PictureBox();
@@ -43,9 +43,9 @@ namespace Socket_LTMCB
             panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
             panelMainContent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -86,12 +86,12 @@ namespace Socket_LTMCB
             // 
             lblUserName.AutoSize = true;
             lblUserName.BackColor = Color.Transparent;
-            lblUserName.Font = new Font("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUserName.Font = new Font("Courier New", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblUserName.ForeColor = Color.FromArgb(64, 0, 0);
-            lblUserName.Location = new Point(29, 277);
+            lblUserName.Location = new Point(12, 263);
             lblUserName.Margin = new Padding(4, 0, 4, 0);
             lblUserName.Name = "lblUserName";
-            lblUserName.Size = new Size(208, 27);
+            lblUserName.Size = new Size(326, 41);
             lblUserName.TabIndex = 2;
             lblUserName.Text = "HERO NAME HERE";
             // 
@@ -164,6 +164,17 @@ namespace Socket_LTMCB
             panelMainContent.Size = new Size(977, 742);
             panelMainContent.TabIndex = 0;
             // 
+            // pictureBox7
+            // 
+            pictureBox7.BackColor = Color.FromArgb(180, 83, 9);
+            pictureBox7.Image = Properties.Resources.thanhspeed;
+            pictureBox7.Location = new Point(520, 512);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(148, 54);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 9;
+            pictureBox7.TabStop = false;
+            // 
             // pictureBox9
             // 
             pictureBox9.BackColor = Color.FromArgb(180, 83, 9);
@@ -185,17 +196,6 @@ namespace Socket_LTMCB
             pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox8.TabIndex = 10;
             pictureBox8.TabStop = false;
-            // 
-            // pictureBox7
-            // 
-            pictureBox7.BackColor = Color.FromArgb(180, 83, 9);
-            pictureBox7.Image = Properties.Resources.thanhspeed;
-            pictureBox7.Location = new Point(520, 512);
-            pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(148, 54);
-            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox7.TabIndex = 9;
-            pictureBox7.TabStop = false;
             // 
             // pictureBox6
             // 
@@ -310,9 +310,9 @@ namespace Socket_LTMCB
             ((System.ComponentModel.ISupportInitialize)pbAvatar).EndInit();
             panelMainContent.ResumeLayout(false);
             panelMainContent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
