@@ -56,7 +56,20 @@ namespace Socket_LTMCB
             tb_otp5.KeyPress += OtpBox_KeyPress;
             tb_otp6.KeyPress += OtpBox_KeyPress;
         }
+        private void ResetOtpTextBoxes()
+        {
+            tb_otp1.Text = "";
+            tb_otp2.Text = "";
+            tb_otp3.Text = "";
+            tb_otp4.Text = "";
+            tb_otp5.Text = "";
+            tb_otp6.Text = "";
 
+            // Focus về ô đầu tiên
+            tb_otp1.Focus();
+
+            Console.WriteLine("✅ OTP textboxes reset!");
+        }
         private void OtpTimer_Tick(object sender, EventArgs e)
         {
             remainingSeconds--;
@@ -164,7 +177,7 @@ namespace Socket_LTMCB
                     return;
                 }
             }
-
+            ResetOtpTextBoxes();
             MessageBox.Show($"Your new OTP is: {newOtp}\n(This is shown for testing only)",
                 "New OTP", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

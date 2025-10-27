@@ -9,6 +9,7 @@ namespace Socket_LTMCB.Client
         public Dashboard()
         {
             InitializeComponent();
+
         }
 
         /// <summary>
@@ -18,10 +19,10 @@ namespace Socket_LTMCB.Client
         /// <summary>
         /// Khi đóng Dashboard → Thoát toàn bộ ứng dụng
         /// </summary>
-       protected override void OnFormClosing(FormClosingEventArgs e)
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
             var result = MessageBox.Show(
-                "Are you sure you want to exit the application?", "⚠️ Exit Confirmation",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                "Are you sure you want to exit the application?", "⚠️ Exit Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.No)
             {
@@ -35,7 +36,12 @@ namespace Socket_LTMCB.Client
         {
             try
             {
-                // ✅ KHỞI TẠO VÀ CHẠY CLIENT CONTROLLER
+                Console.WriteLine("🎮 Starting Client mode...");
+
+                // ✅ ẨN DASHBOARD TRƯỚC KHI MỞ CLIENT
+                this.Hide();
+
+                // ✅ KHỞI TẠO CLIENT CONTROLLER
                 var clientController = new ClientApplicationController(this);
 
                 MessageBox.Show("Client mode started!\n\nPlease login or register to continue.",
@@ -43,138 +49,132 @@ namespace Socket_LTMCB.Client
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"❌ Error: {ex.Message}");
                 MessageBox.Show($"Error starting client: {ex.Message}",
                     "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Show();
             }
         }
-        
-    private void btn_Server_Click(object sender, EventArgs e)
-        {
-        try
-        {
-            // ✅ MỞ SERVER FORM
-            ServerForm serverForm = new ServerForm();
-            serverForm.Show();
 
-            MessageBox.Show("Server window opened!\n\nClick 'Start' to begin listening for connections on port 8080.",
-                "🖥️ Server Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // ✅ KHI SERVER ĐÓNG → HIỆN LẠI DASHBOARD
-            serverForm.FormClosed += (s, args) =>
+        private void btn_Server_Click(object sender, EventArgs e)
+        {
+            try
             {
-                this.Show();
-                this.BringToFront();
-            };
+                // ✅ MỞ SERVER FORM
+                ServerForm serverForm = new ServerForm();
+                serverForm.Show();
+
+                MessageBox.Show("Server window opened!\n\nClick 'Start' to begin listening for connections on port 8080.",
+                    "🖥️ Server Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // ✅ KHI SERVER ĐÓNG → HIỆN LẠI DASHBOARD
+                serverForm.FormClosed += (s, args) =>
+                {
+                    this.Show();
+                    this.BringToFront();
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error starting server: {ex.Message}",
+                    "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error starting server: {ex.Message}",
-                "❌ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
     }
 
     /// <summary>
     /// Controller quản lý Client flow (Login/Register)
     /// </summary>
-    public class ClientApplicationController : ApplicationContext
+    /// <summary>
+    /// Controller quản lý Client flow (Login/Register) - BẢN ĐÃ SỬA
+    /// </summary>
+    public class ClientApplicationController
     {
         private FormDangNhap loginForm;
         private FormDangKy registerForm;
         private Dashboard dashboardForm;
-        private bool isExiting = false;
 
         public ClientApplicationController(Dashboard dashboard)
         {
             dashboardForm = dashboard;
+            dashboard.Hide();
+
+            Console.WriteLine("🎯 Initializing ClientApplicationController...");
+
+            // ✅ TẠO VÀ KẾT NỐI FORM NGAY LẬP TỨC
+            InitializeAndConnectForms();
+
+            // Hiển thị form đăng nhập
             ShowLoginForm();
+        }
+
+        // ✅ PHƯƠNG THỨC MỚI: KHỞI TẠO VÀ KẾT NỐI FORM
+        private void InitializeAndConnectForms()
+        {
+            // Tạo form đăng nhập
+            loginForm = new FormDangNhap();
+            loginForm.StartPosition = FormStartPosition.CenterScreen;
+
+            // Tạo form đăng ký
+            registerForm = new FormDangKy();
+            registerForm.StartPosition = FormStartPosition.CenterScreen;
+
+            Console.WriteLine("🔗 Connecting events...");
+
+            // ✅ KẾT NỐI SỰ KIỆN: Login → Register
+            loginForm.SwitchToRegister += (s, e) =>
+            {
+                Console.WriteLine("🔄 Switching to Register form from Login...");
+                loginForm.Hide();
+                registerForm.ResetForm();
+                registerForm.Show();
+                registerForm.BringToFront();
+            };
+
+            // ✅ KẾT NỐI SỰ KIỆN: Register → Login  
+            registerForm.SwitchToLogin += (s, e) =>
+            {
+                Console.WriteLine("🔄 Switching to Login form from Register...");
+                registerForm.Hide();
+                loginForm.Show();
+                loginForm.BringToFront();
+            };
+
+            // Kết nối sự kiện đóng form
+            loginForm.FormClosed += (s, e) =>
+            {
+                Console.WriteLine("🚪 Login form closed");
+                registerForm?.Close();
+                dashboardForm?.Show();
+                dashboardForm?.BringToFront();
+            };
+
+            registerForm.FormClosed += (s, e) =>
+            {
+                Console.WriteLine("🚪 Register form closed");
+                if (!loginForm.Visible)
+                {
+                    loginForm.Show();
+                }
+            };
+
+            Console.WriteLine("✅ Events connected successfully!");
         }
 
         private void ShowLoginForm()
         {
-            if (loginForm == null || loginForm.IsDisposed)
-            {
-                loginForm = new FormDangNhap();
-
-                loginForm.TopMost = true; 
-                loginForm.StartPosition = FormStartPosition.CenterScreen;
-
-                loginForm.SwitchToRegister += OnSwitchToRegister;
-                loginForm.FormClosed += LoginForm_FormClosed;
-            }
-
-            this.MainForm = loginForm;
-
+            Console.WriteLine("👤 Showing Login form...");
             loginForm.Show();
             loginForm.BringToFront();
-            loginForm.Activate();
         }
-
 
         private void ShowRegisterForm()
         {
-            if (registerForm == null || registerForm.IsDisposed)
-            {
-                registerForm = new FormDangKy();
-                registerForm.StartPosition = FormStartPosition.CenterScreen;
-                registerForm.SwitchToLogin += OnSwitchToLogin;
-                registerForm.FormClosed += RegisterForm_FormClosed;
-            }
-
+            Console.WriteLine("📝 Showing Register form...");
+            registerForm.ResetForm();
             registerForm.Show();
             registerForm.BringToFront();
-        }
-
-        private void OnSwitchToRegister(object sender, EventArgs e)
-        {
-            loginForm?.Hide();
-            ShowRegisterForm();
-        }
-
-        private void OnSwitchToLogin(object sender, EventArgs e)
-        {
-            registerForm?.Hide();
-            ShowLoginForm();
-        }
-
-        private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (!isExiting)
-            {
-                isExiting = true;
-                registerForm?.Close();
-
-                // ✅ QUAY LẠI DASHBOARD
-                dashboardForm?.Show();
-                dashboardForm?.BringToFront();
-
-                ExitThread();
-            }
-        }
-
-        private void RegisterForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            // Nếu form đăng ký đóng mà không chuyển form
-            if (registerForm != null && (loginForm == null || !loginForm.Visible))
-            {
-                ShowLoginForm();
-            }
-        }
-
-        protected override void OnMainFormClosed(object sender, EventArgs e)
-        {
-            if (!isExiting)
-            {
-                isExiting = true;
-                registerForm?.Close();
-                loginForm?.Close();
-
-                // ✅ QUAY LẠI DASHBOARD
-                dashboardForm?.Show();
-                dashboardForm?.BringToFront();
-            }
-            base.OnMainFormClosed(sender, e);
         }
     }
 }

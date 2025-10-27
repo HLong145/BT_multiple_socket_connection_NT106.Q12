@@ -11,9 +11,47 @@ namespace Socket_LTMCB
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            // ✅ HIỂN thị Dashboard để chọn Server hoặc Client
             Application.Run(new Dashboard());
+        }
+    }
+
+    // ✅ FORM MANAGER ĐƠN GIẢN
+    public static class FormManager
+    {
+        public static void StartApplication()
+        {
+            var loginForm = new FormDangNhap();
+            var registerForm = new FormDangKy();
+
+            // Ẩn form đăng ký ban đầu
+            registerForm.Hide();
+
+            // ✅ KẾT NỐI SỰ KIỆN: Login → Register
+            loginForm.SwitchToRegister += (s, e) =>
+            {
+                Console.WriteLine("🔄 Switching to Register form...");
+                loginForm.Hide();
+                registerForm.Show();
+                registerForm.BringToFront();
+            };
+
+            // ✅ KẾT NỐI SỰ KIỆN: Register → Login  
+            registerForm.SwitchToLogin += (s, e) =>
+            {
+                Console.WriteLine("🔄 Switching to Login form...");
+                registerForm.Hide();
+                registerForm.ResetForm();
+                loginForm.Show();
+                loginForm.BringToFront();
+            };
+
+            // Khi đóng form đăng nhập thì thoát app
+            loginForm.FormClosed += (s, e) => Application.Exit();
+
+            // Hiển thị form đăng nhập
+            loginForm.Show();
+
+            Application.Run();
         }
     }
 }

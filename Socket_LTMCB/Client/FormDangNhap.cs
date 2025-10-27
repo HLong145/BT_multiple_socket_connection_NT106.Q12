@@ -16,18 +16,12 @@ namespace Socket_LTMCB
         private System.Windows.Forms.Timer floatingItemsTimer;
         public string ReturnedUsername { get; private set; }
         public string Token { get; private set; }
-        private void ClearSavedCredentials()
-        {
-            Properties.Settings.Default.RememberMe = false;
-            Properties.Settings.Default.SavedUsername = "";
-            Properties.Settings.Default.SavedPassword = "";
-            Properties.Settings.Default.SavedToken = "";
-            Properties.Settings.Default.Save();
-        }
 
         private readonly TcpClientService tcpClient;
         private readonly DatabaseService dbService = new DatabaseService();
         private static bool isAutoLoginPerformed = false;
+
+        // ✅ QUAN TRỌNG: Sự kiện này PHẢI được khai báo
         public event EventHandler SwitchToRegister;
 
         public FormDangNhap()
@@ -71,9 +65,17 @@ namespace Socket_LTMCB
             }
             catch
             {
-                return ""; // token bị lỗi hoặc user khác
+                return "";
             }
         }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            this.BringToFront();
+            this.Focus();
+        }
+
         private async Task LoadRememberedLoginAsync()
         {
             if (isAutoLoginPerformed) return;
@@ -84,35 +86,23 @@ namespace Socket_LTMCB
                 string savedPassword = Decrypt(Properties.Settings.Default.SavedPassword);
                 string savedToken = Decrypt(Properties.Settings.Default.SavedToken);
 
-                if (string.IsNullOrEmpty(savedUsername))
-                {
-                    return;
-                }
+                if (string.IsNullOrEmpty(savedUsername)) return;
 
                 tb_Username.Text = savedUsername;
                 tb_Password.Text = savedPassword;
 
-                // ✅ QUAN TRỌNG: Nếu không có token, KHÔNG thử auto login
-                // Chỉ điền sẵn username/password để người dùng click Login
-                if (string.IsNullOrEmpty(savedToken))
-                {
-                    return; // Chỉ điền form, không auto login
-                }
+                if (string.IsNullOrEmpty(savedToken)) return;
 
-                // ✅ Nếu có token, thử verify
                 try
                 {
                     var verifyResponse = await tcpClient.VerifyTokenAsync(savedToken);
-
                     if (verifyResponse.Success)
                     {
                         string usernameFromToken = verifyResponse.GetDataValue("username");
-
                         MessageBox.Show($"🎉 Auto login successful!\n\nWelcome back {usernameFromToken}!",
                             "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         isAutoLoginPerformed = true;
-
                         this.Hide();
                         MainForm mainForm = new MainForm(usernameFromToken, savedToken);
                         mainForm.FormClosed += (s, args) =>
@@ -125,12 +115,8 @@ namespace Socket_LTMCB
                     }
                     else
                     {
-                        // ❌ Token không hợp lệ, nhưng KHÔNG xóa thông tin remember me
-                        // Chỉ xóa token, giữ username/password
                         Properties.Settings.Default.SavedToken = "";
                         Properties.Settings.Default.Save();
-
-                        // Thông báo và để người dùng đăng nhập thủ công
                         MessageBox.Show("Your session has expired. Please click Login button.",
                             "⚠ Session Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
@@ -138,29 +124,10 @@ namespace Socket_LTMCB
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Token verification failed: {ex.Message}");
-                    // ❌ Lỗi kết nối, không làm gì cả - để người dùng đăng nhập thủ công
                 }
             }
         }
-        private void SaveRememberedLogin(string username, string password, string token)
-        {
-            if (chk_Remember.Checked)
-            {
-                Properties.Settings.Default.RememberMe = true;
-                Properties.Settings.Default.SavedUsername = username;
-                Properties.Settings.Default.SavedPassword = Encrypt(password); // 🔒 mã hóa password
-                Properties.Settings.Default.SavedToken = Encrypt(token);
-            }
-            else
-            {
-                Properties.Settings.Default.RememberMe = false;
-                Properties.Settings.Default.SavedUsername = "";
-                Properties.Settings.Default.SavedPassword = "";
-                Properties.Settings.Default.SavedToken = "";
-            }
 
-            Properties.Settings.Default.Save();
-        }
         // =========================
         // ✅ Button Login (ASYNC)
         // =========================
@@ -204,8 +171,6 @@ namespace Socket_LTMCB
             try
             {
                 btn_Login.Enabled = false;
-
-                // Gọi server login
                 var response = await tcpClient.LoginAsync(username, password);
 
                 if (response.Success)
@@ -220,16 +185,13 @@ namespace Socket_LTMCB
                         return;
                     }
 
-                    // ✅ THAY ĐỔI: Không cần gọi tokenManager.GenerateToken ở client
-                    // Token đã được server tạo và trả về trong response
-
                     // Lưu RememberMe
                     if (chk_Remember.Checked)
                     {
                         Properties.Settings.Default.RememberMe = true;
                         Properties.Settings.Default.SavedUsername = returnedUsername;
                         Properties.Settings.Default.SavedPassword = Encrypt(password);
-                        Properties.Settings.Default.SavedToken = Encrypt(token); // Lưu token từ server
+                        Properties.Settings.Default.SavedToken = Encrypt(token);
                     }
                     else
                     {
@@ -267,6 +229,43 @@ namespace Socket_LTMCB
         }
 
         // =========================
+        // ✅ QUAN TRỌNG: Sửa sự kiện Register button
+        // =========================
+        private void btn_Register_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("🎯 Register button CLICKED in FormDangNhap!");
+
+            // ✅ DEBUG: Kiểm tra sự kiện
+            if (SwitchToRegister == null)
+            {
+                Console.WriteLine("❌ ERROR: SwitchToRegister event is NULL! Using fallback...");
+
+                // FALLBACK: Chuyển form thủ công
+                this.Hide();
+                var registerForm = new FormDangKy();
+                registerForm.SwitchToLogin += (s2, e2) =>
+                {
+                    registerForm.Close();
+                    this.Show();
+                };
+                registerForm.Show();
+            }
+            else
+            {
+                Console.WriteLine("✅ SwitchToRegister event is connected, invoking...");
+                SwitchToRegister?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void btn_Forgot_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormQuenPass formQuenPass = new FormQuenPass();
+            formQuenPass.FormClosed += (s, args) => this.Show();
+            formQuenPass.Show();
+        }
+
+        // =========================
         // Helpers
         // =========================
         private bool IsValidEmail(string email)
@@ -290,19 +289,6 @@ namespace Socket_LTMCB
         private void ShowPasswordCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             tb_Password.UseSystemPasswordChar = !chk_ShowPassword.Checked;
-        }
-
-        private void btn_Register_Click(object sender, EventArgs e)
-        {
-            SwitchToRegister?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void btn_Forgot_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            FormQuenPass formQuenPass = new FormQuenPass();
-            formQuenPass.FormClosed += (s, args) => this.Show();
-            formQuenPass.Show();
         }
 
         // =========================
@@ -344,14 +330,13 @@ namespace Socket_LTMCB
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            floatingItemsTimer?.Stop();
-            floatingItemsTimer?.Dispose();
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = false;
+            }
             base.OnFormClosing(e);
         }
 
-        private void chk_Remember_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void chk_Remember_CheckedChanged(object sender, EventArgs e) { }
     }
 }

@@ -287,27 +287,42 @@ namespace Socket_LTMCB.Server
                 var phone = request.Data.ContainsKey("phone") ? request.Data["phone"]?.ToString() : null;
                 var password = request.Data?["password"]?.ToString();
 
+                // ✅ THÊM LOG CHI TIẾT
+                server.Log($"🔍 Register attempt: Username='{username}', Email='{email}', Phone='{phone}'");
+
                 // ✅ VALIDATE INPUT
                 var validationResult = validationService.ValidateRegistration(username, email, phone, password);
                 if (!validationResult.IsValid)
                 {
+                    server.Log($"❌ Register validation failed: {validationResult.Message}");
                     return CreateResponse(false, validationResult.Message);
                 }
 
-                if (dbService.IsUserExists(username, email, phone))
+                // ✅ CHECK EXISTING USER
+                server.Log($"🔍 Checking if user exists: {username}");
+                bool userExists = dbService.IsUserExists(username, email, phone);
+                server.Log($"🔍 User exists result: {userExists}");
+
+                if (userExists)
                 {
+                    server.Log($"❌ Register failed: User already exists - {username}");
                     return CreateResponse(false, "Username, email or phone already exists");
                 }
 
+                server.Log($"🔍 Creating salt and hash for: {username}");
                 string salt = dbService.CreateSalt();
                 string hash = dbService.HashPassword_Sha256(password, salt);
 
+                server.Log($"🔍 Saving user to database: {username}");
                 bool success = dbService.SaveUserToDatabase(username, email, phone, hash, salt);
+
+                server.Log($"✅ Register result: {success} for user {username}");
 
                 return CreateResponse(success, success ? "Registration successful" : "Registration failed");
             }
             catch (Exception ex)
             {
+                server.Log($"❌ Register ERROR: {ex.ToString()}");
                 return CreateResponse(false, $"Registration error: {ex.Message}");
             }
         }

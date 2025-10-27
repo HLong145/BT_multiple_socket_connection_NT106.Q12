@@ -4,43 +4,54 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
 using Microsoft.Data.SqlClient;
+using System.Data;
+
 namespace Socket_LTMCB.Services
 {
     public class DatabaseService
     {
-        // ✅ CONNECTION STRING - Sửa ở đây nếu cần
+        // ✅ CONNECTION STRING
         private readonly string connectionString = "Server=localhost;Database=USERDB;Trusted_Connection=True;TrustServerCertificate=True;";
         private ConcurrentDictionary<string, (string Otp, DateTime ExpireTime)> otps = new();
-        // ✅ KIỂM TRA USER TỒN TẠI
+
+        // ✅ KIỂM TRA USER TỒN TẠI - BẢN ĐÃ SỬA
         public bool IsUserExists(string username, string email, string phone)
         {
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-
-                // ✅ Chỉ thêm điều kiện nếu có dữ liệu thật
-                string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE USERNAME = @Username";
-
-                if (!string.IsNullOrEmpty(email))
-                    query += " OR EMAIL = @Email";
-
-                if (!string.IsNullOrEmpty(phone))
-                    query += " OR PHONE = @Phone";
-
-                using (var command = new SqlCommand(query, connection))
+                using (var connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@Email", (object)email ?? DBNull.Value);
-                    command.Parameters.AddWithValue("@Phone", (object)phone ?? DBNull.Value);
+                    connection.Open();
 
-                    int count = (int)command.ExecuteScalar();
-                    return count > 0;
+                    // ✅ FIX: Sử dụng parameterized query an toàn
+                    string query = @"
+                        SELECT COUNT(*) 
+                        FROM NGUOIDUNG 
+                        WHERE USERNAME = @Username 
+                           OR (@Email IS NOT NULL AND EMAIL = @Email)
+                           OR (@Phone IS NOT NULL AND PHONE = @Phone)";
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+                        command.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(email) ? DBNull.Value : (object)email);
+                        command.Parameters.AddWithValue("@Phone", string.IsNullOrEmpty(phone) ? DBNull.Value : (object)phone);
+
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        Console.WriteLine($"🔍 IsUserExists: {username} - Count: {count}");
+                        return count > 0;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ IsUserExists ERROR: {ex.Message}");
+                // ✅ Trả về true để ngăn tạo user trùng lặp khi có lỗi
+                return true;
             }
         }
 
-
-        // ✅ LƯU USER VÀO DATABASE
+        // ✅ LƯU USER VÀO DATABASE - BẢN ĐÃ SỬA
         public bool SaveUserToDatabase(string username, string email, string phone, string hash, string salt)
         {
             try
@@ -48,31 +59,69 @@ namespace Socket_LTMCB.Services
                 using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = @"INSERT INTO NGUOIDUNG (USERNAME, EMAIL, PHONE, PASSWORDHASH, SALT) 
+
+                    // ✅ FIX: Sử dụng transaction để đảm bảo tính toàn vẹn
+                    using (var transaction = connection.BeginTransaction())
+                    {
+                        try
+                        {
+                            string query = @"
+                                INSERT INTO NGUOIDUNG (USERNAME, EMAIL, PHONE, PASSWORDHASH, SALT) 
                                 VALUES (@Username, @Email, @Phone, @Hash, @Salt)";
 
-                    using (var command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Username", username);
-                        command.Parameters.AddWithValue("@Email", (object)email ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@Phone", (object)phone ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@Hash", hash);
-                        command.Parameters.AddWithValue("@Salt", salt);
+                            using (var command = new SqlCommand(query, connection, transaction))
+                            {
+                                command.Parameters.AddWithValue("@Username", username);
+                                command.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(email) ? DBNull.Value : (object)email);
+                                command.Parameters.AddWithValue("@Phone", string.IsNullOrEmpty(phone) ? DBNull.Value : (object)phone);
+                                command.Parameters.AddWithValue("@Hash", hash);
+                                command.Parameters.AddWithValue("@Salt", salt);
 
-                        return command.ExecuteNonQuery() > 0;
+                                int rowsAffected = command.ExecuteNonQuery();
+
+                                transaction.Commit(); // ✅ Commit transaction
+
+                                Console.WriteLine($"✅ SaveUserToDatabase SUCCESS: {username}, Rows: {rowsAffected}");
+                                return rowsAffected > 0;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            transaction.Rollback(); // ✅ Rollback nếu có lỗi
+                            throw;
+                        }
                     }
                 }
             }
+            catch (SqlException sqlEx)
+            {
+                Console.WriteLine($"❌ SQL Error saving user {username}: {sqlEx.Message}");
+                Console.WriteLine($"❌ SQL Number: {sqlEx.Number}");
+
+                // ✅ Xử lý các lỗi SQL phổ biến
+                if (sqlEx.Number == 2627) // Violation of PRIMARY KEY constraint
+                {
+                    Console.WriteLine("❌ User already exists (primary key violation)");
+                }
+                else if (sqlEx.Number == 2601) // Violation of UNIQUE constraint
+                {
+                    Console.WriteLine("❌ Duplicate user data (unique constraint violation)");
+                }
+
+                return false;
+            }
             catch (Exception ex)
             {
-                // Log lỗi nếu cần
-                Console.WriteLine($"Error saving user: {ex.Message}");
+                Console.WriteLine($"❌ General Error saving user {username}: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"❌ Inner Exception: {ex.InnerException.Message}");
+                }
                 return false;
             }
         }
 
         // ✅ XÁC THỰC ĐĂNG NHẬP
-        // ✅ XÁC THỰC ĐĂNG NHẬP - BẢN CẢI TIẾN
         public bool VerifyUserLogin(string username, string password)
         {
             try
@@ -90,7 +139,6 @@ namespace Socket_LTMCB.Services
                         {
                             if (reader.Read())
                             {
-                                // ✅ Kiểm tra NULL trước khi ToString()
                                 string storedHash = reader["PASSWORDHASH"]?.ToString();
                                 string salt = reader["SALT"]?.ToString();
 
@@ -113,7 +161,6 @@ namespace Socket_LTMCB.Services
         }
 
         // ✅ TÌM USERNAME BẰNG EMAIL/PHONE
-        // ✅ TÌM USERNAME BẰNG EMAIL/PHONE - BẢN CẢI TIẾN
         public string GetUsernameByContact(string contact, bool isEmail)
         {
             try
@@ -129,7 +176,7 @@ namespace Socket_LTMCB.Services
                     {
                         command.Parameters.AddWithValue("@Contact", contact);
                         var result = command.ExecuteScalar();
-                        return result?.ToString(); // ✅ Xử lý NULL an toàn
+                        return result?.ToString();
                     }
                 }
             }
@@ -140,7 +187,7 @@ namespace Socket_LTMCB.Services
             }
         }
 
-        // ✅ RESET PASSWORD
+        // ✅ RESET PASSWORD - BẢN ĐÃ SỬA
         public bool ResetPassword(string username, string newPassword)
         {
             try
@@ -151,28 +198,130 @@ namespace Socket_LTMCB.Services
                 using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = @"UPDATE NGUOIDUNG 
+
+                    // ✅ FIX: Sử dụng transaction
+                    using (var transaction = connection.BeginTransaction())
+                    {
+                        try
+                        {
+                            string query = @"
+                                UPDATE NGUOIDUNG 
                                 SET PASSWORDHASH = @Hash, SALT = @Salt 
                                 WHERE USERNAME = @Username";
 
-                    using (var command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Hash", hash);
-                        command.Parameters.AddWithValue("@Salt", salt);
-                        command.Parameters.AddWithValue("@Username", username);
+                            using (var command = new SqlCommand(query, connection, transaction))
+                            {
+                                command.Parameters.AddWithValue("@Hash", hash);
+                                command.Parameters.AddWithValue("@Salt", salt);
+                                command.Parameters.AddWithValue("@Username", username);
 
-                        return command.ExecuteNonQuery() > 0;
+                                int rowsAffected = command.ExecuteNonQuery();
+                                transaction.Commit();
+
+                                Console.WriteLine($"✅ ResetPassword: {username}, Rows affected: {rowsAffected}");
+                                return rowsAffected > 0;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"❌ ResetPassword ERROR for {username}: {ex.Message}");
                 return false;
             }
         }
 
-        // ✅ GIỮ NGUYÊN CÁC HÀM CŨ
+        // ✅ KIỂM TRA VÀ SỬA CẤU TRÚC BẢNG
+        public bool CheckAndFixTableStructure()
+        {
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
 
+                    // Kiểm tra xem bảng có tồn tại không
+                    string checkTableQuery = @"
+                        SELECT COUNT(*) 
+                        FROM INFORMATION_SCHEMA.TABLES 
+                        WHERE TABLE_NAME = 'NGUOIDUNG'";
+
+                    using (var command = new SqlCommand(checkTableQuery, connection))
+                    {
+                        int tableExists = Convert.ToInt32(command.ExecuteScalar());
+                        if (tableExists == 0)
+                        {
+                            Console.WriteLine("❌ Table NGUOIDUNG does not exist!");
+                            return false;
+                        }
+                    }
+
+                    // Kiểm tra cấu trúc cột
+                    string checkColumnsQuery = @"
+                        SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE 
+                        FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_NAME = 'NGUOIDUNG'
+                        ORDER BY ORDINAL_POSITION";
+
+                    using (var command = new SqlCommand(checkColumnsQuery, connection))
+                    using (var reader = command.ExecuteReader())
+                    {
+                        Console.WriteLine("📋 Table NGUOIDUNG structure:");
+                        while (reader.Read())
+                        {
+                            Console.WriteLine($"  {reader["COLUMN_NAME"]} - {reader["DATA_TYPE"]} - {reader["IS_NULLABLE"]}");
+                        }
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ CheckTableStructure error: {ex.Message}");
+                return false;
+            }
+        }
+
+        // ✅ TEST TOÀN DIỆN
+        public void RunDiagnostics()
+        {
+            Console.WriteLine("🔧 Running Database Diagnostics...");
+
+            // Test kết nối
+            bool connectionOk = TestConnection();
+            Console.WriteLine($"📡 Database Connection: {connectionOk}");
+
+            if (connectionOk)
+            {
+                // Test cấu trúc bảng
+                bool tableOk = CheckAndFixTableStructure();
+                Console.WriteLine($"📊 Table Structure: {tableOk}");
+
+                // Test tạo user giả
+                string testUser = "testuser_" + DateTime.Now.Ticks;
+                bool userExists = IsUserExists(testUser, null, null);
+                Console.WriteLine($"👤 Test User Check: {userExists} (should be false)");
+
+                if (!userExists)
+                {
+                    string salt = CreateSalt();
+                    string hash = HashPassword_Sha256("testpassword", salt);
+                    bool saveOk = SaveUserToDatabase(testUser, "test@test.com", "0123456789", hash, salt);
+                    Console.WriteLine($"💾 Test User Save: {saveOk}");
+                }
+            }
+
+            Console.WriteLine("🔧 Diagnostics Complete");
+        }
+
+        // ✅ CÁC PHƯƠNG THỨC KHÁC GIỮ NGUYÊN
         public string CreateSalt()
         {
             var bytes = new byte[16];
@@ -188,13 +337,10 @@ namespace Socket_LTMCB.Services
             return Convert.ToBase64String(hash);
         }
 
-
-        // ✅ TẠO OTP - BẢN CẢI TIẾN
         public string GenerateOtp(string username)
         {
             try
             {
-                // Kiểm tra user tồn tại
                 using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -207,14 +353,13 @@ namespace Socket_LTMCB.Services
                     }
                 }
 
-                // ✅ Dùng RandomNumberGenerator thay vì Random (bảo mật hơn)
                 var bytes = new byte[4];
                 using (var rng = RandomNumberGenerator.Create())
                 {
                     rng.GetBytes(bytes);
                 }
                 int randomNumber = Math.Abs(BitConverter.ToInt32(bytes, 0));
-                string otp = (randomNumber % 900000 + 100000).ToString(); // Đảm bảo 6 chữ số
+                string otp = (randomNumber % 900000 + 100000).ToString();
 
                 otps[username] = (otp, DateTime.Now.AddMinutes(5));
                 return otp;
@@ -235,17 +380,17 @@ namespace Socket_LTMCB.Services
 
             if (DateTime.Now > expireTime)
             {
-                otps.TryRemove(username, out _);  // ✅ Đúng cách
+                otps.TryRemove(username, out _);
                 return (false, "OTP expired!");
             }
 
             if (storedOtp != otp)
                 return (false, "Wrong OTP, try again!");
 
-            otps.TryRemove(username, out _);  // ✅ Đúng cách
+            otps.TryRemove(username, out _);
             return (true, "Verify OTP successfully");
         }
-        // ✅ THÊM METHOD NÀY ĐỂ TEST KẾT NỐI
+
         public bool TestConnection()
         {
             try
@@ -253,7 +398,7 @@ namespace Socket_LTMCB.Services
                 using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    return connection.State == System.Data.ConnectionState.Open;
+                    return connection.State == ConnectionState.Open;
                 }
             }
             catch (Exception ex)
@@ -262,7 +407,7 @@ namespace Socket_LTMCB.Services
                 return false;
             }
         }
-        // ✅ XÓA OTP HẾT HẠN (Gọi định kỳ hoặc khi cần)
+
         public void CleanExpiredOtps()
         {
             var now = DateTime.Now;

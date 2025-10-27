@@ -99,9 +99,10 @@ namespace Socket_LTMCB
                     MessageBoxIcon.Information
                 );
 
-                this.Close();
+                this.Hide();
                 FormDangNhap formLogin = new FormDangNhap();
                 formLogin.Show();
+                this.Close();
             }
             else
             {

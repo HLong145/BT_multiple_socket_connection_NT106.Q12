@@ -23,18 +23,17 @@ namespace Socket_LTMCB
         {
             InitializeComponent();
             InitializeCustomUI();
-            this.AutoScroll = true;
-            for (int i = 0; i < 30; i++)
-            {
-                Button btn = new Button();
-                btn.Text = "Button " + i;
-                btn.Location = new Point(20, 30 * i);
-                this.Controls.Add(btn);
-            }
-
+            this.VisibleChanged += FormDangKy_VisibleChanged;
             // ✅ KHỞI TẠO CẢ HAI SERVICE
             tcpClient = new TcpClientService("127.0.0.1", 8080);
             dbService = new DatabaseService();
+            this.Shown += (s, e) =>
+            {
+                this.BringToFront();
+                this.Focus();
+                StartAnimations();
+                Console.WriteLine("✅ FormDangKy shown!");
+            };
         }
 
         // =========================
@@ -60,6 +59,14 @@ namespace Socket_LTMCB
             this.AutoScroll = true;
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            this.BringToFront();
+            this.Focus();
+            StartAnimations();
+        }
+
         private void SetPlaceholder(TextBox tb, string placeholder)
         {
             tb.Text = placeholder;
@@ -80,6 +87,18 @@ namespace Socket_LTMCB
                     tb.ForeColor = Color.FromArgb(87, 83, 78);
                 }
             };
+        }
+        public new void Show()
+        {
+            this.Visible = true;
+            this.StartAnimations();
+            this.BringToFront();
+        }
+
+        public new void Hide()
+        {
+            this.StopAnimations();
+            this.Visible = false;
         }
 
         private void SetPasswordPlaceholder(TextBox tb, string placeholder)
@@ -253,8 +272,37 @@ namespace Socket_LTMCB
         // =========================
         private void btn_alreadyHaveAccount_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("🎯 Already have account button CLICKED in FormDangKy!");
             StopAnimations();
-            SwitchToLogin?.Invoke(this, EventArgs.Empty);
+
+            // ✅ CHỈ GỌI SỰ KIỆN
+            if (SwitchToLogin != null)
+            {
+                Console.WriteLine("✅ SwitchToLogin event is connected, invoking...");
+                SwitchToLogin?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                Console.WriteLine("❌ ERROR: SwitchToLogin event is NULL!");
+            }
+        }
+        public void ResetForm()
+        {
+            // Reset textboxes về placeholder
+            tb_username.Text = "ENTER USERNAME";
+            tb_contact.Text = "EMAIL OR PHONE";
+            tb_password.Text = "ENTER PASSWORD";
+            tb_confirmPassword.Text = "CONFIRM PASSWORD";
+            chkNotRobot.Checked = false;
+
+            // Clear error labels
+            lblUsernameError.Text = "";
+            lblContactError.Text = "";
+            lblPasswordError.Text = "";
+            lblConfirmPasswordError.Text = "";
+            lblRobotError.Text = "";
+
+            Console.WriteLine("✅ FormDangKy reset completed!");
         }
 
         // =========================
@@ -275,7 +323,30 @@ namespace Socket_LTMCB
                 myTimer = null;
             }
         }
+        private void FormDangKy_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                StartAnimations();
+                // Reset form state
+                tb_username.Text = "ENTER USERNAME";
+                tb_contact.Text = "EMAIL OR PHONE";
+                tb_password.Text = "ENTER PASSWORD";
+                tb_confirmPassword.Text = "CONFIRM PASSWORD";
+                chkNotRobot.Checked = false;
 
+                // Clear errors
+                lblUsernameError.Text = "";
+                lblContactError.Text = "";
+                lblPasswordError.Text = "";
+                lblConfirmPasswordError.Text = "";
+                lblRobotError.Text = "";
+            }
+            else
+            {
+                StopAnimations();
+            }
+        }
         public void StartAnimations()
         {
             if (myTimer == null)
@@ -295,7 +366,6 @@ namespace Socket_LTMCB
         }
 
         private void tb_username_TextChanged(object sender, EventArgs e) { }
-
         private void FormDangKy_Load(object sender, EventArgs e)
         {
             StartAnimations();
