@@ -203,6 +203,16 @@ namespace Socket_LTMCB.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logogame {
+            get {
+                object obj = ResourceManager.GetObject("logogame", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap mây {
             get {
                 object obj = ResourceManager.GetObject("mây", resourceCulture);
