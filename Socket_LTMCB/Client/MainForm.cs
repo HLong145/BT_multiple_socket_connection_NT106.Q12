@@ -218,16 +218,11 @@ namespace Socket_LTMCB
             loginForm.TopMost = false;
             loginForm.ShowInTaskbar = true;
 
-
-            if (Application.OpenForms["Dashboard"] is Form dashboard)
-            {
-                loginForm.Owner = dashboard;
-            }
-
-
+            loginForm.TopMost = true;
             loginForm.Show();
             loginForm.BringToFront();
             loginForm.Activate();
+
 
             this.Close();
         }

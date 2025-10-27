@@ -35,9 +35,6 @@ namespace Socket_LTMCB.Client
         {
             try
             {
-                // ✅ ẨN DASHBOARD
-                this.Hide();
-
                 // ✅ KHỞI TẠO VÀ CHẠY CLIENT CONTROLLER
                 var clientController = new ClientApplicationController(this);
 
@@ -99,23 +96,27 @@ namespace Socket_LTMCB.Client
             if (loginForm == null || loginForm.IsDisposed)
             {
                 loginForm = new FormDangNhap();
-                loginForm.Owner = dashboardForm;       
+
+                loginForm.TopMost = true; 
                 loginForm.StartPosition = FormStartPosition.CenterScreen;
+
                 loginForm.SwitchToRegister += OnSwitchToRegister;
                 loginForm.FormClosed += LoginForm_FormClosed;
             }
 
             this.MainForm = loginForm;
+
             loginForm.Show();
             loginForm.BringToFront();
+            loginForm.Activate();
         }
+
 
         private void ShowRegisterForm()
         {
             if (registerForm == null || registerForm.IsDisposed)
             {
                 registerForm = new FormDangKy();
-                registerForm.Owner = dashboardForm;  
                 registerForm.StartPosition = FormStartPosition.CenterScreen;
                 registerForm.SwitchToLogin += OnSwitchToLogin;
                 registerForm.FormClosed += RegisterForm_FormClosed;
