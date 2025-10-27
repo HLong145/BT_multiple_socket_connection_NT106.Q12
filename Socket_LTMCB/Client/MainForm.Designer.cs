@@ -29,6 +29,8 @@ namespace Socket_LTMCB
             btn_joinroom = new Btn_Pixel();
             btnLogout = new Btn_Pixel();
             panelMainContent = new Panel();
+            label5 = new Label();
+            label4 = new Label();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
@@ -43,8 +45,6 @@ namespace Socket_LTMCB
             pictureBox1 = new PictureBox();
             tbQuestLog = new RichTextBox();
             lblWelcome = new Label();
-            label4 = new Label();
-            label5 = new Label();
             panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
             panelMainContent.SuspendLayout();
@@ -177,6 +177,32 @@ namespace Socket_LTMCB
             panelMainContent.Size = new Size(1221, 928);
             panelMainContent.TabIndex = 0;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.FromArgb(180, 83, 9);
+            label5.Font = new Font("Courier New", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.FromArgb(64, 0, 0);
+            label5.Location = new Point(76, 775);
+            label5.Margin = new Padding(5, 0, 5, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(235, 31);
+            label5.TabIndex = 16;
+            label5.Text = "Longnor Blaze";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.FromArgb(180, 83, 9);
+            label4.Font = new Font("Courier New", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.FromArgb(64, 0, 0);
+            label4.Location = new Point(374, 775);
+            label4.Margin = new Padding(5, 0, 5, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(201, 31);
+            label4.TabIndex = 15;
+            label4.Text = "Linvay Gray";
+            // 
             // label3
             // 
             label3.AutoSize = true;
@@ -201,7 +227,7 @@ namespace Socket_LTMCB
             label2.Name = "label2";
             label2.Size = new Size(167, 31);
             label2.TabIndex = 13;
-            label2.Text = "Bruce Lee";
+            label2.Text = "Bruise Li";
             // 
             // label1
             // 
@@ -350,32 +376,6 @@ namespace Socket_LTMCB
             lblWelcome.Size = new Size(555, 63);
             lblWelcome.TabIndex = 2;
             lblWelcome.Text = "🗡️ WELCOME TO 🛡️";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.FromArgb(180, 83, 9);
-            label4.Font = new Font("Courier New", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.FromArgb(64, 0, 0);
-            label4.Location = new Point(403, 775);
-            label4.Margin = new Padding(5, 0, 5, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(133, 31);
-            label4.TabIndex = 15;
-            label4.Text = "LihGyer";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.BackColor = Color.FromArgb(180, 83, 9);
-            label5.Font = new Font("Courier New", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.FromArgb(64, 0, 0);
-            label5.Location = new Point(73, 775);
-            label5.Margin = new Padding(5, 0, 5, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(218, 31);
-            label5.TabIndex = 16;
-            label5.Text = "Long nộ cước";
             // 
             // MainForm
             // 
