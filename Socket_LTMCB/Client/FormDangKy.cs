@@ -121,7 +121,15 @@ namespace Socket_LTMCB
         // =========================
         private bool IsValidEmail(string email)
         {
-            return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private bool IsValidPhone(string phone)
