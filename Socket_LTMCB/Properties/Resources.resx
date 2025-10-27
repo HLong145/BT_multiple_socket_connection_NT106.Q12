@@ -127,11 +127,11 @@
   <data name="girlwithgun" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\girlwithgun.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="background1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\background1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="mayxanh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mayxanh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="thanh_hp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\thanh_hp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cay" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -145,6 +145,9 @@
   <data name="91ffbf8e-95d9-4acf-8e38-a7b34efa86ca" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\91ffbf8e-95d9-4acf-8e38-a7b34efa86ca.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="girlwithgun1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\girlwithgun1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="c6d82a81-54de-43be-a1c7-439b407ae76c" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\c6d82a81-54de-43be-a1c7-439b407ae76c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -154,14 +157,11 @@
   <data name="background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="png-transparent-sword-weapon-pixel-art-pixelation-pixel-angle-katana-8bit-color-thumbnail" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\png-transparent-sword-weapon-pixel-art-pixelation-pixel-angle-katana-8bit-color-thumbnail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="boy3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boy3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="girlwithgun1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\girlwithgun1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="thanhspeed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\thanhspeed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="background1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\background1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,11 +169,11 @@
   <data name="moon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\moon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="thanh_hp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\thanh_hp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="png-transparent-sword-weapon-pixel-art-pixelation-pixel-angle-katana-8bit-color-thumbnail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\png-transparent-sword-weapon-pixel-art-pixelation-pixel-angle-katana-8bit-color-thumbnail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="boy3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\boy3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="thanhspeed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\thanhspeed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="boy1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\boy1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -181,10 +181,13 @@
   <data name="images__1_-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\images__1_-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="balanceskill" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\balanceskill.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="boy2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\boy2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="balanceskill" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\balanceskill.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="logogame" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logogame.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
