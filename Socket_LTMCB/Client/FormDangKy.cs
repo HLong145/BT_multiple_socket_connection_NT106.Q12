@@ -231,8 +231,6 @@ namespace Socket_LTMCB
                 MessageBox.Show("🎉 Registration Successful!\n\nWelcome, " + username + "!",
                     "✓ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                FormDangNhap loginForm = new FormDangNhap();
-                loginForm.Show();
                 this.Close();
             }
             else
