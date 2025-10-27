@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Socket_LTMCB.Services;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using Socket_LTMCB.Services;
+using System.Text.RegularExpressions;
 
 namespace Socket_LTMCB.Server
 {
@@ -17,9 +14,9 @@ namespace Socket_LTMCB.Server
         private List<ClientHandler> connectedClients = new List<ClientHandler>();
         private DatabaseService dbService;
         private TokenManager tokenManager;
-        private ValidationService validationService;  
+        private ValidationService validationService;
         private SecurityService securityService;
-        
+
         private Task _acceptTask;                     // 💡 Giữ task AcceptClients
         private CancellationTokenSource cts;          // 💡 Dùng để hủy mềm
 
@@ -30,8 +27,8 @@ namespace Socket_LTMCB.Server
         {
             dbService = new DatabaseService();
             tokenManager = new TokenManager();
-            validationService = new ValidationService();  
-            securityService = new SecurityService();   
+            validationService = new ValidationService();
+            securityService = new SecurityService();
         }
 
         public void Start(int port)
@@ -179,7 +176,7 @@ namespace Socket_LTMCB.Server
         private DatabaseService dbService;
         private TokenManager tokenManager;
         private string currentToken;
-        private ValidationService validationService; 
+        private ValidationService validationService;
         private SecurityService securityService;
 
         private bool isNormalLogout = false;
@@ -193,7 +190,7 @@ namespace Socket_LTMCB.Server
             this.tokenManager = tokenManager;
             stream = client.GetStream();
             this.validationService = validationService;
-            this.securityService = securityService; 
+            this.securityService = securityService;
         }
         public void SetNormalLogout()
         {
@@ -212,7 +209,8 @@ namespace Socket_LTMCB.Server
                     if (bytesRead == 0) break;
 
                     string requestJson = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    server.Log($"📨 Received: {requestJson.Substring(0, Math.Min(100, requestJson.Length))}...");
+                    string safeLog = HideSensitiveData(requestJson);
+                    server.Log($"📨 Received: {safeLog.Substring(0, Math.Min(100, safeLog.Length))}...");
 
                     var response = ProcessRequest(requestJson);
 
@@ -231,7 +229,52 @@ namespace Socket_LTMCB.Server
                 Close();
             }
         }
+        private string HideSensitiveData(string json)
+        {
+            try
+            {
+                using JsonDocument doc = JsonDocument.Parse(json);
+                using var stream = new MemoryStream();
+                using var writer = new Utf8JsonWriter(stream);
 
+                writer.WriteStartObject();
+
+                if (doc.RootElement.TryGetProperty("Action", out JsonElement action))
+                {
+                    writer.WriteString("Action", action.GetString());
+                }
+
+                if (doc.RootElement.TryGetProperty("Data", out JsonElement data))
+                {
+                    writer.WritePropertyName("Data");
+                    writer.WriteStartObject();
+
+                    foreach (var property in data.EnumerateObject())
+                    {
+                        if (property.Name.ToLower().Contains("password"))
+                        {
+                            writer.WriteString(property.Name, "***HIDDEN***"); // Ẩn password
+                        }
+                        else
+                        {
+                            property.WriteTo(writer);
+                        }
+                    }
+
+                    writer.WriteEndObject();
+                }
+
+                writer.WriteEndObject();
+                writer.Flush();
+
+                return Encoding.UTF8.GetString(stream.ToArray());
+            }
+            catch
+            {
+                // Nếu có lỗi parse JSON, trả về string đã được xử lý đơn giản
+                return Regex.Replace(json, @"""password""\s*:\s*""[^""]*""", @"""password"":""***HIDDEN***""", RegexOptions.IgnoreCase);
+            }
+        }
         private string ProcessRequest(string requestJson)
         {
             try

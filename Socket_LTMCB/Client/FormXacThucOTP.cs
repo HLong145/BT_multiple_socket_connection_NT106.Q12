@@ -190,9 +190,20 @@ namespace Socket_LTMCB
 
         private void btn_backToLogin_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("🎯 Return to Login button CLICKED!");
+
+            // ✅ ĐẢM BẢO DỪNG TIMER TRƯỚC KHI ĐÓNG
+            otpTimer?.Stop();
+            otpTimer?.Dispose();
+            otpTimer = null;
+
+            // ✅ MỞ FORM ĐĂNG NHẬP
+            FormDangNhap loginForm = new FormDangNhap();
+            loginForm.Show();
+
+            // ✅ ĐÓNG FORM HIỆN TẠI
             this.Close();
         }
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             otpTimer?.Stop();
