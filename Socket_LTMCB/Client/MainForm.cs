@@ -213,10 +213,24 @@ namespace Socket_LTMCB
                 }
             }
 
-            // Mở form đăng nhập mới
             FormDangNhap loginForm = new FormDangNhap();
+            loginForm.StartPosition = FormStartPosition.CenterScreen;
+            loginForm.TopMost = false;
+            loginForm.ShowInTaskbar = true;
+
+
+            if (Application.OpenForms["Dashboard"] is Form dashboard)
+            {
+                loginForm.Owner = dashboard;
+            }
+
+
             loginForm.Show();
+            loginForm.BringToFront();
+            loginForm.Activate();
+
             this.Close();
         }
     }
+
 }
