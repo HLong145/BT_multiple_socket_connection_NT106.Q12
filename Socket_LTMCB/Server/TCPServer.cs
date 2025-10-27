@@ -182,6 +182,7 @@ namespace Socket_LTMCB.Server
         private ValidationService validationService; 
         private SecurityService securityService;
 
+        private bool isNormalLogout = false;
         public ClientHandler(TcpClient client, TcpServer server, DatabaseService dbService,
                       TokenManager tokenManager, ValidationService validationService,
                       SecurityService securityService)
@@ -194,7 +195,10 @@ namespace Socket_LTMCB.Server
             this.validationService = validationService;
             this.securityService = securityService; 
         }
-
+        public void SetNormalLogout()
+        {
+            isNormalLogout = true;
+        }
         public async Task Handle()
         {
             try
@@ -334,14 +338,14 @@ namespace Socket_LTMCB.Server
 
                 if (loginSuccess)
                 {
-                    string token = tokenManager.GenerateToken(username);
+                    string token = tokenManager.GenerateToken(username); // ✅ Server tạo token
                     currentToken = token;
 
                     return CreateResponse(true, "Login successful", new Dictionary<string, object>
-            {
-                { "token", token },
-                { "username", username }
-            });
+                    {
+                          { "token", token }, // ✅ Trả token về client
+                           { "username", username }
+                      });
                 }
                 else
                 {
@@ -514,6 +518,36 @@ namespace Socket_LTMCB.Server
                 server.RemoveClient(this);
             }
             catch { }
+        }
+        private string HandleLogout(Request request)
+        {
+            try
+            {
+                var token = request.Data?["token"]?.ToString();
+                var logoutType = request.Data?["logoutType"]?.ToString(); // "normal" hoặc "complete"
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return CreateResponse(false, "Token is required for logout");
+                }
+
+                // ✅ Nếu là logout bình thường (giữ remember me), không revoke token
+                if (logoutType == "normal")
+                {
+                    SetNormalLogout(); // Đánh dấu không revoke token khi đóng kết nối
+                    return CreateResponse(true, "Logout successful (token preserved)");
+                }
+                else
+                {
+                    // ✅ Logout hoàn toàn - revoke token
+                    tokenManager.RevokeToken(token);
+                    return CreateResponse(true, "Logout successful (token revoked)");
+                }
+            }
+            catch (Exception ex)
+            {
+                return CreateResponse(false, $"Logout error: {ex.Message}");
+            }
         }
     }
 

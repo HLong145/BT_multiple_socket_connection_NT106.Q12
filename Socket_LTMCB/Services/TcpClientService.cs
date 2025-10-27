@@ -24,7 +24,17 @@ namespace Socket_LTMCB.Services
         // ==========================
         // 🟢 ASYNC API
         // ==========================
+        public Task<ServerResponse> LogoutAsync(string token, string logoutType = "normal")
+        {
+            var requestData = new Dictionary<string, object>
+    {
+        { "token", token },
+        { "logoutType", logoutType }
+    };
+            return SendRequestAsync("LOGOUT", requestData);
+        }
 
+      
         public Task<ServerResponse> LoginAsync(string username, string password)
         {
             var requestData = new Dictionary<string, object>
@@ -192,6 +202,9 @@ namespace Socket_LTMCB.Services
 
         public ServerResponse GetUserByContact(string contact, bool isEmail)
             => GetUserByContactAsync(contact, isEmail).GetAwaiter().GetResult();
+        // Sync wrapper
+        public ServerResponse Logout(string token, string logoutType = "normal")
+            => LogoutAsync(token, logoutType).GetAwaiter().GetResult();
     }
 
     // ==========================

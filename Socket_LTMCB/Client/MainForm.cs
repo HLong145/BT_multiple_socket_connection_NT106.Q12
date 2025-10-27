@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Socket_LTMCB.Services;
+using System;
 using System.Drawing;
+using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace Socket_LTMCB
@@ -11,53 +13,55 @@ namespace Socket_LTMCB
         private Panel pnl_Overlay;
         private string username;
         private string token;
+        private bool isLoggedIn = false;
+        private readonly TcpClientService tcpClient;
 
         public MainForm()
         {
             InitializeComponent();
             InitializeCustomUI();
-            InitForms();
 
             // Đăng ký sự kiện khi MainForm đóng
             this.FormClosing += MainForm_FormClosing;
         }
+
         public MainForm(string username, string token) : this()
         {
             this.username = username;
             this.token = token;
             this.Text = $"Adventure App - Welcome {username}";
-        }
-        private void InitForms()
-        {
-            frm_DangNhap = new FormDangNhap();
-            frm_DangKy = new FormDangKy();
 
-            // Đăng ký event
-            frm_DangNhap.SwitchToRegister += (s, e) =>
+            // ✅ THÊM: Ẩn form login/register nếu đã login
+            pnl_Overlay.Visible = false;
+
+            // ✅ THÊM: Hiển thị giao diện chính của app
+            InitializeMainAppUI();
+        }
+
+        private void InitializeMainAppUI()
+        {
+            // ✅ THÊM: Tạo giao diện chính sau khi login
+            var lblWelcome = new Label()
             {
-                frm_DangNhap.Hide();
-                frm_DangKy.Show();
+                Text = $"Welcome, {username}!",
+                Font = new Font("Arial", 16, FontStyle.Bold),
+                ForeColor = Color.White,
+                AutoSize = true,
+                Location = new Point(50, 50)
             };
 
-            frm_DangKy.SwitchToLogin += (s, e) =>
+            var btnLogout = new Button()
             {
-                frm_DangKy.Hide();
-                frm_DangNhap.Show();
+                Text = "Logout",
+                Size = new Size(100, 40),
+                Location = new Point(50, 100),
+                BackColor = Color.Red,
+                ForeColor = Color.White
             };
+            btnLogout.Click += btnLogout_Click;
 
-            // Thiết lập TopLevel = false nếu muốn add vào Panel
-            frm_DangNhap.TopLevel = true;
-            frm_DangKy.TopLevel = true;
-
-            // Mở form đăng nhập đầu tiên
-            frm_DangNhap.Show();
-        }
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            // Đảm bảo tất cả form con đóng hẳn
-            frm_DangNhap?.Close();
-            frm_DangKy?.Close();
-            base.OnFormClosing(e);
+            this.Controls.Add(lblWelcome);
+            this.Controls.Add(btnLogout);
         }
 
         private void InitializeCustomUI()
@@ -71,7 +75,6 @@ namespace Socket_LTMCB
             // 🌲 Nền gỗ
             try
             {
-                // Giả định texture có sẵn, dùng try/catch để đảm bảo code không crash
                 this.BackgroundImage = new Bitmap("wood_texture.jpg");
                 this.BackgroundImageLayout = ImageLayout.Stretch;
             }
@@ -88,23 +91,28 @@ namespace Socket_LTMCB
             };
             this.Controls.Add(pnl_Overlay);
 
+            if (!isLoggedIn)
+            {
+                InitializeLoginForms();
+            }
+        }
+        private void InitializeLoginForms()
+        {
             // 🧙‍♂️ Form đăng nhập
             frm_DangNhap = new FormDangNhap
             {
                 TopLevel = false,
-                Dock = DockStyle.Fill,
-                Name = "frm_DangNhap" // Cần Name nếu muốn tìm kiếm, nhưng ta dùng biến thành viên thì không cần.
+                Dock = DockStyle.Fill
             };
-            frm_DangNhap.SwitchToRegister += OnSwitchToDangKy; // Sự kiện chuyển sang form đăng ký
+            frm_DangNhap.SwitchToRegister += OnSwitchToDangKy;
 
             // 🧝‍♀️ Form đăng ký
             frm_DangKy = new FormDangKy
             {
                 TopLevel = false,
-                Dock = DockStyle.Fill,
-                Name = "frm_DangKy"
+                Dock = DockStyle.Fill
             };
-            frm_DangKy.SwitchToLogin += OnSwitchToDangNhap; // Sự kiện chuyển sang form đăng nhập
+            frm_DangKy.SwitchToLogin += OnSwitchToDangNhap;
 
             // 🧩 Thêm cả hai vào overlay panel
             pnl_Overlay.Controls.Add(frm_DangNhap);
@@ -113,46 +121,79 @@ namespace Socket_LTMCB
             // Mặc định hiển thị Form đăng nhập
             frm_DangNhap.Show();
             frm_DangKy.Hide();
-            // Đảm bảo Form đăng nhập nằm trên cùng khi khởi tạo
             frm_DangNhap.BringToFront();
         }
 
         // 🔁 Chuyển sang Form đăng nhập
         private void OnSwitchToDangNhap(object sender, EventArgs e)
         {
-            // Sử dụng biến thành viên (Field) để truy cập trực tiếp, nhanh và an toàn hơn Find().
             frm_DangNhap.Show();
             frm_DangKy.Hide();
-            // 🌟 FIX Z-ORDER: Đưa Form đăng nhập lên trước
             frm_DangNhap.BringToFront();
         }
 
         // 🔁 Chuyển sang Form đăng ký
         private void OnSwitchToDangKy(object sender, EventArgs e)
         {
-            // Sử dụng biến thành viên (Field) để truy cập trực tiếp, nhanh và an toàn hơn Find().
             frm_DangKy.Show();
             frm_DangNhap.Hide();
-            // 🌟 FIX Z-ORDER: Đưa Form đăng ký lên trước
             frm_DangKy.BringToFront();
         }
 
         // Đóng tất cả các Form khi MainForm đóng
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Sử dụng toán tử null-conditional an toàn để gọi Close()
             frm_DangNhap?.Close();
             frm_DangKy?.Close();
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
+        private async void btnLogout_Click(object sender, EventArgs e)
         {
-          
+            // ✅ HIỆN: Hộp thoại lựa chọn
+            DialogResult result = MessageBox.Show(
+                "Do you want to stay logged in for next time?\n\n" +
+                "Yes: Keep Remember Me (fast login next time)\n" +
+                "No: Remove all saved login information",
+                "Logout Options",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            try
+            {
+                if (result == DialogResult.Yes)
+                {
+                    // ✅ LOGOUT BÌNH THƯỜNG: Giữ remember me, không revoke token
+                    await tcpClient.LogoutAsync(token, "normal");
+
+                    // Chỉ xóa token khỏi settings, giữ username/password
+                    Properties.Settings.Default.SavedToken = "";
+                    Properties.Settings.Default.Save();
+                }
+                else
+                {
+                    // ✅ LOGOUT HOÀN TOÀN: Xóa everything, revoke token
+                    await tcpClient.LogoutAsync(token, "complete");
+
+                    // Xóa tất cả thông tin
+                    Properties.Settings.Default.RememberMe = false;
+                    Properties.Settings.Default.SavedUsername = "";
+                    Properties.Settings.Default.SavedPassword = "";
+                    Properties.Settings.Default.SavedToken = "";
+                    Properties.Settings.Default.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                // ❌ Nếu không kết nối được server, vẫn xóa token local
+                Console.WriteLine($"Logout error: {ex.Message}");
+                Properties.Settings.Default.SavedToken = "";
+                Properties.Settings.Default.Save();
+            }
+
+            // Mở form đăng nhập mới
             FormDangNhap loginForm = new FormDangNhap();
             loginForm.Show();
-
             this.Close();
         }
-
     }
 }

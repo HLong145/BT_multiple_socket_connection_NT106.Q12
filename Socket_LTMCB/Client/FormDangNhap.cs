@@ -14,10 +14,20 @@ namespace Socket_LTMCB
         private int floatingOffset = 0;
         private Random random = new Random();
         private System.Windows.Forms.Timer floatingItemsTimer;
+        public string ReturnedUsername { get; private set; }
+        public string Token { get; private set; }
+        private void ClearSavedCredentials()
+        {
+            Properties.Settings.Default.RememberMe = false;
+            Properties.Settings.Default.SavedUsername = "";
+            Properties.Settings.Default.SavedPassword = "";
+            Properties.Settings.Default.SavedToken = "";
+            Properties.Settings.Default.Save();
+        }
 
         private readonly TcpClientService tcpClient;
         private readonly DatabaseService dbService = new DatabaseService();
-
+        private static bool isAutoLoginPerformed = false;
         public event EventHandler SwitchToRegister;
 
         public FormDangNhap()
@@ -26,7 +36,13 @@ namespace Socket_LTMCB
             SetupFloatingAnimation();
 
             tcpClient = new TcpClientService("127.0.0.1", 8080);
-            _ = LoadRememberedLoginAsync(); // ✅ auto login nếu có token
+            if (!isAutoLoginPerformed)
+            {
+                this.Shown += async (sender, e) =>
+                {
+                    await LoadRememberedLoginAsync();
+                };
+            }
         }
 
         // =========================
@@ -60,43 +76,72 @@ namespace Socket_LTMCB
         }
         private async Task LoadRememberedLoginAsync()
         {
+            if (isAutoLoginPerformed) return;
+
             if (Properties.Settings.Default.RememberMe)
             {
                 string savedUsername = Properties.Settings.Default.SavedUsername;
                 string savedPassword = Decrypt(Properties.Settings.Default.SavedPassword);
                 string savedToken = Decrypt(Properties.Settings.Default.SavedToken);
 
-                tb_Username.Text = savedUsername;
-                tb_Password.Text = savedPassword; // 🔄 tự điền password
-
-                if (!string.IsNullOrEmpty(savedToken))
+                if (string.IsNullOrEmpty(savedUsername))
                 {
-                    var response = await tcpClient.VerifyTokenAsync(savedToken);
+                    return;
+                }
 
-                    if (response.Success)
+                tb_Username.Text = savedUsername;
+                tb_Password.Text = savedPassword;
+
+                // ✅ QUAN TRỌNG: Nếu không có token, KHÔNG thử auto login
+                // Chỉ điền sẵn username/password để người dùng click Login
+                if (string.IsNullOrEmpty(savedToken))
+                {
+                    return; // Chỉ điền form, không auto login
+                }
+
+                // ✅ Nếu có token, thử verify
+                try
+                {
+                    var verifyResponse = await tcpClient.VerifyTokenAsync(savedToken);
+
+                    if (verifyResponse.Success)
                     {
-                        string username = response.GetDataValue("username");
+                        string usernameFromToken = verifyResponse.GetDataValue("username");
 
-                        MessageBox.Show($"🎉 Auto login successful!\n\nWelcome back {username}!",
+                        MessageBox.Show($"🎉 Auto login successful!\n\nWelcome back {usernameFromToken}!",
                             "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                        isAutoLoginPerformed = true;
+
                         this.Hide();
-                        MainForm mainForm = new MainForm(username, savedToken);
-                        mainForm.FormClosed += (s, args) => this.Close();
+                        MainForm mainForm = new MainForm(usernameFromToken, savedToken);
+                        mainForm.FormClosed += (s, args) =>
+                        {
+                            isAutoLoginPerformed = false;
+                            this.Close();
+                        };
                         mainForm.Show();
+                        return;
                     }
                     else
                     {
-                        MessageBox.Show("Your session has expired. Please login again.",
-                            "⚠ Session Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                        // ❌ Token không hợp lệ, nhưng KHÔNG xóa thông tin remember me
+                        // Chỉ xóa token, giữ username/password
                         Properties.Settings.Default.SavedToken = "";
                         Properties.Settings.Default.Save();
+
+                        // Thông báo và để người dùng đăng nhập thủ công
+                        MessageBox.Show("Your session has expired. Please click Login button.",
+                            "⚠ Session Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Token verification failed: {ex.Message}");
+                    // ❌ Lỗi kết nối, không làm gì cả - để người dùng đăng nhập thủ công
                 }
             }
         }
-
         private void SaveRememberedLogin(string username, string password, string token)
         {
             if (chk_Remember.Checked)
@@ -124,6 +169,7 @@ namespace Socket_LTMCB
             string contact = tb_Username.Text.Trim();
             string password = tb_Password.Text;
 
+            // Kiểm tra captcha
             if (!chk_Captcha.Checked)
             {
                 MessageBox.Show("Please confirm that you are not a robot!",
@@ -131,6 +177,7 @@ namespace Socket_LTMCB
                 return;
             }
 
+            // Kiểm tra thông tin login
             if (string.IsNullOrEmpty(contact) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Please fill in all required login information!",
@@ -142,6 +189,7 @@ namespace Socket_LTMCB
             bool isEmail = IsValidEmail(contact);
             bool isPhone = IsValidPhone(contact);
 
+            // Nếu nhập email hoặc phone, tìm username
             if (isEmail || isPhone)
             {
                 username = dbService.GetUsernameByContact(contact, isEmail);
@@ -157,7 +205,7 @@ namespace Socket_LTMCB
             {
                 btn_Login.Enabled = false;
 
-                // ✅ GỬI REQUEST ĐẾN SERVER (ASYNC)
+                // Gọi server login
                 var response = await tcpClient.LoginAsync(username, password);
 
                 if (response.Success)
@@ -172,17 +220,34 @@ namespace Socket_LTMCB
                         return;
                     }
 
-                    SaveRememberedLogin(returnedUsername, password, token);
+                    // ✅ THAY ĐỔI: Không cần gọi tokenManager.GenerateToken ở client
+                    // Token đã được server tạo và trả về trong response
+
+                    // Lưu RememberMe
+                    if (chk_Remember.Checked)
+                    {
+                        Properties.Settings.Default.RememberMe = true;
+                        Properties.Settings.Default.SavedUsername = returnedUsername;
+                        Properties.Settings.Default.SavedPassword = Encrypt(password);
+                        Properties.Settings.Default.SavedToken = Encrypt(token); // Lưu token từ server
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.RememberMe = false;
+                        Properties.Settings.Default.SavedUsername = "";
+                        Properties.Settings.Default.SavedPassword = "";
+                        Properties.Settings.Default.SavedToken = "";
+                    }
+                    Properties.Settings.Default.Save();
 
                     MessageBox.Show($"🎉 Login successful!\n\nWelcome {returnedUsername}!",
                         "✅ Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // ✅ MỞ MAINFORM 
-                    this.Hide();
+                    // Mở MainForm và đóng FormDangNhap
                     MainForm mainForm = new MainForm(returnedUsername, token);
-                    mainForm.FormClosed += (s, args) => this.Close(); // khi MainForm đóng, thì login form cũng đóng
+                    mainForm.FormClosed += (s, args) => this.Close();
                     mainForm.Show();
-
+                    this.Hide();
                 }
                 else
                 {
