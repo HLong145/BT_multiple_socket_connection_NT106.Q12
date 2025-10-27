@@ -149,45 +149,68 @@ namespace Socket_LTMCB
 
         private async void btnLogout_Click(object sender, EventArgs e)
         {
-            // ✅ HIỆN: Hộp thoại lựa chọn
-            DialogResult result = MessageBox.Show(
-                "Do you want to stay logged in for next time?\n\n" +
-                "Yes: Keep Remember Me (fast login next time)\n" +
-                "No: Remove all saved login information",
-                "Logout Options",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            try
+            // ✅ KIỂM TRA: Nếu user KHÔNG tick Remember me thì không hiển thị hộp thoại
+            if (!Properties.Settings.Default.RememberMe)
             {
-                if (result == DialogResult.Yes)
+                // ❌ User không tick Remember me -> logout hoàn toàn
+                try
                 {
-                    // ✅ LOGOUT BÌNH THƯỜNG: Giữ remember me, không revoke token
-                    await tcpClient.LogoutAsync(token, "normal");
-
-                    // Chỉ xóa token khỏi settings, giữ username/password
-                    Properties.Settings.Default.SavedToken = "";
-                    Properties.Settings.Default.Save();
-                }
-                else
-                {
-                    // ✅ LOGOUT HOÀN TOÀN: Xóa everything, revoke token
                     await tcpClient.LogoutAsync(token, "complete");
-
-                    // Xóa tất cả thông tin
-                    Properties.Settings.Default.RememberMe = false;
-                    Properties.Settings.Default.SavedUsername = "";
-                    Properties.Settings.Default.SavedPassword = "";
-                    Properties.Settings.Default.SavedToken = "";
-                    Properties.Settings.Default.Save();
                 }
-            }
-            catch (Exception ex)
-            {
-                // ❌ Nếu không kết nối được server, vẫn xóa token local
-                Console.WriteLine($"Logout error: {ex.Message}");
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Logout error: {ex.Message}");
+                }
+
+                // Xóa tất cả thông tin (dù có lỗi kết nối server)
+                Properties.Settings.Default.RememberMe = false;
+                Properties.Settings.Default.SavedUsername = "";
+                Properties.Settings.Default.SavedPassword = "";
                 Properties.Settings.Default.SavedToken = "";
                 Properties.Settings.Default.Save();
+            }
+            else
+            {
+                // ✅ User CÓ tick Remember me -> hiển thị hộp thoại lựa chọn
+                DialogResult result = MessageBox.Show(
+                    "Do you want to stay logged in for next time?\n\n" +
+                    "Yes: Keep Remember Me (fast login next time)\n" +
+                    "No: Remove all saved login information",
+                    "Logout Options",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                try
+                {
+                    if (result == DialogResult.Yes)
+                    {
+                        // ✅ LOGOUT BÌNH THƯỜNG: Giữ remember me, không revoke token
+                        await tcpClient.LogoutAsync(token, "normal");
+
+                        // Chỉ xóa token khỏi settings, giữ username/password
+                        Properties.Settings.Default.SavedToken = "";
+                        Properties.Settings.Default.Save();
+                    }
+                    else
+                    {
+                        // ✅ LOGOUT HOÀN TOÀN: Xóa everything, revoke token
+                        await tcpClient.LogoutAsync(token, "complete");
+
+                        // Xóa tất cả thông tin
+                        Properties.Settings.Default.RememberMe = false;
+                        Properties.Settings.Default.SavedUsername = "";
+                        Properties.Settings.Default.SavedPassword = "";
+                        Properties.Settings.Default.SavedToken = "";
+                        Properties.Settings.Default.Save();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // ❌ Nếu không kết nối được server, vẫn xóa token local
+                    Console.WriteLine($"Logout error: {ex.Message}");
+                    Properties.Settings.Default.SavedToken = "";
+                    Properties.Settings.Default.Save();
+                }
             }
 
             // Mở form đăng nhập mới
