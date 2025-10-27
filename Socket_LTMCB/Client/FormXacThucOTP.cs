@@ -64,7 +64,7 @@ namespace Socket_LTMCB
             if (remainingSeconds <= 0)
             {
                 otpTimer.Stop();
-                lbl_timer.Text = "OTP đã hết hạn!";
+                lbl_timer.Text = "OTP has expired!";
                 lbl_timer.ForeColor = Color.Red;
                 btn_verify.Enabled = false;
                 return;
