@@ -238,12 +238,12 @@
             // 
             tb_Username.BackColor = Color.FromArgb(42, 31, 26);
             tb_Username.BorderStyle = BorderStyle.None;
-            tb_Username.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_Username.Font = new Font("Courier New", 13.8F, FontStyle.Bold);
             tb_Username.ForeColor = Color.White;
             tb_Username.Location = new Point(20, 165);
             tb_Username.Multiline = true;
             tb_Username.Name = "tb_Username";
-            tb_Username.Size = new Size(360, 35);
+            tb_Username.Size = new Size(360, 31);
             tb_Username.TabIndex = 2;
             // 
             // lbl_Password
@@ -261,13 +261,13 @@
             // 
             tb_Password.BackColor = Color.FromArgb(42, 31, 26);
             tb_Password.BorderStyle = BorderStyle.None;
-            tb_Password.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_Password.Font = new Font("Courier New", 13.8F, FontStyle.Bold);
             tb_Password.ForeColor = Color.White;
             tb_Password.Location = new Point(20, 245);
             tb_Password.Multiline = true;
             tb_Password.Name = "tb_Password";
             tb_Password.PasswordChar = '●';
-            tb_Password.Size = new Size(360, 35);
+            tb_Password.Size = new Size(360, 31);
             tb_Password.TabIndex = 4;
             // 
             // chk_ShowPassword

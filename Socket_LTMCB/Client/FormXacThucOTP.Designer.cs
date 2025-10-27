@@ -142,13 +142,13 @@ namespace Socket_LTMCB
             // 
             tb_otp6.BackColor = Color.FromArgb(42, 31, 26);
             tb_otp6.BorderStyle = BorderStyle.None;
-            tb_otp6.Font = new Font("Courier New", 16F, FontStyle.Bold);
+            tb_otp6.Font = new Font("Courier New", 19.8000011F, FontStyle.Bold);
             tb_otp6.ForeColor = Color.White;
-            tb_otp6.Location = new Point(300, 35);
+            tb_otp6.Location = new Point(296, 35);
             tb_otp6.MaxLength = 1;
             tb_otp6.Multiline = true;
             tb_otp6.Name = "tb_otp6";
-            tb_otp6.Size = new Size(50, 50);
+            tb_otp6.Size = new Size(50, 38);
             tb_otp6.TabIndex = 6;
             tb_otp6.TextAlign = HorizontalAlignment.Center;
             // 
@@ -156,13 +156,13 @@ namespace Socket_LTMCB
             // 
             tb_otp5.BackColor = Color.FromArgb(42, 31, 26);
             tb_otp5.BorderStyle = BorderStyle.None;
-            tb_otp5.Font = new Font("Courier New", 16F, FontStyle.Bold);
+            tb_otp5.Font = new Font("Courier New", 19.8000011F, FontStyle.Bold);
             tb_otp5.ForeColor = Color.White;
             tb_otp5.Location = new Point(240, 35);
             tb_otp5.MaxLength = 1;
             tb_otp5.Multiline = true;
             tb_otp5.Name = "tb_otp5";
-            tb_otp5.Size = new Size(50, 50);
+            tb_otp5.Size = new Size(50, 38);
             tb_otp5.TabIndex = 5;
             tb_otp5.TextAlign = HorizontalAlignment.Center;
             // 
@@ -170,13 +170,13 @@ namespace Socket_LTMCB
             // 
             tb_otp4.BackColor = Color.FromArgb(42, 31, 26);
             tb_otp4.BorderStyle = BorderStyle.None;
-            tb_otp4.Font = new Font("Courier New", 16F, FontStyle.Bold);
+            tb_otp4.Font = new Font("Courier New", 19.8000011F, FontStyle.Bold);
             tb_otp4.ForeColor = Color.White;
-            tb_otp4.Location = new Point(180, 35);
+            tb_otp4.Location = new Point(184, 35);
             tb_otp4.MaxLength = 1;
             tb_otp4.Multiline = true;
             tb_otp4.Name = "tb_otp4";
-            tb_otp4.Size = new Size(50, 50);
+            tb_otp4.Size = new Size(50, 38);
             tb_otp4.TabIndex = 4;
             tb_otp4.TextAlign = HorizontalAlignment.Center;
             // 
@@ -184,13 +184,13 @@ namespace Socket_LTMCB
             // 
             tb_otp3.BackColor = Color.FromArgb(42, 31, 26);
             tb_otp3.BorderStyle = BorderStyle.None;
-            tb_otp3.Font = new Font("Courier New", 16F, FontStyle.Bold);
+            tb_otp3.Font = new Font("Courier New", 19.8000011F, FontStyle.Bold);
             tb_otp3.ForeColor = Color.White;
-            tb_otp3.Location = new Point(120, 35);
+            tb_otp3.Location = new Point(128, 35);
             tb_otp3.MaxLength = 1;
             tb_otp3.Multiline = true;
             tb_otp3.Name = "tb_otp3";
-            tb_otp3.Size = new Size(50, 50);
+            tb_otp3.Size = new Size(50, 38);
             tb_otp3.TabIndex = 3;
             tb_otp3.TextAlign = HorizontalAlignment.Center;
             // 
@@ -198,13 +198,13 @@ namespace Socket_LTMCB
             // 
             tb_otp2.BackColor = Color.FromArgb(42, 31, 26);
             tb_otp2.BorderStyle = BorderStyle.None;
-            tb_otp2.Font = new Font("Courier New", 16F, FontStyle.Bold);
+            tb_otp2.Font = new Font("Courier New", 19.8000011F, FontStyle.Bold);
             tb_otp2.ForeColor = Color.White;
-            tb_otp2.Location = new Point(60, 35);
+            tb_otp2.Location = new Point(72, 35);
             tb_otp2.MaxLength = 1;
             tb_otp2.Multiline = true;
             tb_otp2.Name = "tb_otp2";
-            tb_otp2.Size = new Size(50, 50);
+            tb_otp2.Size = new Size(50, 38);
             tb_otp2.TabIndex = 2;
             tb_otp2.TextAlign = HorizontalAlignment.Center;
             // 
@@ -212,13 +212,13 @@ namespace Socket_LTMCB
             // 
             tb_otp1.BackColor = Color.FromArgb(42, 31, 26);
             tb_otp1.BorderStyle = BorderStyle.None;
-            tb_otp1.Font = new Font("Courier New", 16F, FontStyle.Bold);
+            tb_otp1.Font = new Font("Courier New", 19.8000011F, FontStyle.Bold);
             tb_otp1.ForeColor = Color.White;
-            tb_otp1.Location = new Point(0, 35);
+            tb_otp1.Location = new Point(16, 35);
             tb_otp1.MaxLength = 1;
             tb_otp1.Multiline = true;
             tb_otp1.Name = "tb_otp1";
-            tb_otp1.Size = new Size(50, 50);
+            tb_otp1.Size = new Size(50, 38);
             tb_otp1.TabIndex = 1;
             tb_otp1.TextAlign = HorizontalAlignment.Center;
             // 

@@ -33,15 +33,16 @@ namespace Socket_LTMCB
             panelOuter = new Panel();
             panelMain = new Panel();
             pnl_Main = new Pnl_Pixel();
-            btn_alreadyHaveAccount = new Btn_Pixel();
-            pictureBox4 = new PictureBox();
-            pictureBox3 = new PictureBox();
             pnl_Title = new Pnl_Pixel();
             lbl_Title = new Label();
-            pictureBox1 = new PictureBox();
+            pictureBox6 = new PictureBox();
             pictureBox5 = new PictureBox();
             pictureBox2 = new PictureBox();
             lbl_Subtitle = new Label();
+            btn_alreadyHaveAccount = new Btn_Pixel();
+            pictureBox1 = new PictureBox();
+            pictureBox4 = new PictureBox();
+            pictureBox3 = new PictureBox();
             btn_register = new Btn_Pixel();
             panelContact = new Panel();
             lblContactError = new Label();
@@ -64,16 +65,16 @@ namespace Socket_LTMCB
             tb_username = new Tb_Pixel();
             lblUsername = new Label();
             lblUsernameError = new Label();
-            pictureBox6 = new PictureBox();
             panelOuter.SuspendLayout();
             panelMain.SuspendLayout();
             pnl_Main.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             pnl_Title.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContact.SuspendLayout();
             panelRobotCheck.SuspendLayout();
             panelPassword.SuspendLayout();
@@ -81,7 +82,6 @@ namespace Socket_LTMCB
             panelConfirmPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).BeginInit();
             panelUsername.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // panelOuter
@@ -129,44 +129,6 @@ namespace Socket_LTMCB
             pnl_Main.Size = new Size(633, 755);
             pnl_Main.TabIndex = 10;
             // 
-            // btn_alreadyHaveAccount
-            // 
-            btn_alreadyHaveAccount.BackColor = Color.FromArgb(217, 119, 6);
-            btn_alreadyHaveAccount.BtnColor = Color.FromArgb(217, 119, 6);
-            btn_alreadyHaveAccount.FlatAppearance.BorderSize = 0;
-            btn_alreadyHaveAccount.FlatStyle = FlatStyle.Flat;
-            btn_alreadyHaveAccount.Font = new Font("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_alreadyHaveAccount.ForeColor = Color.White;
-            btn_alreadyHaveAccount.Location = new Point(17, 656);
-            btn_alreadyHaveAccount.Name = "btn_alreadyHaveAccount";
-            btn_alreadyHaveAccount.Size = new Size(592, 62);
-            btn_alreadyHaveAccount.TabIndex = 7;
-            btn_alreadyHaveAccount.Text = "← HAVE ACCOUNT? LOGIN";
-            btn_alreadyHaveAccount.UseVisualStyleBackColor = false;
-            btn_alreadyHaveAccount.Click += btn_alreadyHaveAccount_Click;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.BackColor = Color.Transparent;
-            pictureBox4.Image = Properties.Resources.mây;
-            pictureBox4.Location = new Point(-18, 672);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(194, 97);
-            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox4.TabIndex = 12;
-            pictureBox4.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.BackColor = Color.Transparent;
-            pictureBox3.Image = Properties.Resources.mayxanh;
-            pictureBox3.Location = new Point(483, 684);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(194, 97);
-            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 11;
-            pictureBox3.TabStop = false;
-            // 
             // pnl_Title
             // 
             pnl_Title.BackColor = Color.FromArgb(210, 105, 30);
@@ -192,16 +154,16 @@ namespace Socket_LTMCB
             lbl_Title.Text = "⚔️ NEW PLAYER ⚔️";
             lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // pictureBox1
+            // pictureBox6
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = Properties.Resources.mây;
-            pictureBox1.Location = new Point(507, -12);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(153, 80);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 10;
-            pictureBox1.TabStop = false;
+            pictureBox6.BackColor = Color.Transparent;
+            pictureBox6.Image = Properties.Resources.mayxanh;
+            pictureBox6.Location = new Point(351, 28);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(194, 97);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 13;
+            pictureBox6.TabStop = false;
             // 
             // pictureBox5
             // 
@@ -236,6 +198,55 @@ namespace Socket_LTMCB
             lbl_Subtitle.TabIndex = 1;
             lbl_Subtitle.Text = "CREATE YOUR ACCOUNT";
             lbl_Subtitle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_alreadyHaveAccount
+            // 
+            btn_alreadyHaveAccount.BackColor = Color.FromArgb(217, 119, 6);
+            btn_alreadyHaveAccount.BtnColor = Color.FromArgb(217, 119, 6);
+            btn_alreadyHaveAccount.FlatAppearance.BorderSize = 0;
+            btn_alreadyHaveAccount.FlatStyle = FlatStyle.Flat;
+            btn_alreadyHaveAccount.Font = new Font("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_alreadyHaveAccount.ForeColor = Color.White;
+            btn_alreadyHaveAccount.Location = new Point(17, 656);
+            btn_alreadyHaveAccount.Name = "btn_alreadyHaveAccount";
+            btn_alreadyHaveAccount.Size = new Size(592, 62);
+            btn_alreadyHaveAccount.TabIndex = 7;
+            btn_alreadyHaveAccount.Text = "← HAVE ACCOUNT? LOGIN";
+            btn_alreadyHaveAccount.UseVisualStyleBackColor = false;
+            btn_alreadyHaveAccount.Click += btn_alreadyHaveAccount_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.mây;
+            pictureBox1.Location = new Point(507, -12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(153, 80);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 10;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.BackColor = Color.Transparent;
+            pictureBox4.Image = Properties.Resources.mây;
+            pictureBox4.Location = new Point(-18, 672);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(194, 97);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 12;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackColor = Color.Transparent;
+            pictureBox3.Image = Properties.Resources.mayxanh;
+            pictureBox3.Location = new Point(483, 684);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(194, 97);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 11;
+            pictureBox3.TabStop = false;
             // 
             // btn_register
             // 
@@ -278,12 +289,11 @@ namespace Socket_LTMCB
             // 
             tb_contact.BackColor = Color.FromArgb(42, 31, 26);
             tb_contact.BorderStyle = BorderStyle.None;
-            tb_contact.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_contact.Font = new Font("Courier New", 16.2F, FontStyle.Bold);
             tb_contact.ForeColor = Color.FromArgb(214, 211, 209);
             tb_contact.Location = new Point(0, 25);
-            tb_contact.Multiline = true;
             tb_contact.Name = "tb_contact";
-            tb_contact.Size = new Size(592, 35);
+            tb_contact.Size = new Size(592, 31);
             tb_contact.TabIndex = 1;
             // 
             // lblContact
@@ -370,13 +380,12 @@ namespace Socket_LTMCB
             // 
             tb_password.BackColor = Color.FromArgb(42, 31, 26);
             tb_password.BorderStyle = BorderStyle.None;
-            tb_password.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_password.Font = new Font("Courier New", 16.2F, FontStyle.Bold);
             tb_password.ForeColor = Color.FromArgb(214, 211, 209);
             tb_password.Location = new Point(0, 25);
-            tb_password.Multiline = true;
             tb_password.Name = "tb_password";
             tb_password.PasswordChar = '●';
-            tb_password.Size = new Size(592, 35);
+            tb_password.Size = new Size(592, 31);
             tb_password.TabIndex = 1;
             // 
             // lblPassword
@@ -424,13 +433,12 @@ namespace Socket_LTMCB
             // 
             tb_confirmPassword.BackColor = Color.FromArgb(42, 31, 26);
             tb_confirmPassword.BorderStyle = BorderStyle.None;
-            tb_confirmPassword.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_confirmPassword.Font = new Font("Courier New", 16.2F, FontStyle.Bold);
             tb_confirmPassword.ForeColor = Color.FromArgb(214, 211, 209);
             tb_confirmPassword.Location = new Point(0, 25);
-            tb_confirmPassword.Multiline = true;
             tb_confirmPassword.Name = "tb_confirmPassword";
             tb_confirmPassword.PasswordChar = '●';
-            tb_confirmPassword.Size = new Size(592, 35);
+            tb_confirmPassword.Size = new Size(592, 31);
             tb_confirmPassword.TabIndex = 1;
             // 
             // lblConfirmPassword
@@ -457,12 +465,11 @@ namespace Socket_LTMCB
             // 
             tb_username.BackColor = Color.FromArgb(42, 31, 26);
             tb_username.BorderStyle = BorderStyle.None;
-            tb_username.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_username.Font = new Font("Courier New", 16.2F, FontStyle.Bold);
             tb_username.ForeColor = Color.FromArgb(214, 211, 209);
             tb_username.Location = new Point(0, 25);
-            tb_username.Multiline = true;
             tb_username.Name = "tb_username";
-            tb_username.Size = new Size(592, 35);
+            tb_username.Size = new Size(592, 31);
             tb_username.TabIndex = 1;
             tb_username.TextChanged += tb_username_TextChanged;
             // 
@@ -487,17 +494,6 @@ namespace Socket_LTMCB
             lblUsernameError.Size = new Size(592, 22);
             lblUsernameError.TabIndex = 0;
             // 
-            // pictureBox6
-            // 
-            pictureBox6.BackColor = Color.Transparent;
-            pictureBox6.Image = Properties.Resources.mayxanh;
-            pictureBox6.Location = new Point(351, 28);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(194, 97);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 13;
-            pictureBox6.TabStop = false;
-            // 
             // FormDangKy
             // 
             ClientSize = new Size(701, 752);
@@ -510,12 +506,13 @@ namespace Socket_LTMCB
             panelOuter.ResumeLayout(false);
             panelMain.ResumeLayout(false);
             pnl_Main.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             pnl_Title.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelContact.ResumeLayout(false);
             panelContact.PerformLayout();
             panelRobotCheck.ResumeLayout(false);
@@ -527,7 +524,6 @@ namespace Socket_LTMCB
             ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).EndInit();
             panelUsername.ResumeLayout(false);
             panelUsername.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
         }
 

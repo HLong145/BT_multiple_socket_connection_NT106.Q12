@@ -153,12 +153,11 @@ namespace Socket_LTMCB
             // 
             tb_contact.BackColor = Color.FromArgb(42, 31, 26);
             tb_contact.BorderStyle = BorderStyle.None;
-            tb_contact.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_contact.Font = new Font("Courier New", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_contact.ForeColor = Color.White;
             tb_contact.Location = new Point(0, 25);
-            tb_contact.Multiline = true;
             tb_contact.Name = "tb_contact";
-            tb_contact.Size = new Size(360, 35);
+            tb_contact.Size = new Size(360, 31);
             tb_contact.TabIndex = 1;
             // 
             // lblContact

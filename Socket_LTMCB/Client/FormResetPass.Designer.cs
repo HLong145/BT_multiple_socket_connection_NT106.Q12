@@ -34,12 +34,10 @@ namespace Socket_LTMCB
             lbl_Description = new Label();
             panelNewPassword = new Panel();
             lblNewPasswordError = new Label();
-            pictureBoxLock1 = new PictureBox();
             tb_newPassword = new Tb_Pixel();
             lblNewPassword = new Label();
             panelConfirmPassword = new Panel();
             lblConfirmPasswordError = new Label();
-            pictureBoxLock2 = new PictureBox();
             tb_confirmPassword = new Tb_Pixel();
             lblConfirmPassword = new Label();
             btn_complete = new Btn_Pixel();
@@ -49,9 +47,7 @@ namespace Socket_LTMCB
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panelNewPassword.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxLock1).BeginInit();
             panelConfirmPassword.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).BeginInit();
             SuspendLayout();
             // 
             // pnl_Main
@@ -141,7 +137,6 @@ namespace Socket_LTMCB
             // panelNewPassword
             // 
             panelNewPassword.Controls.Add(lblNewPasswordError);
-            panelNewPassword.Controls.Add(pictureBoxLock1);
             panelNewPassword.Controls.Add(tb_newPassword);
             panelNewPassword.Controls.Add(lblNewPassword);
             panelNewPassword.Location = new Point(20, 220);
@@ -160,26 +155,17 @@ namespace Socket_LTMCB
             lblNewPasswordError.Size = new Size(360, 22);
             lblNewPasswordError.TabIndex = 0;
             // 
-            // pictureBoxLock1
-            // 
-            pictureBoxLock1.BackColor = Color.FromArgb(42, 31, 26);
-            pictureBoxLock1.Location = new Point(310, 25);
-            pictureBoxLock1.Name = "pictureBoxLock1";
-            pictureBoxLock1.Size = new Size(50, 35);
-            pictureBoxLock1.TabIndex = 2;
-            pictureBoxLock1.TabStop = false;
-            // 
             // tb_newPassword
             // 
             tb_newPassword.BackColor = Color.FromArgb(42, 31, 26);
             tb_newPassword.BorderStyle = BorderStyle.None;
-            tb_newPassword.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_newPassword.Font = new Font("Courier New", 16.2F, FontStyle.Bold);
             tb_newPassword.ForeColor = Color.White;
             tb_newPassword.Location = new Point(0, 25);
             tb_newPassword.Multiline = true;
             tb_newPassword.Name = "tb_newPassword";
             tb_newPassword.PasswordChar = '●';
-            tb_newPassword.Size = new Size(360, 35);
+            tb_newPassword.Size = new Size(360, 31);
             tb_newPassword.TabIndex = 1;
             // 
             // lblNewPassword
@@ -196,7 +182,6 @@ namespace Socket_LTMCB
             // panelConfirmPassword
             // 
             panelConfirmPassword.Controls.Add(lblConfirmPasswordError);
-            panelConfirmPassword.Controls.Add(pictureBoxLock2);
             panelConfirmPassword.Controls.Add(tb_confirmPassword);
             panelConfirmPassword.Controls.Add(lblConfirmPassword);
             panelConfirmPassword.Location = new Point(20, 320);
@@ -215,26 +200,17 @@ namespace Socket_LTMCB
             lblConfirmPasswordError.Size = new Size(360, 22);
             lblConfirmPasswordError.TabIndex = 0;
             // 
-            // pictureBoxLock2
-            // 
-            pictureBoxLock2.BackColor = Color.FromArgb(42, 31, 26);
-            pictureBoxLock2.Location = new Point(310, 25);
-            pictureBoxLock2.Name = "pictureBoxLock2";
-            pictureBoxLock2.Size = new Size(50, 35);
-            pictureBoxLock2.TabIndex = 2;
-            pictureBoxLock2.TabStop = false;
-            // 
             // tb_confirmPassword
             // 
             tb_confirmPassword.BackColor = Color.FromArgb(42, 31, 26);
             tb_confirmPassword.BorderStyle = BorderStyle.None;
-            tb_confirmPassword.Font = new Font("Courier New", 10F, FontStyle.Bold);
+            tb_confirmPassword.Font = new Font("Courier New", 16.2F, FontStyle.Bold);
             tb_confirmPassword.ForeColor = Color.White;
             tb_confirmPassword.Location = new Point(0, 25);
             tb_confirmPassword.Multiline = true;
             tb_confirmPassword.Name = "tb_confirmPassword";
             tb_confirmPassword.PasswordChar = '●';
-            tb_confirmPassword.Size = new Size(360, 35);
+            tb_confirmPassword.Size = new Size(360, 31);
             tb_confirmPassword.TabIndex = 1;
             // 
             // lblConfirmPassword
@@ -291,10 +267,8 @@ namespace Socket_LTMCB
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panelNewPassword.ResumeLayout(false);
             panelNewPassword.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxLock1).EndInit();
             panelConfirmPassword.ResumeLayout(false);
             panelConfirmPassword.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxLock2).EndInit();
             ResumeLayout(false);
         }
 
@@ -307,12 +281,10 @@ namespace Socket_LTMCB
         private Label lbl_Description;
         private Panel panelNewPassword;
         private Label lblNewPasswordError;
-        private PictureBox pictureBoxLock1;
         private Tb_Pixel tb_newPassword;
         private Label lblNewPassword;
         private Panel panelConfirmPassword;
         private Label lblConfirmPasswordError;
-        private PictureBox pictureBoxLock2;
         private Tb_Pixel tb_confirmPassword;
         private Label lblConfirmPassword;
         private Btn_Pixel btn_complete;
